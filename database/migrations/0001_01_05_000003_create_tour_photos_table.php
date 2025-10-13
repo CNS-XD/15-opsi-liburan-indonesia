@@ -14,7 +14,16 @@ return new class extends Migration
         Schema::create('tour_photos', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             $table->unsignedBigInteger('id_tour');
-            $table->timestamps();
+
+            $table->text('image')->comment('untuk tampung photo');
+            $table->integer('show')->comment('0=tidak tampil, 1=tampil');
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
+            
+            $table->foreign('id_tour')->references('id')->on('tours');
         });
     }
 

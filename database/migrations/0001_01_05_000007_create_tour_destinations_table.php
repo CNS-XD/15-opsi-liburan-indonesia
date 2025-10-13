@@ -15,7 +15,14 @@ return new class extends Migration
             $table->bigIncrements('id', true);
             $table->unsignedBigInteger('id_destination');
             $table->unsignedBigInteger('id_tour');
-            $table->timestamps();
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
+
+            $table->foreign('id_destination')->references('id')->on('destinations');
+            $table->foreign('id_tour')->references('id')->on('tours');
         });
     }
 

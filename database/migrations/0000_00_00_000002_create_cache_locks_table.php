@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('advantages', function (Blueprint $table) {
-            $table->bigIncrements('id', true);
-            $table->text('icon');
-            $table->string('title');
-            $table->text('description');
-            $table->timestamps();
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key', 255)->primary();
+            $table->string('owner', 255);
+            $table->integer('expiration');
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('advantages');
+        Schema::dropIfExists('cache_locks');
     }
 };

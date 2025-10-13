@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('destinations', function (Blueprint $table) {
             $table->bigIncrements('id', true);
-            $table->string('title')->comment('ex: Surabaya, Malang, dll');
-            $table->timestamps();
+            $table->string('title', 255)->comment('ex: Bromo Mountain, Ijen Crater, Tumpak Sewu, Madakaripura Waterfall, dll');
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
         });
     }
 

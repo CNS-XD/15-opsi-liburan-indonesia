@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('about', function (Blueprint $table) {
-            $table->bigIncrements('id', true);
-            $table->text('description');
-            $table->timestamps();
+        Schema::create('cache', function (Blueprint $table) {
+            $table->string('key', 255)->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('about');
+        Schema::dropIfExists('cache');
     }
 };

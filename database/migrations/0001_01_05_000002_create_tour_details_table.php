@@ -14,9 +14,17 @@ return new class extends Migration
         Schema::create('tour_details', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             $table->unsignedBigInteger('id_tour');
-            $table->string('type')->comment('ex: schedule, inclusion, exclusion, what_to_bring, notes');
+
+            $table->string('type', 255)->comment('ex: schedule, inclusion, exclusion, what_to_bring, notes');
             $table->text('description');
-            $table->timestamps();
+            $table->text('image')->nullable()->comment('untuk tampung nama file gambar dari text editor');
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
+            
+            $table->foreign('id_tour')->references('id')->on('tours');
         });
     }
 

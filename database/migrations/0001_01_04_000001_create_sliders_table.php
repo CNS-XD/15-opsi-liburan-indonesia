@@ -13,10 +13,17 @@ return new class extends Migration
     {
         Schema::create('sliders', function (Blueprint $table) {
             $table->bigIncrements('id', true);
+
             $table->text('value')->comment('untuk link gambar / video');
-            $table->text('description');
+            $table->string('title', 255)->nullable();
+            $table->text('description')->nullable();
             $table->integer('type')->comment('0=gambar, 1=video');
-            $table->timestamps();
+            $table->integer('show')->comment('0=tidak tampil, 1=tampil');
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
         });
     }
 

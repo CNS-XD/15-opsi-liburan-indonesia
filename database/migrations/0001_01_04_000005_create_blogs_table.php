@@ -13,13 +13,18 @@ return new class extends Migration
     {
         Schema::create('blogs', function (Blueprint $table) {
             $table->bigIncrements('id', true);
-            $table->string('title');
+
+            $table->string('title', 255);
             $table->text('description');
-            $table->text('image')->comment('untuk tampung nama file gambar dari text editor');
+            $table->text('image')->nullable()->comment('untuk tampung nama file gambar dari text editor');
+            $table->string('type', 255)->comment('ex: Tips, News, Blog, Article, Culinary, Inspiration, Lifestyle, Places');
             $table->integer('show')->comment('0=tidak tampil, 1=tampil');
-            $table->string('type')->comment('ex: Tips, News, Blog, Article, Culinary, Inspiration, Lifestyle, Places');
             $table->text('slug');
-            $table->timestamps();
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
         });
     }
 

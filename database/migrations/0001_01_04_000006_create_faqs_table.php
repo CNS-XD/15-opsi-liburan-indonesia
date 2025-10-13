@@ -11,14 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('faq', function (Blueprint $table) {
+        Schema::create('faqs', function (Blueprint $table) {
             $table->bigIncrements('id', true);
-            $table->string('title');
+            
+            $table->string('title', 255);
             $table->text('description');
-            $table->text('image')->comment('untuk tampung nama file gambar dari text editor');
+            $table->text('image')->nullable()->comment('untuk tampung nama file gambar dari text editor');
             $table->integer('show')->comment('0=tidak tampil, 1=tampil');
             $table->text('slug');
-            $table->timestamps();
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
         });
     }
 
@@ -27,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('faq');
+        Schema::dropIfExists('faqs');
     }
 };

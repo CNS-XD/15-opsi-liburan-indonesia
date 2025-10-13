@@ -11,12 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_tours', function (Blueprint $table) {
+        Schema::create('tour_users', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             $table->unsignedBigInteger('id_tour');
             $table->unsignedBigInteger('id_tour_price');
-            $table->datetime('date_order');
-            $table->timestamps();
+            
+            $table->date('order_date');
+            
+            $table->timestamp('created_at');
+            $table->string('created_by', 255)->nullable();
+            $table->timestamp('updated_at')->nullable();
+            $table->string('updated_by', 255)->nullable();
+            
+            $table->foreign('id_tour')->references('id')->on('tours');
+            $table->foreign('id_tour_price')->references('id')->on('tour_prices');
         });
     }
 
