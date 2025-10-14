@@ -123,8 +123,8 @@
                                                 </div>
 
                                                 <div class="pl-0 profile-social form-group">
-                                                    <button class="btn btn-primary button-simpan" type="button" onclick="submitForm('form_header')">
-                                                        <i class="fa fa-save"></i> Simpan
+                                                    <button class="btn btn-primary button-save" type="button" onclick="submitForm('form_header')">
+                                                        <i class="fa fa-save"></i> Save
                                                     </button>
                                                 </div>
                                             </form>
@@ -146,8 +146,8 @@
                                                         <th>Logo</th>
                                                         <th>Nama</th>
                                                         <th>Url</th>
-                                                        <th>Tayang</th>
-                                                        <th>Aksi</th>
+                                                        <th>Show</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -187,8 +187,8 @@
                                                 </div>
 
                                                 <div class="pl-0 profile-social form-group">
-                                                    <button class="btn btn-primary button-simpan" type="button" onclick="submitForm('form_kontak_umum')">
-                                                        <i class="fa fa-save"></i> Simpan
+                                                    <button class="btn btn-primary button-save" type="button" onclick="submitForm('form_kontak_umum')">
+                                                        <i class="fa fa-save"></i> Save
                                                     </button>
                                                 </div>
                                             </form>
@@ -210,8 +210,8 @@
                                                         <th>Jenis Sosmed</th>
                                                         <th>Nama Akun</th>
                                                         <th>Url</th>
-                                                        <th>Tayang</th>
-                                                        <th>Aksi</th>
+                                                        <th>Show</th>
+                                                        <th>Action</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -254,14 +254,14 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="label-control required">Tampil</label>
-                                                <select name="tayang" class="form-control">
+                                                <select name="show" class="form-control">
                                                     <option value="1">Tampil</option>
                                                     <option value="0">Tidak Tampil</option>
                                                 </select>
                                             </div>
                                             <div class="pl-0 profile-social form-group">
-                                                <button class="btn btn-primary button-simpan" type="button" onclick="submitForm('form_sponsor')">
-                                                    <i class="fa fa-save"></i> Simpan
+                                                <button class="btn btn-primary button-save" type="button" onclick="submitForm('form_sponsor')">
+                                                    <i class="fa fa-save"></i> Save
                                                 </button>
                                             </div>
                                         </form>
@@ -269,7 +269,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-white text-black" onclick="closeModal('form_sponsor')" data-dismiss="modal">
-                                        <b>Tutup</b>
+                                        <b>Close</b>
                                     </button>
                                 </div>
                             </div>
@@ -310,8 +310,8 @@
                                                 <input type="url" class="form-control" name="url" placeholder="ex: https://instagram.com/puspresnas" required>
                                             </div>
                                             <div class="pl-0 profile-social form-group">
-                                                <button class="btn btn-primary button-simpan" type="button" onclick="submitForm('form_kontak_sosmed')">
-                                                    <i class="fa fa-save"></i> Simpan
+                                                <button class="btn btn-primary button-save" type="button" onclick="submitForm('form_kontak_sosmed')">
+                                                    <i class="fa fa-save"></i> Save
                                                 </button>
                                             </div>
                                         </form>
@@ -319,7 +319,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-white text-black" onclick="closeModal('form_kontak_sosmed')" data-dismiss="modal">
-                                        <b>Tutup</b>
+                                        <b>Close</b>
                                     </button>
                                 </div>
                             </div>
@@ -369,12 +369,12 @@
                         }
                     },
                     {
-                        data: 'tayang',
-                        name: 'tayang'
+                        data: 'show',
+                        name: 'show'
                     },
                     {
-                        data: 'aksi',
-                        name: 'aksi',
+                        data: 'action',
+                        name: 'action',
                         orderable: false,
                         bSearchable: false
                     }
@@ -413,12 +413,12 @@
                         }
                     },
                     {
-                        data: 'tayang',
-                        name: 'tayang'
+                        data: 'show',
+                        name: 'show'
                     },
                     {
-                        data: 'aksi',
-                        name: 'aksi',
+                        data: 'action',
+                        name: 'action',
                         orderable: false,
                         bSearchable: false
                     }
@@ -446,12 +446,12 @@
                                 currentForm.find('select[name="jenis_sosmed"]').val(res.data.jenis_sosmed);
                             } else {
                                 currentForm.find('input[name="nama"]').val(res.data.nama);
-                                currentForm.find('select[name="tayang"]').val(res.data.tayang);
+                                currentForm.find('select[name="show"]').val(res.data.show);
                             }
                             $(`#modal_${jenisForm}`).modal('show');
 
                         } else {
-                            swal.fire('Gagal', res.message, 'error');
+                            swal.fire('Failed', res.message, 'error');
                         }
                     },
                     error: function(err) {
@@ -460,7 +460,7 @@
                         $.each(errors, function(key, value) {
                             message += value[0] + " ";
                         })
-                        swal.fire('Gagal', message, 'error')
+                        swal.fire('Failed', message, 'error')
                     },
                 })
             } else {
@@ -478,12 +478,12 @@
             var url = "{{ route('backsite.beranda.destroy', ':id') }}".replace(':id', id);
             Swal.fire({
                 icon: 'warning',
-                title: 'Apa kamu yakin?',
-                text: "Anda tidak akan dapat mengembalikan data ini kembali!",
+                title: 'Are you sure?',
+                text: "You will not be able to restore this data back!",
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, hapus!'
+                confirmButtonText: 'Yes, delete it!'
             })
             .then((result) => {
                 if (result.value) {
@@ -495,9 +495,9 @@
                         },
                         success: function(res) {
                             if (res.success) {
-                                swal.fire('Berhasil', res.message, 'success');
+                                swal.fire('Success', res.message, 'success');
                             } else {
-                                swal.fire('Gagal', res.message, 'error');
+                                swal.fire('Failed', res.message, 'error');
                             }
                             if (jenisForm == 'form_sponsor') {
                                 drawTableSponsor();
@@ -516,7 +516,7 @@
             var formData = new FormData(form[0]);
             formData.append('form_input', jenisForm);
             formData.append('_token', '{{ csrf_token() }}');
-            var button = $('.button-simpan');
+            var button = $('.button-save');
             button.attr('disabled', true);
             button.html(`<i class="fa fa-spinner fa-spin"></i> Sedang Mengirim`);
 
@@ -531,7 +531,7 @@
                         Swal.hideLoading();
                         Swal.close();
                         let err = JSON.parse(xhr.responseText)
-                        swal.fire('Gagal', err.data, 'error')
+                        swal.fire('Failed', err.data, 'error')
                     }
                 },
                 beforeSend: function() {
@@ -546,7 +546,7 @@
                 },
                 success: function(res) {
                     if (res.success) {
-                        swal.fire('Berhasil', res.message, 'success');
+                        swal.fire('Success', res.message, 'success');
                         if (jenisForm == 'form_sponsor') {
                             closeModal('form_sponsor');
                             drawTableSponsor();
@@ -555,7 +555,7 @@
                             drawTableSosmed();
                         }
                     } else {
-                        swal.fire('Gagal', res.message, 'error');
+                        swal.fire('Failed', res.message, 'error');
                     }
                 },
                 error: function(err) {
@@ -564,14 +564,14 @@
                     $.each(errors, function(key, value) {
                         message += value[0] + " ";
                     })
-                    swal.fire('Gagal', message, 'error')
+                    swal.fire('Failed', message, 'error')
                 },
                 onerror: function(XMLHttpRequest, textStatus, errorThrown) {
                     //
                 },
                 complete: function() {
                     button.attr('disabled', false);
-                    button.html(`<i class="fa fa-save"></i> Simpan`);
+                    button.html(`<i class="fa fa-save"></i> Save`);
                 }
             })
         }

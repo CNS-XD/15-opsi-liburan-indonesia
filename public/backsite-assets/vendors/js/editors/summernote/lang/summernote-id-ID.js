@@ -219,7 +219,7 @@ return /******/ (function(modules) { // webpackBootstrap
       },
       shortcut: {
         shortcuts: 'Jalan pintas',
-        close: 'Tutup',
+        close: 'Close',
         textFormatting: 'Format teks',
         action: 'Aksi',
         paragraphFormatting: 'Format paragraf',

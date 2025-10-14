@@ -60,18 +60,6 @@ class ProfilRequest extends FormRequest
         ];
     }
 
-    public function messages()
-    {
-        return [
-            'foto_profil.mimes' => 'Maaf Ekstensi File Harus Gambar!',
-            'foto_profil.max' => 'Maaf Ukuran File Maksimal 2 MB!',
-            'foto_ktp.mimes' => 'Maaf Ekstensi File Harus Gambar!',
-            'foto_ktp.max' => 'Maaf Ukuran File Maksimal 2 MB!',
-            'jenis_kelamin.in' => 'Jenis Kelamin Yang Anda Masukan Tidak Sesuai!',
-            'tanggal_lahir.date' => 'Tanggal Lahir Harus Diisi Sesuai Format Tanggal!',
-        ];
-    }
-
     public function withValidator(LaravelValidator $validator)
     {
         $validator->after(function ($validator) {

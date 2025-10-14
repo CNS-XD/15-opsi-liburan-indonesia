@@ -58,7 +58,7 @@
                                                         <div class="custom-file">
                                                             <fieldset class="form-group">
                                                                 <input type="file" name="foto_profil" class="custom-file-input" accept="image/*">
-                                                                <label class="custom-file-label" for="foto" aria-describedby="foto">Pilih File</label>
+                                                                <label class="custom-file-label" for="foto" aria-describedby="foto">Choose File</label>
                                                             </fieldset>
                                                         </div>
                                                     </div>

@@ -1,18 +1,18 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Tambah Departure')
+@section('title', 'Add Departure')
 @section('activeMenuDeparture', 'active open')
 @section('activeSubMenuDeparture', 'active open')
 
 {{-- Breadcrumb --}}
 @section('breadcrumb1', 'Departure')
-@section('breadcrumb2', 'Tambah')
+@section('breadcrumb2', 'Add')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
 <a href="{{ route('backsite.departure.index') }}" class="btn btn-danger btn-glow round">
-    <i class="fas fa-arrow-left mr5"></i> Kembali
+    <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
 
@@ -60,7 +60,7 @@
 
                                 <div class="mt-1 mb-1">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="la la-check-square-o"></i> Simpan
+                                        <i class="la la-check-square-o"></i> Save
                                     </button>
                                 </div>
                             </form>

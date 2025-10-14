@@ -326,8 +326,8 @@ $(document).ready(function () {
   $('#confirm-text').on('click', function () {
     Swal.fire({
         icon: 'warning',
-        title: 'Apa kamu yakin?',
-        text: "Anda tidak akan dapat mengembalikan data ini kembali!",
+        title: 'Are you sure?',
+        text: "You will not be able to restore this data back!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -350,12 +350,12 @@ $(document).ready(function () {
   $('#confirm-color').on('click', function () {
     Swal.fire({
         icon: 'warning',
-        title: 'Apa kamu yakin?',
-        text: "Anda tidak akan dapat mengembalikan data ini kembali!",
+        title: 'Are you sure?',
+        text: "You will not be able to restore this data back!",
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Ya, hapus!',
+        confirmButtonText: 'Yes, delete it!',
         confirmButtonClass: 'btn btn-warning',
         cancelButtonClass: 'btn btn-danger ml-1',
         buttonsStyling: false,

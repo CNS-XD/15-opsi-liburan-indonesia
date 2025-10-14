@@ -41,16 +41,12 @@
     $('.summernote').summernote({
         height: '300px',
         toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['fontname', ['fontname']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['fontsize', ['fontsize']],
-            ['table', ['table']],
-            ['insert', ['link', 'picture', 'video']],
-            ['view', ['fullscreen', 'codeview', 'help']],
-        ],
+            ['style', ['style', 'bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+            ['font', ['fontname', 'fontsize', 'fontsizeunit', 'color']],
+            ['para', ['ul', 'ol', 'paragraph', 'height']],
+            ['insert', ['link', 'picture', 'video', 'table', 'hr']],
+            ['misc', ['undo', 'redo', 'fullscreen', 'codeview', 'help']],
+        ]
     });
 
     $('.auto-underscore').on('keyup', function() {

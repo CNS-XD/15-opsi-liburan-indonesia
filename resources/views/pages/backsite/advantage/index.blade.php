@@ -1,18 +1,21 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Departure')
-@section('activeMenuDeparture', 'open active')
-@section('activeSubMenuDeparture', 'open active')
+@section('title', 'Advantage')
+@section('activeMenuAdvantage', 'open active')
+@section('activeSubMenuAdvantage', 'open active')
 
 {{-- Breadcrumb --}}
-@section('breadcrumb1', 'Master')
-@section('breadcrumb2', 'Departure')
+@section('breadcrumb1', 'Information')
+@section('breadcrumb2', 'Advantage')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
-<a href="{{ route('backsite.departure.create') }}" class="btn btn-success btn-sm btn-glow round">
+<a href="{{ route('backsite.advantage.create') }}" class="btn btn-success btn-sm btn-glow round">
     <i class="fa fa-plus"></i> Add
+</a>
+<a href="{{ url('/') }}" class="btn btn-info btn-sm btn-glow round" target="_blank">
+    View Page <i class="fa fa-arrow-right"></i>
 </a>
 @endsection
 
@@ -30,13 +33,16 @@
                             <div class="card-text"></div>
 
                             <div class="table-responsive">
-                                <table id="tableData"
+                                <table id="dataTable"
                                     class="table material-table table-hover table-striped dataTable no-footer zero-configuration datatable"
                                     style="width:100% !important">
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Icon</th>
                                             <th>Title</th>
+                                            <th>Description</th>
+                                            <th>Show</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -62,8 +68,8 @@
 
     // Table
     const datatable = () => {
-        $('#tableData').DataTable().destroy();
-        $('#tableData').DataTable({
+        $('#dataTable').DataTable().destroy();
+        $('#dataTable').DataTable({
             // "scrollX": true,
             processing: true,
             serverSide: true,
@@ -74,7 +80,7 @@
                 [50, 100, "All"]
             ],
             "ajax": {
-                url: '{{ route('backsite.departure.datatable') }}',
+                url: '{{ route('backsite.advantage.datatable') }}',
             },
             columns: [
                 {
@@ -84,8 +90,33 @@
                     bSearchable: false
                 },
                 {
+                    data: 'icon',
+                    name: 'icon',
+                    orderable: false,
+                    bSearchable: false,
+                },
+                {
                     data: 'title',
                     name: 'title',
+                },
+                {
+                    data: 'description',
+                    name: 'description',
+                },
+                {
+                    data: 'show',
+                    name: 'show',
+                    render: function(data, type, row) {
+                        let show = row.show;
+                        let btn = `
+                            <label class="pure-material-switch">
+                                <input onChange="setShow(${row.id})" 
+                                    type="checkbox" ${show == 1 ? "checked" : "" }>
+                                <span></span>
+                            </label>
+                        `
+                        return btn;
+                    }
                 },
                 {
                     data: 'action',
@@ -97,8 +128,39 @@
         });
     }
 
+    // Set Show
+    function setShow(id) {
+        let show = $(`input[data-id="${id}"]`).data('show');
+        let url = `{{ route('backsite.advantage.set-show', ':id') }}`;
+        url = url.replace(':id', id);
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {
+                _token: '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                if (response.success == 200) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: response.message,
+                    });
+                    datatable();
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Failed',
+                        text: response.message,
+                    });
+                }
+            }
+        });
+    }
+
     // Delete
-    const deleteRoute = "{{ route('backsite.departure.destroy', ':id') }}";
+    const deleteRoute = "{{ route('backsite.advantage.destroy', ':id') }}";
     function deleteConf(id) {
         Swal.fire({
             icon: 'warning',

@@ -46,9 +46,9 @@ class LoginController extends Controller
     public function index()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Gagal !', session('error_msg'))->persistent('Tutup');
+            Alert::error('Fail !', session('error_msg'))->persistent('Close');
         if (!empty(session('success')))
-            Alert::success('Berhasil !', session('success'))->persistent('Tutup');
+            Alert::success('Success !', session('success'))->persistent('Close');
         
         return view('pages.auth.login');
     }
@@ -78,6 +78,6 @@ class LoginController extends Controller
     {
         Auth::logout();
         
-        return redirect()->route('login')->withSuccess('Anda berhasil logout !');
+        return redirect()->route('login')->withSuccess('You have successfully logged out !');
     }
 }

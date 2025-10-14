@@ -85,52 +85,9 @@ class BerandaRequest extends FormRequest
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'message' => 'Validasi gagal.',
+            'message' => 'Validation failed.',
             'errors' => $validator->errors(),
         ], 422));
-    }
-
-    public function messages(): array
-    {
-        return [
-            // Form Header messages
-            'judul.required' => 'Kolom judul wajib diisi.',
-            'judul.string' => 'Kolom judul harus berupa teks.',
-            'judul.max' => 'Judul tidak boleh lebih dari 255 karakter.',
-            'deskripsi.required' => 'Kolom deskripsi wajib diisi.',
-            'deskripsi.string' => 'Kolom deskripsi harus berupa teks.',
-            'file_background.file' => 'File background harus berupa file.',
-            'file_background.mimes' => 'File background harus berupa gambar atau video (jpg, jpeg, png, mp4).',
-            'file_background.max' => 'Ukuran file background maksimal 20 MB.',
-            'file_ilustrasi.file' => 'File ilustrasi harus berupa file.',
-            'file_ilustrasi.mimes' => 'File ilustrasi harus berupa gambar (jpg, jpeg, png).',
-            'file_ilustrasi.max' => 'Ukuran file ilustrasi maksimal 5 MB.',
-
-            // Form Sponsor messages
-            'nama.required' => 'Nama sponsor wajib diisi.',
-            'nama.string' => 'Nama sponsor harus berupa teks.',
-            'nama.max' => 'Nama sponsor maksimal 255 karakter.',
-            'file_sponsor.required' => 'File sponsor wajib diunggah.',
-            'file_sponsor.file' => 'File sponsor harus berupa file.',
-            'file_sponsor.mimes' => 'File sponsor harus berupa gambar (jpg, jpeg, png).',
-            'file_sponsor.max' => 'Ukuran file sponsor maksimal 5 MB.',
-
-            // Form Kontak Umum messages
-            'email.required' => 'Email wajib diisi.',
-            'email.email' => 'Silakan masukkan alamat email yang valid.',
-            'telepon.required' => 'Nomor telepon wajib diisi.',
-            'alamat.required' => 'Alamat wajib diisi.',
-            'latitude.required' => 'Latitude wajib diisi.',
-            'longitude.required' => 'Longitude wajib diisi.',
-
-            // Form Kontak Sosmed messages
-            'jenis_sosmed.required' => 'Jenis sosial media wajib diisi.',
-            'jenis_sosmed.string' => 'Jenis sosial media harus berupa teks.',
-            'nama_akun.required' => 'Nama akun wajib diisi.',
-            'nama_akun.string' => 'Nama akun harus berupa teks.',
-            'url.required' => 'URL wajib diisi.',
-            'url.url' => 'URL tidak valid.',
-        ];
     }
 
     public function withValidator(LaravelValidator $validator): void

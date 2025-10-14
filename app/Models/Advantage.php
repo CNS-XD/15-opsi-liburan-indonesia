@@ -14,6 +14,11 @@ class Advantage extends Model
     
     protected $table = 'advantages';
     protected $guarded = [];
+    
+    const SHOW = [
+        'draft' => 0,
+        'publish' => 1,
+    ];
 
     protected static function boot()
     {

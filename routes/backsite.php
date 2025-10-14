@@ -2,9 +2,10 @@
 
 use App\Http\Middleware\IsLoggedIn;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DestinationController;
+use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
+use App\Http\Controllers\Backsite\AdvantageController;
 use App\Http\Controllers\Backsite\BerandaController;
 use App\Http\Controllers\Backsite\ProfilController;
 
@@ -31,5 +32,13 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
     Route::prefix('destination')->name('destination.')->group(function () {
         Route::delete('destroy-destination/{id}', [DestinationController::class, 'destroy'])->name('destroy');
         Route::get('dtable/destination', [DestinationController::class, 'datatable'])->name('datatable');
+    });
+
+    // Advantage
+    Route::resource('advantage', AdvantageController::class)->except('destroy');
+    Route::prefix('advantage')->name('advantage.')->group(function () {
+        Route::delete('destroy-advantage/{id}', [AdvantageController::class, 'destroy'])->name('destroy');
+        Route::post('set-show-advantage/{id}', [AdvantageController::class, 'setShow'])->name('set-show');
+        Route::get('dtable/advantage', [AdvantageController::class, 'datatable'])->name('datatable');
     });
 });

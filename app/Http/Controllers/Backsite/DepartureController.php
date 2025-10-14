@@ -24,9 +24,9 @@ class DepartureController extends Controller
     public function index()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Gagal !', session('error_msg'))->persistent('Tutup');
+            Alert::error('Fail !', session('error_msg'))->persistent('Close');
         if (!empty(session('success')))
-            Alert::success('Berhasil !', session('success'));
+            Alert::success('Success !', session('success'));
 
         return view('pages.backsite.departure.index');
     }
@@ -37,21 +37,21 @@ class DepartureController extends Controller
 
         return DataTables::of($data)
         ->addIndexColumn()
-        ->addColumn('aksi', function ($data) {
+        ->addColumn('action', function ($data) {
             $btn = "";
             $btn .= '
                 <div class="btn-group">
                     <a class="btn btn-warning btn-sm round" href="' . route('backsite.departure.edit', $data->id) . '">
                         <i class="la la-edit"></i>
                     </a>
-                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm round btn_delete" title="Hapus data">
+                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm round btn_delete" title="Delete data">
                         <i class="la la-trash"></i>
                     </button>
                 </div>
             ';
             return $btn;
         })
-        ->rawColumns(['aksi'])
+        ->rawColumns(['action'])
         ->make(true);
     }
 
@@ -63,9 +63,9 @@ class DepartureController extends Controller
     public function create()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Gagal !', session('error_msg'))->persistent('Tutup');
+            Alert::error('Fail !', session('error_msg'))->persistent('Close');
         if (!empty(session('success')))
-            Alert::success('Berhasil !', session('success'));
+            Alert::success('Success !', session('success'));
 
         return view('pages.backsite.departure.create');
     }
@@ -85,11 +85,11 @@ class DepartureController extends Controller
             $data->save();
             DB::commit();
 
-            return redirect()->route('backsite.departure.index')->withSuccess('Berhasil menambah data!');
+            return redirect()->route('backsite.departure.index')->withSuccess('Successfully added data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
-            return redirect()->back()->with('error_msg', 'Gagal menambah data: ' . $e->getMessage());
+            return redirect()->back()->with('error_msg', 'Failed to add data: ' . $e->getMessage());
         }
     }
 
@@ -106,14 +106,14 @@ class DepartureController extends Controller
 
             return response()->json([
                 'data' => $data,
-                'message' => 'Berhasil Mendapatkan Data',
+                'message' => 'Success Get Data',
                 'success' => true,
             ]);
         } catch (\Exception $e) {
             Log::error("ERROR APP : " . $e->getMessage());
             return response()->json([
                 'data' => null,
-                'message' => 'Gagal Mendapatkan Data' . $e->getMessage(),
+                'message' => 'Failed to Get Data' . $e->getMessage(),
                 'success' => false,
             ]);
         }
@@ -146,18 +146,18 @@ class DepartureController extends Controller
     
         DB::beginTransaction();
         try {
-            $data = Departure::findOrFail($id); // Pastikan data ditemukan, jika tidak maka gagal langsung
+            $data = Departure::findOrFail($id);
     
             // Update data
             $data->title = $request->title;
             $data->save();
             DB::commit();
     
-            return redirect()->route('backsite.departure.index')->withSuccess('Berhasil merubah data!');
+            return redirect()->route('backsite.departure.index')->withSuccess('Successfully changed data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
-            return redirect()->back()->with('error_msg', 'Gagal merubah data' . $e->getMessage());
+            return redirect()->back()->with('error_msg', 'Failed to change data' . $e->getMessage());
         }
     }
    
@@ -175,20 +175,20 @@ class DepartureController extends Controller
         try {
             $data = Departure::findOrFail($id);
     
-            // Hapus data
+            // Delete data
             $data->delete();
             DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil hapus data!',
+                'message' => 'Successfully deleted data!',
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Ups Terjadi Kesalahan: ' . $e->getMessage(),
+                'message' => 'Oops something went wrong: ' . $e->getMessage(),
             ]);
         }
     }

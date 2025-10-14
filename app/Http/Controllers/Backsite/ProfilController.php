@@ -23,9 +23,9 @@ class ProfilController extends Controller
     public function index()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Gagal !', session('error_msg'))->persistent('Tutup');
+            Alert::error('Fail !', session('error_msg'))->persistent('Close');
         if (!empty(session('success')))
-            Alert::success('Berhasil !', session('success'));
+            Alert::success('Success !', session('success'));
 
         $data['user'] = Auth::user();
 
@@ -54,7 +54,7 @@ class ProfilController extends Controller
             $user->save();
 
             DB::commit();
-            return back()->with('success', 'Data Berhasil Di Update');
+            return back()->with('success', 'Data Successfully Updated');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());

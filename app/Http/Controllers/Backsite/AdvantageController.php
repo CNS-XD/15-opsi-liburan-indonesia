@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Backsite;
 
-use App\Http\Requests\Backsite\DestinationRequest;
+use App\Http\Requests\Backsite\AdvantageRequest;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Destination;
+use App\Models\Advantage;
+use Storage;
 use Alert;
 use Log;
 use DB;
 
-class DestinationController extends Controller
+class AdvantageController extends Controller
 {
     use \App\Traits\AjaxTrait;
 
@@ -28,30 +29,38 @@ class DestinationController extends Controller
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        return view('pages.backsite.destination.index');
+        return view('pages.backsite.advantage.index');
     }
 
     public function datatable()
     {
-        $data = Destination::latest();
+        $data = Advantage::latest();
 
         return DataTables::of($data)
         ->addIndexColumn()
+        ->editColumn('icon', function ($data) {
+            $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
+            if (!empty($data->icon)) {
+                $return = '<img src="/storage/' . $data->icon . '" width="80px">';
+            }
+
+            return $return;
+        })
         ->addColumn('action', function ($data) {
             $btn = "";
             $btn .= '
                 <div class="btn-group">
-                    <a class="btn btn-warning btn-sm round" href="' . route('backsite.destination.edit', $data->id) . '">
+                    <a class="btn btn-warning btn-sm round" href="' . route('backsite.advantage.edit', $data->id) . '">
                         <i class="la la-edit"></i>
                     </a>
-                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm round btn_delete" title="Delete data">
+                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm btn_delete round" title="Delete data">
                         <i class="la la-trash"></i>
                     </button>
                 </div>
             ';
             return $btn;
         })
-        ->rawColumns(['action'])
+        ->rawColumns(['icon', 'action'])
         ->make(true);
     }
 
@@ -67,7 +76,7 @@ class DestinationController extends Controller
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        return view('pages.backsite.destination.create');
+        return view('pages.backsite.advantage.create');
     }
 
     /**
@@ -76,16 +85,22 @@ class DestinationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DestinationRequest $request)
+    public function store(AdvantageRequest $request)
     {
         DB::beginTransaction();
         try {
-            $data = new Destination;
+            $data = new Advantage;
+            if ($request->hasFile('icon')) {
+                $icon = $this->uploadFile($request->icon, '/advantage-icon');
+                $data->icon = $icon;
+            }
             $data->title = $request->title;
+            $data->description = $request->description;
+            $data->show = $request->show;
             $data->save();
             DB::commit();
 
-            return redirect()->route('backsite.destination.index')->withSuccess('Successfully added data!');
+            return redirect()->route('backsite.advantage.index')->withSuccess('Successfully added data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
@@ -102,7 +117,7 @@ class DestinationController extends Controller
     public function show($id)
     {
         try {
-            $data = Destination::findOrFail($id);
+            $data = Advantage::findOrFail($id);
 
             return response()->json([
                 'data' => $data,
@@ -113,7 +128,7 @@ class DestinationController extends Controller
             Log::error("ERROR APP : " . $e->getMessage());
             return response()->json([
                 'data' => null,
-                'message' => 'Failed to Get Data' . $e->getMessage(),
+                'message' => 'Failed to Get Data!' . $e->getMessage(),
                 'success' => false,
             ]);
         }
@@ -127,10 +142,10 @@ class DestinationController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('validate-resource', [(new Destination), $id]);
+        $this->authorize('validate-resource', [(new Advantage), $id]);
 
-        $data['data'] = Destination::findOrFail($id);
-        return view('pages.backsite.destination.edit', $data);
+        $data['data'] = Advantage::findOrFail($id);
+        return view('pages.backsite.advantage.edit', $data);
     }
 
     /**
@@ -140,24 +155,31 @@ class DestinationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(DestinationRequest $request, $id)
+    public function update(AdvantageRequest $request, $id)
     {
-        $this->authorize('validate-resource', [(new Destination), $id]);
-    
         DB::beginTransaction();
         try {
-            $data = Destination::findOrFail($id);
-    
-            // Update data
+            $data = Advantage::findOrFail($id);
+            if ($request->hasFile('icon')) {
+                $icon = $this->uploadFile($request->icon, '/advantage-icon');
+
+                if (is_file(storage_path("app/public/" . $data->icon))) {
+                    Storage::disk('public')->delete($data->icon);
+                }
+
+                $data->icon = $icon;
+            }
             $data->title = $request->title;
+            $data->description = $request->description;
+            $data->show = $request->show;
             $data->save();
             DB::commit();
     
-            return redirect()->route('backsite.destination.index')->withSuccess('Successfully changed data!');
+            return redirect()->route('backsite.advantage.index')->withSuccess('Successfully changed data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
-            return redirect()->back()->with('error_msg', 'Failed to change data' . $e->getMessage());
+            return redirect()->back()->with('error_msg', 'Oops something went wrong: ' . $e->getMessage());
         }
     }
    
@@ -169,13 +191,14 @@ class DestinationController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('validate-resource', [(new Destination), $id]);
+        $this->authorize('validate-resource', [(new Advantage), $id]);
     
         DB::beginTransaction();
         try {
-            $data = Destination::findOrFail($id);
-    
-            // Delete data
+            $data = Advantage::findOrFail($id);
+            if (is_file(storage_path("app/public/" . $data->icon)))
+                Storage::disk('public')->delete($data->icon);
+
             $data->delete();
             DB::commit();
 
@@ -191,5 +214,28 @@ class DestinationController extends Controller
                 'message' => 'Oops something went wrong: ' . $e->getMessage(),
             ]);
         }
+    }
+
+    public function setShow($id)
+    {
+        $this->authorize('validate-resource', [(new Advantage), $id]);
+        
+        DB::beginTransaction();
+        try {
+            $data = Advantage::findOrFail($id);
+            $data->update([
+                'show' => $data->show == Advantage::SHOW['draft'] ? Advantage::SHOW['publish'] : Advantage::SHOW['draft']
+            ]);
+            DB::commit();
+
+            $this->success = \Illuminate\Http\Response::HTTP_OK;
+            $this->message = 'Status successfully updated!';
+        } catch (\Exception $e) {
+            $this->success = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
+            $this->message = 'Show failed to update!';
+            Log::error("ERROR APP : " . $e->getMessage());
+        }
+
+        return $this->json();
     }
 }

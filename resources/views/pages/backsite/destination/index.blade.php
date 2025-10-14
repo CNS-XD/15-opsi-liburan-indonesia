@@ -12,7 +12,7 @@
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
 <a href="{{ route('backsite.destination.create') }}" class="btn btn-success btn-sm btn-glow round">
-    <i class="fa fa-plus"></i> Tambah
+    <i class="fa fa-plus"></i> Add
 </a>
 @endsection
 
@@ -37,7 +37,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Title</th>
-                                            <th>Aksi</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -88,8 +88,8 @@
                     name: 'title',
                 },
                 {
-                    data: 'aksi',
-                    name: 'aksi',
+                    data: 'action',
+                    name: 'action',
                     orderable: false,
                     bSearchable: false
                 }
@@ -102,12 +102,12 @@
     function deleteConf(id) {
         Swal.fire({
             icon: 'warning',
-            title: 'Apa kamu yakin?',
-            text: "Anda tidak akan dapat mengembalikan data ini kembali!",
+            title: 'Are you sure?',
+            text: "You will not be able to restore this data back!",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, hapus!'
+            confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.value) {
                 let url = deleteRoute.replace(':id', id);
@@ -122,20 +122,20 @@
                         if (res.success == true) {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Berhasil',
+                                title: 'Success',
                                 text: res.message,
                             });
                             datatable();
                         } else {
                             Swal.fire({
                                 icon: 'error',
-                                title: 'Gagal',
+                                title: 'Failed',
                                 text: res.message,
                             });
                         }
                     },
                     error: function(xhr) {
-                        Swal.fire('Ups Terjadi Kesalahan!', xhr.responseJSON.message || 'Gagal menghapus data.', 'error');
+                        Swal.fire('Oops something went wrong!', xhr.responseJSON.message || 'Failed to delete data.', 'error');
                     }
                 });
             }

@@ -12,7 +12,7 @@
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
 <a href="{{ route('backsite.departure.index') }}" class="btn btn-danger btn-glow round">
-    <i class="fas fa-arrow-left mr5"></i> Kembali
+    <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
 

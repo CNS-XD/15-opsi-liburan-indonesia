@@ -40,12 +40,12 @@ class BerandaController extends Controller
             }
             return $return;
         })
-        ->editColumn('tayang', function ($data) {
-            return $data->tayang
+        ->editColumn('show', function ($data) {
+            return $data->show
                 ? '<span class="badge badge-success"><i class="fa fa-check-circle mr5"></i> Tampil</span>'
                 : '<span class="badge badge-danger"><i class="fa fa-times-circle mr5"></i> Tidak Tampil</span>';
         })
-        ->addColumn('aksi', function ($data) {
+        ->addColumn('action', function ($data) {
             $btn = '<div class="btn-group">';
             $btn .=  '<button type="button" class="btn btn-warning btn-sm round" onClick="showModal(\'form_sponsor\', ' . $data->id . ')">
                         <i class="fa fa-pencil"></i>
@@ -56,7 +56,7 @@ class BerandaController extends Controller
             $btn .= '</div>';
             return $btn;
         })
-        ->rawColumns(['image', 'tayang', 'aksi'])
+        ->rawColumns(['image', 'show', 'action'])
         ->make(true);
 
         return $dTable;
@@ -68,12 +68,12 @@ class BerandaController extends Controller
 
         $dTable = DataTables()->of($model)
         ->addIndexColumn()
-        ->editColumn('tayang', function ($data) {
-            return $data->tayang
+        ->editColumn('show', function ($data) {
+            return $data->show
                 ? '<span class="badge badge-success"><i class="fa fa-check-circle mr5"></i> Tampil</span>'
                 : '<span class="badge badge-danger"><i class="fa fa-times-circle mr5"></i> Tidak Tampil</span>';
         })
-        ->addColumn('aksi', function ($data) {
+        ->addColumn('action', function ($data) {
             $btn = '<div class="btn-group">';
             $btn .= '<button type="button" class="btn btn-warning btn-sm round" onClick="showModal(\'form_kontak_sosmed\', ' . $data->id . ')">
                         <i class="fa fa-pencil"></i>
@@ -84,7 +84,7 @@ class BerandaController extends Controller
             $btn .= '</div>';
             return $btn;
         })
-        ->rawColumns(['tayang', 'aksi'])
+        ->rawColumns(['show', 'action'])
         ->make(true);
 
         return $dTable;
@@ -142,7 +142,7 @@ class BerandaController extends Controller
                     $infoSponsor = InfoSponsor::findOrFail($request->id);
                 $infoSponsor->nama = $request->nama;
                 $infoSponsor->url = $request->url;
-                $infoSponsor->tayang = $request->tayang;
+                $infoSponsor->show = $request->show;
                 if ($request->hasFile('file_sponsor')) {
                     if (is_file(storage_path("app/public/" . $infoSponsor->image))) {
                         Storage::disk('public')->delete($infoSponsor->image);
@@ -176,7 +176,7 @@ class BerandaController extends Controller
                 $infoKontakSosmed->jenis_sosmed = $request->jenis_sosmed;
                 $infoKontakSosmed->nama_akun = $request->nama_akun;
                 $infoKontakSosmed->url = $request->url;
-                $infoKontakSosmed->tayang = InfoKontakSosmed::TAYANG['publish'];
+                $infoKontakSosmed->show = InfoKontakSosmed::SHOW['publish'];
                 $infoKontakSosmed->save();
             }
             DB::commit();
@@ -184,7 +184,7 @@ class BerandaController extends Controller
             return response()->json([
                 'success' => true,
                 'data' => $data,
-                'message' => 'Berhasil update data.',
+                'message' => 'Successfully updated data.',
             ]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -213,7 +213,7 @@ class BerandaController extends Controller
         return response()->json([
             'success' => true,
             'data' => $data,
-            'message' => 'Berhasil mengambil data.',
+            'message' => 'Success get data.',
         ]);
     }
    
@@ -240,7 +240,7 @@ class BerandaController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil menghapus data.'
+                'message' => 'Successfully deleted data.'
             ]);
         } catch (\Exception $e) {
             DB::rollBack();

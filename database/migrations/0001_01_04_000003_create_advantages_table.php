@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('advantages', function (Blueprint $table) {
             $table->bigIncrements('id', true);
 
-            $table->text('icon')->comment('untuk gambar icon');
+            $table->text('icon')->nullable()->comment('untuk gambar icon');
             $table->string('title', 255)->nullable();
             $table->text('description')->nullable();
             $table->integer('show')->comment('0=tidak tampil, 1=tampil');
