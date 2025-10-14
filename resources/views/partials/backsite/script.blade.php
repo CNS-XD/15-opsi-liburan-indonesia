@@ -1,41 +1,93 @@
+<script src="/backsite-assets/vendors/js/material-vendors.min.js"></script>
+<script src="/backsite-assets/js/scripts/charts/chartjs/chart.js"></script>
+<script src="/backsite-assets/js/scripts/charts/chartjs/chartjs-plugin-datalabels.js"></script>
+<script src="/backsite-assets/js/scripts/charts/chartjs/chartjs-plugin-zoom.js"></script>
+<script src="/backsite-assets/vendors/js/charts/raphael-min.js"></script>
+<script src="/backsite-assets/vendors/js/charts/morris.min.js"></script>
+<script src="/backsite-assets/vendors/js/charts/jvector/jquery-jvectormap-2.0.3.min.js"></script>
+<script src="/backsite-assets/vendors/js/charts/jvector/jquery-jvectormap-world-mill.js"></script>
+<script src="/backsite-assets/data/jvector/visitor-data.js"></script>
+<script src="/backsite-assets/vendors/js/table/datatable/datatables.min.js"></script>
+<script src="/backsite-assets/js/core/app-menu.js"></script>
+<script src="/backsite-assets/js/core/app.js"></script>
+<script src="/backsite-assets/vendors/js/forms/select/select2.full.min.js"></script>
+<script src="/backsite-assets/js/scripts/forms/select/form-select2.js"></script>
+<script src="/backsite-assets/js/scripts/tables/datatables/datatable-basic.js"></script>
+<script src="/backsite-assets/vendors/js/forms/toggle/bootstrap-switch.min.js"></script>
+<script src="/backsite-assets/js/scripts/pages/material-app.js"></script>
+<script src="/backsite-assets/js/vendor/sweetalert.min.js"></script>
+<script src="/backsite-assets/js/vendor/summernote.min.js"></script>
+<script src="/backsite-assets/js/scripts/forms/custom-file-input.js"></script>
+<script src="/backsite-assets/vendors/js/forms/toggle/switchery.min.js"></script>
+<script src="/backsite-assets/vendors/js/forms/toggle/bootstrap-checkbox.min.js"></script>
+<script src="/backsite-assets/js/scripts/forms/switch.js"></script>
+<script src="/backsite-assets/js/scripts/helper.js"></script>
+<script src="/backsite-assets/vendors/js/pickers/miniColors/jquery.minicolors.min.js"></script>
+<script src="/backsite-assets/vendors/js/pickers/spectrum/spectrum.js"></script>
+<script src="/backsite-assets/js/scripts/pickers/colorpicker/picker-color.js"></script>
+<script src="/backsite-assets/js/flatpickr.js"></script>
+<script src="/backsite-assets/js/jquery-ui.js"></script>
 
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/forms/icheck/icheck.min.js')}}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/charts/leaflet/leaflet.js')}}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/charts/apexcharts/apexcharts.min.js')}}"></script>
-    <!-- END: Page Vendor JS-->
+<script>
+    $('.switchBootstrap').bootstrapSwitch();
+    $(".flatpickr").flatpickr();
 
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('backsite-assets/app-assets/js/scripts/pages/timeline.js')}}"></script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    
+    $('.summernote').summernote({
+        height: '300px',
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['fontsize', ['fontsize']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']],
+        ],
+    });
 
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/material-vendors.min.js') }}"></script>
-    <!-- BEGIN Vendor JS-->
+    $('.auto-underscore').on('keyup', function() {
+        var txtVal = $(this).val();
+        txtVal = txtVal.toLowerCase();
+        var finalres = txtVal.replace(/ /g,"_")
+        $('.auto-underscore').val(finalres);
+    })
 
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/gallery/masonry/masonry.pkgd.min.js') }}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/gallery/photo-swipe/photoswipe.min.js') }}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/gallery/photo-swipe/photoswipe-ui-default.min.js') }}"></script>
-    <!-- END: Page Vendor JS-->
+    function formatDate(dateString) {
+        if (!dateString) return ''; // Jika tidak ada tanggal, kembalikan string kosong
 
-    <!-- BEGIN: Theme JS-->
-    <script src="{{ asset('backsite-assets/app-assets/js/core/app-menu.js') }}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/js/core/app.js') }}"></script>
-    <!-- END: Theme JS-->
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
 
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('app-assets/vendors/js/coming-soon/jquery.countdown.min.js') }}"></script>
-    <!-- END: Page Vendor JS-->
+        return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
 
-    <!-- BEGIN: Theme JS-->
-    <!-- END: Theme JS-->
+    function formatNumber(number) {
+        return new Intl.NumberFormat('id-ID', { style: 'decimal' }).format(number);
+    }
 
-    <!-- BEGIN: Page JS-->
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('backsite-assets/app-assets/js/scripts/pages/material-app.js') }}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/js/scripts/gallery/photo-swipe/photoswipe-script.js') }}"></script>
-    <!-- BEGIN: Page Vendor JS-->
-    <script src="{{ asset('backsite-assets/app-assets/data/leaflet/us-states.json')}}"></script>
-    <script src="{{ asset('backsite-assets/app-assets/vendors/js/charts/leaflet/leaflet.js')}}"></script>
-    <!-- BEGIN: Page JS-->
-    <script src="{{ asset('backsite-assets/app-assets/js/scripts/charts/leaflet/maps-leaflet.js')}}"></script>
-    <script src="{{ asset('app-assets/js/scripts/coming-soon/coming-soon.js') }}"></script>
+    function getRandomColor(index) {
+        const colors = ['#E50046', '#F7A8C4', '#FADA7A', '#FF9D23', '#4CC9FE', '#3674B5', '#B3D8A8', '#3A7D44', '#AA60C8', '#997C70', '#A6AEBF'];
+        return colors[index % colors.length]; // Loop jika dataset lebih dari jumlah warna
+    }
+    
+    function createSlug(text) {
+        return text
+            .toString()                 // Konversi ke string
+            .toLowerCase()              // Ubah huruf ke lowercase
+            .trim()                     // Hilangkan spasi di awal/akhir
+            .replace(/[\s\W-]+/g, '-')  // Ganti spasi dan karakter tidak valid dengan "-"
+            .replace(/^-+|-+$/g, '');   // Hilangkan "-" di awal/akhir
+    }
+</script>

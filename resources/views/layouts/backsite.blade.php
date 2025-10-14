@@ -1,54 +1,46 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
-<!-- BEGIN: Head-->
-
 <head>
+    {{-- Meta --}}
     @include('partials.backsite.meta')
 
     <title>@yield('title')</title>
 
+    {{-- Style --}}
     @stack('before-style')
     @include('partials.backsite.style')
+    @include('partials.backsite.style-custom')
     @stack('after-style')
-
 </head>
-<!-- END: Head-->
 
-<!-- BEGIN: Body-->
-
-<body class="vertical-layout vertical-menu material-vertical-layout material-layout 2-columns   fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
-
-    <!-- BEGIN: Header-->
+<body class="material-vertical-layout vertical-layout vertical-menu 2-columns fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
+    {{-- Header --}}
     @include('partials.backsite.header')
-    <!-- END: Header-->
 
-
-    <!-- BEGIN: Main Menu-->
+    {{-- Menu --}}
     @include('partials.backsite.menu')
-    <!-- END: Main Menu-->
 
-    <!-- BEGIN: Content-->
+    {{-- Content --}}
     <div class="app-content content">
-        <div class="content-header row"></div>
+        {{-- Content Header --}}
+        @include('partials.backsite.content.header')
+
         <div class="content-overlay"></div>
-        <div class="content-wrapper">
-            <div class="content-body">
-                @yield('content')
-            </div>
-        </div>
+
+        {{-- Content Body --}}
+        @include('partials.backsite.content.body')
     </div>
-    <!-- END: Content-->
 
-    <div class="sidenav-overlay"></div>
-    <div class="drag-target"></div>
-
+    {{-- Footer --}}
     @include('partials.backsite.footer')
-
-    @stack('before-script')
-    @include('partials.backsite.script')
-    @stack('after-script')
-
 </body>
-<!-- END: Body-->
+
+{{-- Script --}}
+@stack('before-script')
+@include('partials.backsite.script')
+@include('sweetalert::alert', ['cdn' => "https://cdn.jsdelivr.net/npm/sweetalert2@9"])
+<script src="/backsite-assets/vendors/js/sweetalert/sweetalert2@9.js"></script>
+@include('sweetalert::alert')
+@stack('after-script')
 
 </html>
