@@ -51,7 +51,7 @@
                                             <div class="form-group row">
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Title</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
-                                                    <input type="text" name="title" class="form-control" placeholder="ex: Surabaya, Malang, dll" value="{{ old('title') }}" />
+                                                    <input type="text" name="title" class="form-control" placeholder="ex: Bromo Mountain, Ijen Crater, Tumpak Sewu, Madakaripura Waterfall, dll" value="{{ old('title') }}" />
                                                 </div>
                                             </div>
                                         </div>
