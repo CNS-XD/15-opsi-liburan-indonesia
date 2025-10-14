@@ -1,0 +1,48 @@
+.header-kartu {
+
+        padding: 20px;
+        border: 3px solid black;
+}
+
+.text-bold {
+        font-weight: bold !important;
+}
+
+.logo-tutwuri {
+        float: right;
+}
+
+.ctn-a-l {
+        border: 3px solid grey;
+        padding: 20px;
+        width: 80%;
+
+}
+
+.ctn-a-r {
+        border: 3px solid grey;
+        padding: 20px;
+        margin-left: 10px;
+        width: 20%;
+
+}
+
+.ctn {
+        display: flex;
+}
+
+.ctn-b {
+        border: 3px solid grey;
+        padding: 20px;
+        width: 100%;
+
+}
+
+.cpdp {
+        margin-top: 30px;
+}
+
+.ps {
+        display: flex;
+}
+

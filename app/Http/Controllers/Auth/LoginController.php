@@ -2,54 +2,82 @@
 
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Providers\RouteServiceProvider;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Redirect;
-use Response;
+use App\Models\User;
+use Alert;
 use Auth;
 
 class LoginController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    // use AuthenticatesUsers;
+
+    /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest')->except('logout');
+        $this->middleware('auth')->only('logout');
+    }
+
     public function index()
     {
-        if (Auth::check()) {
-            return redirect('/dashboard');
-        }
-
-        return response()
-        ->view('pages.auth.index')
-        ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
-        ->header('Pragma', 'no-cache')
-        ->header('Expires', 'Sat, 01 Jan 2000 00:00:00 GMT');
-    }
-
-    public function authenticate(Request $request)
-    {
-        $credentials = $request->validate([
-            'email'     => ['required', 'email'],
-            'password'  => ['required'],
-        ]);
+        if (!empty(session('error_msg')))
+            Alert::error('Gagal !', session('error_msg'))->persistent('Tutup');
+        if (!empty(session('success')))
+            Alert::success('Berhasil !', session('success'))->persistent('Tutup');
         
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('/dashboard');
-        }
-
-        return back()->withErrors([
-            'email' => 'Email atau password salah!',
-        ])->onlyInput('email');
+        return view('pages.auth.login');
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function login(Request $request)
+    {
+        $getHost = request()->getHost();
+
+        $credentials = [
+            'email' => $request->input('email'),
+            'password' => $request->input('password'),
+            'status' => User::STATUS['active']
+        ];
+        
+        try {
+            if (!Auth::attempt($credentials)) {
+                return redirect()->back()->with('error_msg', 'Kredensial yang anda masukkan salah!');
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error_msg', 'Terjadi Kesalahan!');
+        }
+
+        return redirect()->route('backsite.dashboard.index');
+    }
+
+    public function logout()
     {
         Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect('/');
+        
+        return redirect()->route('login')->withSuccess('Anda berhasil logout !');
     }
 }

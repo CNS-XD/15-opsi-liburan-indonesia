@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('nationality', 255)->nullable();
             $table->integer('role')->comment('1=Superadmin, 2=Client');
             $table->integer('status')->default(1)->comment('0=Pending, 1=Active, 2=Non-Active');
+            $table->text('photo')->nullable();
 
             $table->rememberToken();
             
