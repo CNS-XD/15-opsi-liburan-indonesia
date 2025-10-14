@@ -3,6 +3,7 @@
 use App\Http\Middleware\IsLoggedIn;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backsite\DepartureController;
+use App\Http\Controllers\Backsite\DestinationController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\BerandaController;
 use App\Http\Controllers\Backsite\ProfilController;
@@ -23,5 +24,12 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
     Route::prefix('departure')->name('departure.')->group(function () {
         Route::delete('destroy-departure/{id}', [DepartureController::class, 'destroy'])->name('destroy');
         Route::get('dtable/departure', [DepartureController::class, 'datatable'])->name('datatable');
+    });
+
+    // Destination
+    Route::resource('destination', DestinationController::class)->except('destroy');
+    Route::prefix('destination')->name('destination.')->group(function () {
+        Route::delete('destroy-destination/{id}', [DestinationController::class, 'destroy'])->name('destroy');
+        Route::get('dtable/destination', [DestinationController::class, 'datatable'])->name('datatable');
     });
 });

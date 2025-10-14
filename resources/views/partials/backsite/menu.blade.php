@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 <li class="nav-item @yield('activeMenuDestination')">
-                    <a href="" class="@yield('activeSubMenuDestination')">
+                    <a href="{{ route('backsite.destination.index') }}" class="@yield('activeSubMenuDestination')">
                         <i class="la la-map-marker"></i>
                         <span class="menu-title" data-i18n="eCommerce">Destination</span>
                     </a>
