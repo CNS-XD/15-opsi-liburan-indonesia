@@ -1,5 +1,18 @@
 <?php
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\RecoverController;
+use App\Http\Controllers\Backsite\BloggController;
+use App\Http\Controllers\Backsite\ContactController;
+use App\Http\Controllers\Backsite\DashboardController;
+use App\Http\Controllers\Backsite\EducationController;
+use App\Http\Controllers\Backsite\ExperienceController;
+use App\Http\Controllers\Backsite\FormEditController;
+use App\Http\Controllers\Backsite\GallaryController;
+use App\Http\Controllers\Backsite\PortoController;
 use App\Http\Controllers\BacksiteController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BacksiteController::class,  'index']);
