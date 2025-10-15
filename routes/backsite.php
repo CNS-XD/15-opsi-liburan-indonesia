@@ -6,9 +6,10 @@ use App\Http\Controllers\Backsite\DestinationController;
 use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\AdvantageController;
-use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\GeneralController;
+use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
+use App\Http\Controllers\Backsite\AboutController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -42,6 +43,12 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::post('destroy/{id}', [GeneralController::class, 'destroy'])->name('destroy');
         Route::get('dtable/datatable-socmed', [GeneralController::class, 'datatableSocmed'])->name('datatable-socmed');
         Route::get('dtable/datatable-partner', [GeneralController::class, 'datatablePartner'])->name('datatable-partner');
+    });
+
+    // About
+    Route::prefix('about')->name('about.')->group(function () {
+        Route::post('update', [AboutController::class, 'update'])->name('update');
+        Route::get('/', [AboutController::class, 'index'])->name('index');
     });
 
     // Slider

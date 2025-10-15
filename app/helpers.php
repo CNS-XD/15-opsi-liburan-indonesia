@@ -179,7 +179,7 @@ if (!function_exists('deleteUnusedImages')) {
         $oldImages = explode(',', $oldImages);
         foreach ($oldImages as $oldImage) {
             if (!in_array($oldImage, $newImages)) {
-                $relativePath = str_replace('http://' . session('domain') . '/storage/', '', $oldImage);
+                $relativePath = str_replace(request()->getSchemeAndHttpHost() . '/storage/', '', $oldImage);
                 Storage::disk('public')->delete($relativePath); // Hapus file dari storage
             }
         }
@@ -191,7 +191,7 @@ if (!function_exists('deleteAllImages')) {
     {
         $images = explode(',', $images);
         foreach ($images as $image) {
-            $relativePath = str_replace('http://' . session('domain') . '/storage/', '', $image);
+            $relativePath = str_replace(request()->getSchemeAndHttpHost() . '/storage/', '', $image);
             Storage::disk('public')->delete($relativePath); // Hapus file dari storage
         }
     }

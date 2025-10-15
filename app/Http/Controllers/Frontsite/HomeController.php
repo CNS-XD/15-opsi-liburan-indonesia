@@ -11,7 +11,6 @@ use App\Models\InfoBerita;
 use App\Models\InfoGaleri;
 use App\Models\InfoVideo;
 use App\Models\InfoFaq;
-use App\Models\Domain;
 
 class HomeController extends Controller
 {

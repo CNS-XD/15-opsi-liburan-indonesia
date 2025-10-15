@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Frontsite\DivisiKompetisiController;
-use App\Http\Controllers\Frontsite\ArsipDomainController;
 use App\Http\Controllers\Frontsite\PengumumanController;
 use App\Http\Controllers\Frontsite\StatistikController;
 use App\Http\Controllers\Frontsite\ProvinsiController;
@@ -33,9 +32,6 @@ Route::get('sinkronisasi/{regCode}/{compCode}', [LoginController::class, 'storeS
 Route::name('frontsite.')->middleware('pbh')->group(function () {
     // Tentang
     Route::get('tentang', [TentangController::class, 'index'])->name('tentang.index');
-
-    // Arsip Domain
-    Route::get('arsip-domain', [ArsipDomainController::class, 'index'])->name('arsip-domain.index');
 
     // Divisi Kompetisi
     Route::get('divisi-kompetisi', [DivisiKompetisiController::class, 'index'])->name('divisi-kompetisi.index');
