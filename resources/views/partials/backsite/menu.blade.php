@@ -54,7 +54,7 @@
                     </a>
                 </li>
                 <li class="nav-item @yield('activeMenuSlider')">
-                    <a href="" class="@yield('activeSubMenuSlider')">
+                    <a href="{{ route('backsite.slider.index') }}" class="@yield('activeSubMenuSlider')">
                         <i class="la la-picture-o"></i>
                         <span class="menu-title" data-i18n="eCommerce">Slider</span>
                     </a>

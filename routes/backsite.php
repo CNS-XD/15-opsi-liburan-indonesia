@@ -6,6 +6,7 @@ use App\Http\Controllers\Backsite\DestinationController;
 use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\AdvantageController;
+use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\BerandaController;
 use App\Http\Controllers\Backsite\ProfilController;
 
@@ -40,5 +41,13 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-advantage/{id}', [AdvantageController::class, 'destroy'])->name('destroy');
         Route::post('set-show-advantage/{id}', [AdvantageController::class, 'setShow'])->name('set-show');
         Route::get('dtable/advantage', [AdvantageController::class, 'datatable'])->name('datatable');
+    });
+
+    // Slider
+    Route::resource('slider', SliderController::class)->except('destroy');
+    Route::prefix('slider')->name('slider.')->group(function () {
+        Route::delete('destroy-slider/{id}', [SliderController::class, 'destroy'])->name('destroy');
+        Route::post('set-show-slider/{id}', [SliderController::class, 'setShow'])->name('set-show');
+        Route::get('dtable/slider', [SliderController::class, 'datatable'])->name('datatable');
     });
 });
