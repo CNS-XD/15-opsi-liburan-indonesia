@@ -1,8 +1,8 @@
 <?php
 
-use App\Models\InfoKontakSosmed;
-use App\Models\InfoKontakUmum;
+use App\Models\ContactGeneral;
 use App\Models\InfoPengumuman;
+use App\Models\ContactSocmed;
 use App\Models\InfoUnduhan;
 use App\Models\InfoHeader;
 use App\Models\InfoBerita;
@@ -209,6 +209,23 @@ if (!function_exists('getColorTheme')) {
     function getColorTheme()
     {
         $data = Theme::first();
+        return $data;
+    }
+}
+
+if (!function_exists('getContactSocmed')) {
+    function getContactSocmed($typeSocmed)
+    {
+        $data = ContactSocmed::where('type_socmed', $typeSocmed)
+        ->first();
+        return $data;
+    }
+}
+
+if (!function_exists('getContactGeneral')) {
+    function getContactGeneral()
+    {
+        $data = ContactGeneral::first();
         return $data;
     }
 }

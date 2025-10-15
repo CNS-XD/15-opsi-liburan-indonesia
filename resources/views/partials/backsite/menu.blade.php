@@ -48,7 +48,7 @@
                         data-original-title="Information">more_horiz</i>
                 </li>
                 <li class="nav-item @yield('activeMenuGeneral')">
-                    <a href="" class="@yield('activeSubMenuGeneral')">
+                    <a href="{{ route('backsite.general.index') }}" class="@yield('activeSubMenuGeneral')">
                         <i class="la la-desktop"></i>
                         <span class="menu-title" data-i18n="eCommerce">General</span>
                     </a>

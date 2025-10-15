@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('info_kontak_umum', function (Blueprint $table) {
+        Schema::create('contact_generals', function (Blueprint $table) {
             $table->bigIncrements('id', true);
 
             $table->string('email', 255)->nullable();
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('info_kontak_umum');
+        Schema::dropIfExists('contact_generals');
     }
 };

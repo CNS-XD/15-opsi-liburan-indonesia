@@ -7,7 +7,7 @@ use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\AdvantageController;
 use App\Http\Controllers\Backsite\SliderController;
-use App\Http\Controllers\Backsite\BerandaController;
+use App\Http\Controllers\Backsite\GeneralController;
 use App\Http\Controllers\Backsite\ProfilController;
 
 // Backsite Routes with Middleware
@@ -35,12 +35,13 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::get('dtable/destination', [DestinationController::class, 'datatable'])->name('datatable');
     });
 
-    // Advantage
-    Route::resource('advantage', AdvantageController::class)->except('destroy');
-    Route::prefix('advantage')->name('advantage.')->group(function () {
-        Route::delete('destroy-advantage/{id}', [AdvantageController::class, 'destroy'])->name('destroy');
-        Route::post('set-show-advantage/{id}', [AdvantageController::class, 'setShow'])->name('set-show');
-        Route::get('dtable/advantage', [AdvantageController::class, 'datatable'])->name('datatable');
+    // General
+    Route::resource('general', GeneralController::class)->except('destroy', 'edit', 'show', 'create');
+    Route::prefix('general')->name('general.')->group(function () {
+        Route::get('edit/{id}', [GeneralController::class, 'edit'])->name('edit');
+        Route::post('destroy/{id}', [GeneralController::class, 'destroy'])->name('destroy');
+        Route::get('dtable/datatable-socmed', [GeneralController::class, 'datatableSocmed'])->name('datatable-socmed');
+        Route::get('dtable/datatable-partner', [GeneralController::class, 'datatablePartner'])->name('datatable-partner');
     });
 
     // Slider
@@ -49,5 +50,13 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-slider/{id}', [SliderController::class, 'destroy'])->name('destroy');
         Route::post('set-show-slider/{id}', [SliderController::class, 'setShow'])->name('set-show');
         Route::get('dtable/slider', [SliderController::class, 'datatable'])->name('datatable');
+    });
+
+    // Advantage
+    Route::resource('advantage', AdvantageController::class)->except('destroy');
+    Route::prefix('advantage')->name('advantage.')->group(function () {
+        Route::delete('destroy-advantage/{id}', [AdvantageController::class, 'destroy'])->name('destroy');
+        Route::post('set-show-advantage/{id}', [AdvantageController::class, 'setShow'])->name('set-show');
+        Route::get('dtable/advantage', [AdvantageController::class, 'datatable'])->name('datatable');
     });
 });
