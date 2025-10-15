@@ -84,7 +84,7 @@
                     </a>
                 </li>
                 <li class="nav-item @yield('activeMenuFaq')">
-                    <a href="" class="@yield('activeSubMenuFaq')">
+                    <a href="{{ route('backsite.faq.index') }}" class="@yield('activeSubMenuFaq')">
                         <i class="la la-question-circle"></i>
                         <span class="menu-title" data-i18n="eCommerce">Faq</span>
                     </a>

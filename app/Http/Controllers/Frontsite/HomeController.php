@@ -10,7 +10,7 @@ use App\Models\InfoSponsor;
 use App\Models\InfoBerita;
 use App\Models\InfoGaleri;
 use App\Models\InfoVideo;
-use App\Models\InfoFaq;
+use App\Models\Faq;
 
 class HomeController extends Controller
 {

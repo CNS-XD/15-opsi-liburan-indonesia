@@ -9,9 +9,9 @@ use App\Models\InfoBerita;
 use App\Models\InfoGaleri;
 use App\Models\InfoVideo;
 use App\Models\InfoLive;
-use App\Models\InfoFaq;
 use App\Models\Tahapan;
 use App\Models\Theme;
+use App\Models\Faq;
 
 if (!function_exists('getInitials')) {
     function getInitials($name)
@@ -134,7 +134,7 @@ if (!function_exists('generateUniqueSlugVideo')) {
 if (!function_exists('generateUniqueSlugFaq')) {
     function generateUniqueSlugFaq($originalSlug, $id = null)
     {
-        $query = InfoFaq::where('slug', 'like', $originalSlug . '%');
+        $query = Faq::where('slug', 'like', $originalSlug . '%');
         if ($id) {
             $query->where('id', '!=', $id); // Abaikan slug milik faq saat ini
         }
