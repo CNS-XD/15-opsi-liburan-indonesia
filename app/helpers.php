@@ -5,7 +5,7 @@ use App\Models\InfoPengumuman;
 use App\Models\ContactSocmed;
 use App\Models\InfoUnduhan;
 use App\Models\InfoHeader;
-use App\Models\InfoBerita;
+use App\Models\Blog;
 use App\Models\InfoGaleri;
 use App\Models\InfoVideo;
 use App\Models\InfoLive;
@@ -43,12 +43,12 @@ if (!function_exists('generateUniqueSlugPengumuman')) {
     }
 }
 
-if (!function_exists('generateUniqueSlugBerita')) {
-    function generateUniqueSlugBerita($originalSlug, $id = null)
+if (!function_exists('generateUniqueSlugBlog')) {
+    function generateUniqueSlugBlog($originalSlug, $id = null)
     {
-        $query = InfoBerita::where('slug', 'like', $originalSlug . '%');
+        $query = Blog::where('slug', 'like', $originalSlug . '%');
         if ($id) {
-            $query->where('id', '!=', $id); // Abaikan slug milik berita saat ini
+            $query->where('id', '!=', $id); // Abaikan slug milik blog saat ini
         }
     
         $similarSlugs = $query->pluck('slug')->toArray();

@@ -12,6 +12,7 @@ use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
 use App\Http\Controllers\Backsite\AboutController;
 use App\Http\Controllers\Backsite\FaqController;
+use App\Http\Controllers\Backsite\BlogController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -83,5 +84,13 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-faq/{id}', [FaqController::class, 'destroy'])->name('destroy');
         Route::post('set-show-faq/{id}', [FaqController::class, 'setShow'])->name('set-show');
         Route::get('dtable/faq', [FaqController::class, 'datatable'])->name('datatable');
+    });
+
+    // Blog
+    Route::resource('blog', BlogController::class)->except('destroy');
+    Route::prefix('blog')->name('blog.')->group(function () {
+        Route::delete('destroy-blog/{id}', [BlogController::class, 'destroy'])->name('destroy');
+        Route::post('set-show-blog/{id}', [BlogController::class, 'setShow'])->name('set-show');
+        Route::get('dtable/blog', [BlogController::class, 'datatable'])->name('datatable');
     });
 });
