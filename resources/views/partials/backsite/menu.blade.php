@@ -72,7 +72,7 @@
                     </a>
                 </li>
                 <li class="nav-item @yield('activeMenuTestimony')">
-                    <a href="" class="@yield('activeSubMenuTestimony')">
+                    <a href="{{ route('backsite.testimony.index') }}" class="@yield('activeSubMenuTestimony')">
                         <i class="la la-comments-o"></i>
                         <span class="menu-title" data-i18n="eCommerce">Testimony</span>
                     </a>

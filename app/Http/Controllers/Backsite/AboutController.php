@@ -23,9 +23,9 @@ class AboutController extends Controller
     public function index()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Gagal !', session('error_msg'))->persistent('Tutup');
+            Alert::error('Failed !', session('error_msg'))->persistent('Tutup');
         if (!empty(session('success')))
-            Alert::success('Berhasil !', session('success'));
+            Alert::success('Success !', session('success'));
         
         $data['data'] = About::first();
 

@@ -14,6 +14,11 @@ class Testimony extends Model
     
     protected $table = 'testimonys';
     protected $guarded = [];
+    
+    const SHOW = [
+        'draft' => 0,
+        'publish' => 1,
+    ];
 
     protected static function boot()
     {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Backsite\DestinationController;
 use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\AdvantageController;
+use App\Http\Controllers\Backsite\TestimonyController;
 use App\Http\Controllers\Backsite\GeneralController;
 use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
@@ -45,12 +46,6 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::get('dtable/datatable-partner', [GeneralController::class, 'datatablePartner'])->name('datatable-partner');
     });
 
-    // About
-    Route::prefix('about')->name('about.')->group(function () {
-        Route::post('update', [AboutController::class, 'update'])->name('update');
-        Route::get('/', [AboutController::class, 'index'])->name('index');
-    });
-
     // Slider
     Route::resource('slider', SliderController::class)->except('destroy');
     Route::prefix('slider')->name('slider.')->group(function () {
@@ -59,11 +54,25 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::get('dtable/slider', [SliderController::class, 'datatable'])->name('datatable');
     });
 
+    // About
+    Route::prefix('about')->name('about.')->group(function () {
+        Route::post('update', [AboutController::class, 'update'])->name('update');
+        Route::get('/', [AboutController::class, 'index'])->name('index');
+    });
+
     // Advantage
     Route::resource('advantage', AdvantageController::class)->except('destroy');
     Route::prefix('advantage')->name('advantage.')->group(function () {
         Route::delete('destroy-advantage/{id}', [AdvantageController::class, 'destroy'])->name('destroy');
         Route::post('set-show-advantage/{id}', [AdvantageController::class, 'setShow'])->name('set-show');
         Route::get('dtable/advantage', [AdvantageController::class, 'datatable'])->name('datatable');
+    });
+
+    // Testimony
+    Route::resource('testimony', TestimonyController::class)->except('destroy');
+    Route::prefix('testimony')->name('testimony.')->group(function () {
+        Route::delete('destroy-testimony/{id}', [TestimonyController::class, 'destroy'])->name('destroy');
+        Route::post('set-show-testimony/{id}', [TestimonyController::class, 'setShow'])->name('set-show');
+        Route::get('dtable/testimony', [TestimonyController::class, 'datatable'])->name('datatable');
     });
 });
