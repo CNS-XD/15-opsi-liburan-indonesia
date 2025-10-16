@@ -12,6 +12,7 @@ use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
 use App\Http\Controllers\Backsite\AboutController;
 use App\Http\Controllers\Backsite\ThemeController;
+use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
 
 // Backsite Routes with Middleware
@@ -84,6 +85,21 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-faq/{id}', [FaqController::class, 'destroy'])->name('destroy');
         Route::post('set-show-faq/{id}', [FaqController::class, 'setShow'])->name('set-show');
         Route::get('dtable/faq', [FaqController::class, 'datatable'])->name('datatable');
+    });
+
+    // User
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('dtable/user/{role}', [UserController::class, 'datatable'])->name('datatable');
+        Route::get('{role}', [UserController::class, 'index'])->name('index');
+        Route::delete('{role}/{id}/destroy-user', [UserController::class, 'destroy'])->name('destroy');
+        Route::post('{role}/{id}/set-status-user', [UserController::class, 'setStatus'])->name('set-status');
+    
+        // Routes that depend only on ID (create, store, edit, update, show) – avoid conflict with {role}
+        Route::get('{role}/create', [UserController::class, 'create'])->name('create');
+        Route::post('{role}', [UserController::class, 'store'])->name('store');
+        Route::get('{role}/{id}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('{role}/{id}', [UserController::class, 'update'])->name('update');
+        Route::get('{role}/{id}', [UserController::class, 'show'])->name('show');
     });
 
     // Theme
