@@ -129,7 +129,7 @@
                     </a>
                 </li>
                 <li class="nav-item @yield('activeMenuTheme')">
-                    <a href="" class="@yield('activeSubMenuTheme')">
+                    <a href="{{ route('backsite.theme.index') }}" class="@yield('activeSubMenuTheme')">
                         <i class="la la-paint-brush"></i>
                         <span class="menu-title" data-i18n="eCommerce">Theme</span>
                     </a>

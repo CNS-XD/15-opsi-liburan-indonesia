@@ -11,6 +11,7 @@ use App\Http\Controllers\Backsite\GeneralController;
 use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
 use App\Http\Controllers\Backsite\AboutController;
+use App\Http\Controllers\Backsite\ThemeController;
 use App\Http\Controllers\Backsite\FaqController;
 
 // Backsite Routes with Middleware
@@ -83,5 +84,11 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-faq/{id}', [FaqController::class, 'destroy'])->name('destroy');
         Route::post('set-show-faq/{id}', [FaqController::class, 'setShow'])->name('set-show');
         Route::get('dtable/faq', [FaqController::class, 'datatable'])->name('datatable');
+    });
+
+    // Theme
+    Route::resource('theme', ThemeController::class)->except('destroy');
+    Route::name('theme.')->group(function () {
+        Route::get('dtable/theme', [ThemeController::class, 'datatable'])->name('datatable');
     });
 });
