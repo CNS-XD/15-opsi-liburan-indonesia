@@ -1,13 +1,13 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Profil')
+@section('title', 'Profile')
 @section('activeMenuPengaturan', 'active open')
 @section('activeSubMenuProfil', 'active open')
 
 {{-- Breadcrumb --}}
-@section('breadcrumb1', 'Pengaturan')
-@section('breadcrumb2', 'Profil')
+@section('breadcrumb1', 'Setting')
+@section('breadcrumb2', 'Profile')
 
 @push('after-style')
 <style>
@@ -57,8 +57,8 @@
                                                     <div class="card-body">
                                                         <div class="custom-file">
                                                             <fieldset class="form-group">
-                                                                <input type="file" name="foto_profil" class="custom-file-input" accept="image/*">
-                                                                <label class="custom-file-label" for="foto" aria-describedby="foto">Choose File</label>
+                                                                <input type="file" name="photo" class="custom-file-input" accept="image/*">
+                                                                <label class="custom-file-label" for="photo" aria-describedby="photo">Choose File</label>
                                                             </fieldset>
                                                         </div>
                                                     </div>
@@ -69,15 +69,15 @@
                                             <div class="form-group row mx-auto last">
                                                 <label class="col-md-3 label-control">Full Name</label>
                                                 <div class="col-md-9">
-                                                    <input type="text" class="form-control" placeholder="Full Name" value="{{ $user->name }}" name="name">
+                                                    <input type="text" class="form-control" placeholder="ex: Peter Cech" value="{{ $user->name }}" name="name">
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group row mx-auto last">
-                                                <label class="col-md-3 label-control">Nomor HP</label>
+                                                <label class="col-md-3 label-control">Phone</label>
                                                 <div class="col-md-9">
-                                                    <input type="number" class="form-control" placeholder="example: 0878****" value="{{ $user->phone }}" name="phone">
+                                                    <input type="number" class="form-control" placeholder="ex: 0878****" value="{{ $user->phone }}" name="phone">
                                                 </div>
                                             </div>
                                         </div>
@@ -85,7 +85,15 @@
                                             <div class="form-group row mx-auto last">
                                                 <label class="col-md-3 label-control" for="email">Email</label>
                                                 <div class="col-md-9">
-                                                    <input type="email" id="email" class="form-control" placeholder="Email" name="email" value="{{ $user->email }}">
+                                                    <input type="email" id="email" class="form-control" placeholder="ex: peter@gmail.com" name="email" value="{{ $user->email }}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row mx-auto last">
+                                                <label class="col-md-3 label-control">Nationality</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control" placeholder="ex: Indonesia, Netherland, France" value="{{ $user->nationality }}" name="nationality">
                                                 </div>
                                             </div>
                                         </div>
@@ -106,10 +114,10 @@
                                                     <h5 class="pl7">
                                                         @if (Auth()->user()->status == 1)
                                                             <i class="fa fa-circle text-success"></i>
-                                                            Aktif
+                                                            Active
                                                         @else
                                                             <i class="fa fa-circle text-danger"></i>
-                                                            Non Aktif
+                                                            Non Active
                                                         @endif
                                                     </h5>
                                                 </div>

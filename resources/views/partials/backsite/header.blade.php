@@ -48,31 +48,31 @@
                                 {{ Str::limit(Auth::user()->name, 32) }}
                             </span>
                             <span class="avatar avatar-online">
-                                @if (empty(\Auth::user()->foto_profil))
+                                @if (empty(\Auth::user()->photo))
                                     <img src="{{ asset('backsite-assets/images/logo/foto-unvailable.png') }}"
-                                        alt="Foto Profil Belum Diunggah">
+                                        alt="Profile Photo Not Uploaded Yet">
                                 @else
-                                    <img src="/storage/{{ \Auth::user()->foto_profil }}"
-                                        {{-- onerror="this.src='frontsite-assets/images/common/image-broken.jpg';" --}}
-                                        alt="Foto Profil">
+                                    <img src="/storage/{{ \Auth::user()->photo }}"
+                                        onerror="this.src='backsite-assets/images/image-broken.jpg';"
+                                        alt="Profile picture">
                                 @endif
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item @yield('activeSubMenuProfil') waves-effect waves-dark"
                                 href="{{ route('backsite.profil.user.index') }}">
-                                <i class="material-icons">person_outline</i> Edit Profil
+                                <i class="material-icons">person_outline</i> Edit Profile
                             </a>
 
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item waves-effect waves-dark" href="{{ url('/') }}">
-                                <i class="material-icons">store_mall_directory</i> Halaman Depan
+                                <i class="material-icons">store_mall_directory</i> Front page
                             </a>
 
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Keluar
+                                Logout
                             </a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
