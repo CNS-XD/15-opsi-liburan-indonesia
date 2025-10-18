@@ -24,7 +24,7 @@ class DepartureController extends Controller
     public function index()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Fail !', session('error_msg'))->persistent('Close');
+            Alert::error('Failed !', session('error_msg'))->persistent('Close');
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
@@ -63,7 +63,7 @@ class DepartureController extends Controller
     public function create()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Fail !', session('error_msg'))->persistent('Close');
+            Alert::error('Failed !', session('error_msg'))->persistent('Close');
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 

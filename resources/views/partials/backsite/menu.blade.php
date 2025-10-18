@@ -123,13 +123,25 @@
                         data-original-title="Setting">more_horiz</i>
                 </li>
                 <li class="nav-item @yield('activeMenuUser')">
-                    <a href="" class="@yield('activeSubMenuUser')">
+                    <a href="javascript:void(0)">
                         <i class="la la-users"></i>
-                        <span class="menu-title" data-i18n="eCommerce">User</span>
+                        <span class="menu-title" data-i18n="Form Layouts">User</span>
                     </a>
+                    <ul class="menu-content">
+                        <li class="@yield('activeSubMenuSuperadmin')">
+                            <a class="menu-item" href="{{ route('backsite.user.index', 'superadmin') }}">
+                                <span data-i18n="Basic Forms">Superadmin</span>
+                            </a>
+                        </li>
+                        <li class="@yield('activeSubMenuClient')">
+                            <a class="menu-item" href="{{ route('backsite.user.index', 'client') }}">
+                                <span data-i18n="Basic Forms">Client</span>
+                            </a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="nav-item @yield('activeMenuTheme')">
-                    <a href="" class="@yield('activeSubMenuTheme')">
+                    <a href="{{ route('backsite.theme.index') }}" class="@yield('activeSubMenuTheme')">
                         <i class="la la-paint-brush"></i>
                         <span class="menu-title" data-i18n="eCommerce">Theme</span>
                     </a>

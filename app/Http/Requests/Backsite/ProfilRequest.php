@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Backsite\Profil;
+namespace App\Http\Requests\Backsite;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\RequiredIf;
@@ -24,46 +24,23 @@ class ProfilRequest extends FormRequest
      *
      * @return array
      */
+    
     public function rules()
     {
         return [
-            'email' => 'max:255',
+            'name' => 'string|max:255',
+            'email' => 'email|max:255',
             'password' => 'max:255',
-            'foto_profil' => 'file|image|mimes:png,jpg,jpeg|max:2500',
-            'foto_ktp' => 'file|image|mimes:png,jpg,jpeg|max:2500',
-            'nama' => 'string|max:255',
-            'no_hp' => 'max:255',
-            'jenis_kelamin' => 'in:0,1',
-            'tempat_lahir' => 'max:255',
-            'tanggal_lahir' => 'date',
-            'agama' => 'max:255',
-            'nik' => 'max:255',
-            'nip' => 'max:255',
-            'no_identitas' => 'max:255',
-            'negara' => 'max:255',
-            'provinsi' => 'max:255',
-            'kab_kota' => 'max:255',
-            'kecamatan' => 'max:255',
-            'desa_kel' => 'max:255',
-            'kodepos' => 'max:255',
-            'rt_rw' => 'max:255',
-            'alamat' => 'max:1000',
-            'pendidikan_terakhir' => 'max:255',
-            'jurusan_terakhir' => 'max:255',
-            'pekerjaan' => 'max:255',
-            'jabatan' => 'max:255',
-            'pangkat_golongan' => 'max:255',
-            'instansi' => 'max:255',
-            'instansi_unit_kerja' => 'max:255',
-            'instansi_alamat' => 'max:255',
-            'instansi_no_telepon' => 'max:255',
+            'phone' => 'max:255',
+            'nationality' => 'max:255',
+            'photo' => 'file|image|mimes:png,jpg,jpeg|max:5000',
         ];
     }
 
     public function withValidator(LaravelValidator $validator)
     {
         $validator->after(function ($validator) {
-            $filesToCheck = ['foto_profil', 'foto_ktp'];
+            $filesToCheck = ['photo'];
     
             foreach ($filesToCheck as $field) {
                 if ($this->hasFile($field)) {
@@ -75,18 +52,18 @@ class ProfilRequest extends FormRequest
                     finfo_close($finfo);
     
                     if (!in_array($mime, ['image/png', 'image/jpeg'])) {
-                        $validator->errors()->add($field, 'File tidak valid. Hanya gambar JPG, PNG yang diizinkan.');
+                        $validator->errors()->add($field, 'The file must be a JPG or PNG image.');
                     }
     
                     // Cek apakah benar-benar gambar
                     if (!exif_imagetype($file->getPathname())) {
-                        $validator->errors()->add($field, 'File bukan gambar yang valid.');
+                        $validator->errors()->add($field, 'The file is not a valid image.');
                     }
     
                     // Cek konten berbahaya
                     $content = file_get_contents($file->getPathname());
                     if (preg_match('/<\?(php|html)|<script>|eval\(/i', $content)) {
-                        $validator->errors()->add($field, 'File berbahaya terdeteksi.');
+                        $validator->errors()->add($field, 'The file contains harmful content..');
                     }
                 }
             }

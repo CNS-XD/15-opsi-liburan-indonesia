@@ -172,7 +172,7 @@ class FaqController extends Controller
     
         DB::beginTransaction();
         try {
-            $data = Faq::findOrFail($id); // Pastikan data ditemukan atau gagal langsung
+            $data = Faq::findOrFail($id);
     
             // Optimasi slug
             $originalSlug = Str::slug($request->title, '-');

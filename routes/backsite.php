@@ -11,6 +11,8 @@ use App\Http\Controllers\Backsite\GeneralController;
 use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
 use App\Http\Controllers\Backsite\AboutController;
+use App\Http\Controllers\Backsite\ThemeController;
+use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
 use App\Http\Controllers\Backsite\BlogController;
 
