@@ -78,7 +78,7 @@
                     </a>
                 </li>
                 <li class="nav-item @yield('activeMenuBlog')">
-                    <a href="" class="@yield('activeSubMenuBlog')">
+                    <a href="{{ route('backsite.blog.index') }}" class="@yield('activeSubMenuBlog')">
                         <i class="la la-newspaper-o"></i>
                         <span class="menu-title" data-i18n="eCommerce">Blog</span>
                     </a>

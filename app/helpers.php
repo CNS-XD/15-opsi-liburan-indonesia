@@ -11,6 +11,7 @@ use App\Models\InfoVideo;
 use App\Models\InfoLive;
 use App\Models\Tahapan;
 use App\Models\Theme;
+use App\Models\Blog;
 use App\Models\Faq;
 
 if (!function_exists('getInitials')) {
@@ -43,12 +44,12 @@ if (!function_exists('generateUniqueSlugPengumuman')) {
     }
 }
 
-if (!function_exists('generateUniqueSlugBerita')) {
-    function generateUniqueSlugBerita($originalSlug, $id = null)
+if (!function_exists('generateUniqueSlugBlog')) {
+    function generateUniqueSlugBlog($originalSlug, $id = null)
     {
-        $query = InfoBerita::where('slug', 'like', $originalSlug . '%');
+        $query = Blog::where('slug', 'like', $originalSlug . '%');
         if ($id) {
-            $query->where('id', '!=', $id); // Abaikan slug milik berita saat ini
+            $query->where('id', '!=', $id); // Abaikan slug milik blog saat ini
         }
     
         $similarSlugs = $query->pluck('slug')->toArray();
