@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Slider;
-use Storage;
-use Alert;
-use Log;
-use DB;
+use Illuminate\Support\Facades\Storage;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class SliderController extends Controller
 {
@@ -38,10 +38,10 @@ class SliderController extends Controller
 
         return DataTables::of($data)
         ->addIndexColumn()
-        ->editColumn('icon', function ($data) {
+        ->editColumn('slider', function ($data) {
             $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
-            if (!empty($data->icon)) {
-                $return = '<img src="/storage/' . $data->icon . '" width="80px">';
+            if (!empty($data->value)) {
+                $return = '<img src="/storage/' . $data->value . '" width="80px">';
             }
 
             return $return;
@@ -60,7 +60,7 @@ class SliderController extends Controller
             ';
             return $btn;
         })
-        ->rawColumns(['icon', 'action'])
+        ->rawColumns(['slider', 'action'])
         ->make(true);
     }
 
@@ -90,10 +90,12 @@ class SliderController extends Controller
         DB::beginTransaction();
         try {
             $data = new Slider;
-            if ($request->hasFile('icon')) {
-                $icon = $this->uploadFile($request->icon, '/slider-icon');
-                $data->icon = $icon;
+            if ($request->hasFile('slider')) {
+                $slider = $this->uploadFile($request->slider, '/slider-slider');
+                // store uploaded file path in 'value' column per migration
+                $data->value = $slider;
             }
+            $data->type = $request->type;
             $data->title = $request->title;
             $data->description = $request->description;
             $data->show = $request->show;
@@ -160,15 +162,16 @@ class SliderController extends Controller
         DB::beginTransaction();
         try {
             $data = Slider::findOrFail($id);
-            if ($request->hasFile('icon')) {
-                $icon = $this->uploadFile($request->icon, '/slider-icon');
+            if ($request->hasFile('slider')) {
+                $slider = $this->uploadFile($request->slider, '/slider-slider');
 
-                if (is_file(storage_path("app/public/" . $data->icon))) {
-                    Storage::disk('public')->delete($data->icon);
+                if (!empty($data->value) && is_file(storage_path("app/public/" . $data->value))) {
+                    Storage::disk('public')->delete($data->value);
                 }
 
-                $data->icon = $icon;
+                $data->value = $slider;
             }
+            $data->type = $request->type;
             $data->title = $request->title;
             $data->description = $request->description;
             $data->show = $request->show;
@@ -196,8 +199,8 @@ class SliderController extends Controller
         DB::beginTransaction();
         try {
             $data = Slider::findOrFail($id);
-            if (is_file(storage_path("app/public/" . $data->icon)))
-                Storage::disk('public')->delete($data->icon);
+            if (!empty($data->value) && is_file(storage_path("app/public/" . $data->value)))
+                Storage::disk('public')->delete($data->value);
 
             $data->delete();
             DB::commit();

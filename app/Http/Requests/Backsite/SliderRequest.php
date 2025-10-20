@@ -30,7 +30,7 @@ class SliderRequest extends FormRequest
                 $rules = [
                     'title' => 'required|string|max:255',
                     'show' => 'required|in:0,1',
-                    'icon' => 'mimes:jpeg,jpg,png|max:5000',
+                    'slider' => 'mimes:jpeg,jpg,png|max:5000',
                 ];
                 break;
         }
@@ -41,21 +41,21 @@ class SliderRequest extends FormRequest
     public function withValidator(LaravelValidator $validator): void
     {
         $validator->after(function ($validator) {
-            // Validasi file "icon"
-            if ($this->hasFile('icon')) {
-                $file = $this->file('icon');
+            // Validasi file "slider"
+            if ($this->hasFile('slider')) {
+                $file = $this->file('slider');
 
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $mime = finfo_file($finfo, $file->getPathname());
                 finfo_close($finfo);
 
                 if (!in_array($mime, ['image/png', 'image/jpeg'])) {
-                    $validator->errors()->add('icon', 'The file must be a JPG or PNG image.');
+                    $validator->errors()->add('slider', 'The file must be a JPG or PNG image.');
                 }
 
                 $content = file_get_contents($file->getPathname());
                 if (preg_match('/<\?(php|html)|<script>|eval\(/i', $content)) {
-                    $validator->errors()->add('icon', 'The file contains harmful content.');
+                    $validator->errors()->add('slider', 'The file contains harmful content.');
                 }
             }
         });

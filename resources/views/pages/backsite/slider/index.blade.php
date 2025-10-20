@@ -39,9 +39,10 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Icon</th>
+                                            <th>Slider</th>
                                             <th>Title</th>
                                             <th>Description</th>
+                                            <th>Type</th>
                                             <th>Show</th>
                                             <th>Action</th>
                                         </tr>
@@ -90,8 +91,8 @@
                     bSearchable: false
                 },
                 {
-                    data: 'icon',
-                    name: 'icon',
+                    data: 'slider',
+                    name: 'slider',
                     orderable: false,
                     bSearchable: false,
                 },
@@ -102,6 +103,18 @@
                 {
                     data: 'description',
                     name: 'description',
+                },
+                {
+                    data: 'type',
+                    name: 'type',
+                    render: function(data, type, row) {
+                        let type = row.type;
+                        let badge = type == 1 ? 'Gambar' : 'Video';
+                        let btn = `
+                            <span class="badge badge-primary">${badge}</span>
+                        `
+                        return btn;
+                    }
                 },
                 {
                     data: 'show',
@@ -143,14 +156,14 @@
             success: function(response) {
                 if (response.success == 200) {
                     Swal.fire({
-                        icon: 'success',
+                        slider: 'success',
                         title: 'Success',
                         text: response.message,
                     });
                     datatable();
                 } else {
                     Swal.fire({
-                        icon: 'error',
+                        slider: 'error',
                         title: 'Failed',
                         text: response.message,
                     });
@@ -163,7 +176,7 @@
     const deleteRoute = "{{ route('backsite.slider.destroy', ':id') }}";
     function deleteConf(id) {
         Swal.fire({
-            icon: 'warning',
+            slider: 'warning',
             title: 'Are you sure?',
             text: "You will not be able to restore this data back!",
             showCancelButton: true,
@@ -183,14 +196,14 @@
                     success: function(res) {
                         if (res.success == true) {
                             Swal.fire({
-                                icon: 'success',
+                                slider: 'success',
                                 title: 'Success',
                                 text: res.message,
                             });
                             datatable();
                         } else {
                             Swal.fire({
-                                icon: 'error',
+                                slider: 'error',
                                 title: 'Failed',
                                 text: res.message,
                             });

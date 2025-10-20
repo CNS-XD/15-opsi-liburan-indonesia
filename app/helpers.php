@@ -5,7 +5,6 @@ use App\Models\InfoPengumuman;
 use App\Models\ContactSocmed;
 use App\Models\InfoUnduhan;
 use App\Models\InfoHeader;
-use App\Models\Blog;
 use App\Models\InfoGaleri;
 use App\Models\InfoVideo;
 use App\Models\InfoLive;
@@ -13,6 +12,7 @@ use App\Models\Tahapan;
 use App\Models\Theme;
 use App\Models\Blog;
 use App\Models\Faq;
+use Illuminate\Support\Facades\Storage;
 
 if (!function_exists('getInitials')) {
     function getInitials($name)

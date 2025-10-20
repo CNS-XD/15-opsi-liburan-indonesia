@@ -66,6 +66,27 @@
                                         </div>
                                         <div class="col-12 p-0">
                                             <div class="form-group row">
+                                                <label class="col-md-3 pl1-2 pr1-2 label-control required">Type</label>
+                                                <div class="col-md-9 pl1-2 pr1-2 mx-auto">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="type" value="0" id="gambar" {{ $data->type == 0 ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="gambar">
+                                                            Gambar
+                                                        </label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="type" value="1" id="video" {{ $data->type == 1 ? 'checked' : '' }}>
+                                                        <label class="form-check-label" for="video">
+                                                            Video
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 p-0">
+                                            <div class="form-group row">
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Show</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
                                                     <div class="form-check">
@@ -87,16 +108,16 @@
                                         </div>
                                         <div class="col-12 p-0">
                                             <div class="form-group row">
-                                                <label class="col-md-3 pl1-2 pr1-2 label-control required">Icon</label>
+                                                <label class="col-md-3 pl1-2 pr1-2 label-control required">Slider</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
                                                     <div id="place-image">
-                                                        @if (!empty($data->icon))
-                                                            <img src="/storage/{{ $data->icon }}" width="200px" id="img-canvas">
+                                                        @if (!empty($data->value))
+                                                            <img src="/storage/{{ $data->value }}" width="200px" id="img-canvas">
                                                         @else
                                                             <img src="/backsite-assets/images/no-image-available.jpg" width="200px" id="img-canvas">
                                                         @endif
                                                     </div>
-                                                    <input type="file" name="icon" class="form-control" accept="image/*" id="img-input">
+                                                    <input type="file" name="slider" class="form-control" accept="image/*" id="img-input">
                                                 </div>
                                             </div>
                                         </div>

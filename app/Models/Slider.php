@@ -5,12 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Auth;
 
 class Slider extends Model
 {
     use HasFactory;
+    
+    public const SHOW = [
+        'draft' => 0,
+        'publish' => 1
+    ];
     
     protected $table = 'sliders';
     protected $guarded = [];

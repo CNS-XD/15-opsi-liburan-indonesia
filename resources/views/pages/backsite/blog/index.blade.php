@@ -41,8 +41,8 @@
                                             <th>No</th>
                                             <th>Image</th>
                                             <th>Title</th>
-                                            <th>Show</th>
                                             <th>Type</th>
+                                            <th>Show</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
