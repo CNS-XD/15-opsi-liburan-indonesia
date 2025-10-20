@@ -95,4 +95,25 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::post('set-show-blog/{id}', [BlogController::class, 'setShow'])->name('set-show');
         Route::get('dtable/blog', [BlogController::class, 'datatable'])->name('datatable');
     });
+
+    // User
+    Route::prefix('user')->name('user.')->group(function () {
+        Route::get('dtable/user/{role}', [UserController::class, 'datatable'])->name('datatable');
+        Route::get('{role}', [UserController::class, 'index'])->name('index');
+        Route::delete('{role}/{id}/destroy-user', [UserController::class, 'destroy'])->name('destroy');
+        Route::post('{role}/{id}/set-status-user', [UserController::class, 'setStatus'])->name('set-status');
+    
+        // Routes that depend only on ID (create, store, edit, update, show) – avoid conflict with {role}
+        Route::get('{role}/create', [UserController::class, 'create'])->name('create');
+        Route::post('{role}', [UserController::class, 'store'])->name('store');
+        Route::get('{role}/{id}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('{role}/{id}', [UserController::class, 'update'])->name('update');
+        Route::get('{role}/{id}', [UserController::class, 'show'])->name('show');
+    });
+
+    // Theme
+    Route::resource('theme', ThemeController::class)->except('destroy');
+    Route::name('theme.')->group(function () {
+        Route::get('dtable/theme', [ThemeController::class, 'datatable'])->name('datatable');
+    });
 });

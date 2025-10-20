@@ -69,16 +69,16 @@
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Type</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
                                                     <select name="type" class="form-control">
-                                                        <option value="1" {{ $data->type == 1 ? 'selected' : '' }}>Tips</option>
-                                                        <option value="2" {{ $data->type == 2 ? 'selected' : '' }}>News</option>
-                                                        <option value="3" {{ $data->type == 3 ? 'selected' : '' }}>Blog</option>
-                                                        <option value="4" {{ $data->type == 4 ? 'selected' : '' }}>Article</option>
-                                                        <option value="5" {{ $data->type == 5 ? 'selected' : '' }}>Culinary</option>
-                                                        <option value="6" {{ $data->type == 6 ? 'selected' : '' }}>Inspiration</option>
-                                                        <option value="7" {{ $data->type == 7 ? 'selected' : '' }}>Lifestyle</option>
-                                                        <option value="8" {{ $data->type == 8 ? 'selected' : '' }}>Places</option>
+                                                        <option value="">Select Type</option>
+                                                        <option value="Tips" {{ $data->type === 'Tips' ? 'selected' : '' }}>Tips</option>
+                                                        <option value="News" {{ $data->type === 'News' ? 'selected' : '' }}>News</option>
+                                                        <option value="Blog" {{ $data->type === 'Blog' ? 'selected' : '' }}>Blog</option>
+                                                        <option value="Article" {{ $data->type === 'Article' ? 'selected' : '' }}>Article</option>
+                                                        <option value="Culinary" {{ $data->type === 'Culinary' ? 'selected' : '' }}>Culinary</option>
+                                                        <option value="Inspiration" {{ $data->type === 'Inspiration' ? 'selected' : '' }}>Inspiration</option>
+                                                        <option value="Lifestyle" {{ $data->type === 'Lifestyle' ? 'selected' : '' }}>Lifestyle</option>
+                                                        <option value="Places" {{ $data->type === 'Places' ? 'selected' : '' }}>Places</option>
                                                     </select>
-                                                    <small>Type testimony user</small>
                                                 </div>
                                             </div>
                                         </div>

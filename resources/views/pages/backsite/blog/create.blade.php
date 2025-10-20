@@ -68,16 +68,16 @@
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Type</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
                                                     <select name="type" class="form-control">
-                                                        <option value="1">Tips</option>
-                                                        <option value="2">News</option>
-                                                        <option value="3">Blog</option>
-                                                        <option value="4">Article</option>
-                                                        <option value="5">Culinary</option>
-                                                        <option value="6">Inspiration</option>
-                                                        <option value="7">Lifestyle</option>
-                                                        <option value="8">Places</option>
+                                                        <option value="">Select Type</option>
+                                                        <option value="Tips">Tips</option>
+                                                        <option value="News">News</option>
+                                                        <option value="Blog">Blog</option>
+                                                        <option value="Article">Article</option>
+                                                        <option value="Culinary">Culinary</option>
+                                                        <option value="Inspiration">Inspiration</option>
+                                                        <option value="Lifestyle">Lifestyle</option>
+                                                        <option value="Places">Places</option>
                                                     </select>
-                                                    <small>Type of content</small>
                                                 </div>
                                             </div>
                                         </div>

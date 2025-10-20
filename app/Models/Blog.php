@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
-use Auth;
 
 class Blog extends Model
 {
@@ -14,6 +14,11 @@ class Blog extends Model
     
     protected $table = 'blogs';
     protected $guarded = [];
+
+    public const SHOW = [
+        'draft' => 0,
+        'publish' => 1
+    ];
 
     protected static function boot()
     {

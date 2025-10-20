@@ -11,6 +11,7 @@ use App\Models\InfoVideo;
 use App\Models\InfoLive;
 use App\Models\Tahapan;
 use App\Models\Theme;
+use App\Models\Blog;
 use App\Models\Faq;
 
 if (!function_exists('getInitials')) {

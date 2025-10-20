@@ -24,21 +24,21 @@ class BlogRequest extends FormRequest
         $route = $this->route()->getName();
 
         switch ($route) {
-            case 'backsite.update.blog.store':
+            case 'backsite.blog.store':
                 return [
                     'title' => 'required|string|max:255',
                     'description' => 'required',
-                    'blog' => 'required',
                     'show' => 'required|in:0,1',
+                    'type' => 'required|string|max:255',
                 ];
 
-            case 'backsite.update.blog.update':
+            case 'backsite.blog.update':
                 return [
                     'id' => 'exists:blogs,id',
                     'title' => 'required|string|max:255',
                     'description' => 'required',
-                    'blog' => 'required',
                     'show' => 'required|in:0,1',
+                    'type' => 'required|string|max:255',
                 ];
 
             default:
