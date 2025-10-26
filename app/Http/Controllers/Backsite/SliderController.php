@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Slider;
-use Illuminate\Support\Facades\Storage;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use Storage;
+use Alert;
+use Log;
+use DB;
 
 class SliderController extends Controller
 {
@@ -91,13 +91,12 @@ class SliderController extends Controller
         try {
             $data = new Slider;
             if ($request->hasFile('slider')) {
-                $slider = $this->uploadFile($request->slider, '/slider-slider');
-                // store uploaded file path in 'value' column per migration
+                $slider = $this->uploadFile($request->slider, '/slider');
                 $data->value = $slider;
             }
-            $data->type = $request->type;
             $data->title = $request->title;
             $data->description = $request->description;
+            $data->type = $request->type;
             $data->show = $request->show;
             $data->save();
             DB::commit();
@@ -163,17 +162,17 @@ class SliderController extends Controller
         try {
             $data = Slider::findOrFail($id);
             if ($request->hasFile('slider')) {
-                $slider = $this->uploadFile($request->slider, '/slider-slider');
+                $slider = $this->uploadFile($request->slider, '/slider');
 
-                if (!empty($data->value) && is_file(storage_path("app/public/" . $data->value))) {
+                if (is_file(storage_path("app/public/" . $data->value))) {
                     Storage::disk('public')->delete($data->value);
                 }
 
                 $data->value = $slider;
             }
-            $data->type = $request->type;
             $data->title = $request->title;
             $data->description = $request->description;
+            $data->type = $request->type;
             $data->show = $request->show;
             $data->save();
             DB::commit();
@@ -199,7 +198,7 @@ class SliderController extends Controller
         DB::beginTransaction();
         try {
             $data = Slider::findOrFail($id);
-            if (!empty($data->value) && is_file(storage_path("app/public/" . $data->value)))
+            if (is_file(storage_path("app/public/" . $data->value)))
                 Storage::disk('public')->delete($data->value);
 
             $data->delete();

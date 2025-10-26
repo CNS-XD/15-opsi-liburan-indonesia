@@ -108,12 +108,12 @@
                     data: 'type',
                     name: 'type',
                     render: function(data, type, row) {
-                        let jenis = row.type;
-                        let badge = jenis == 1 ? 'Gambar' : 'Video';
-                        let btn = `
-                            <span class="badge badge-primary">${badge}</span>
+                        let jenis = row.type == 1 ? 'Video' : 'Gambar';
+                        let badge = row.type == 1 ? 'badge-primary' : 'badge-info';
+                        let result = `
+                            <span class="badge ${badge}">${jenis}</span>
                         `
-                        return btn;
+                        return result;
                     }
                 },
                 {
@@ -156,14 +156,14 @@
             success: function(response) {
                 if (response.success == 200) {
                     Swal.fire({
-                        slider: 'success',
+                        icon: 'success',
                         title: 'Success',
                         text: response.message,
                     });
                     datatable();
                 } else {
                     Swal.fire({
-                        slider: 'error',
+                        icon: 'error',
                         title: 'Failed',
                         text: response.message,
                     });
@@ -176,7 +176,7 @@
     const deleteRoute = "{{ route('backsite.slider.destroy', ':id') }}";
     function deleteConf(id) {
         Swal.fire({
-            slider: 'warning',
+            icon: 'warning',
             title: 'Are you sure?',
             text: "You will not be able to restore this data back!",
             showCancelButton: true,
@@ -196,14 +196,14 @@
                     success: function(res) {
                         if (res.success == true) {
                             Swal.fire({
-                                slider: 'success',
+                                icon: 'success',
                                 title: 'Success',
                                 text: res.message,
                             });
                             datatable();
                         } else {
                             Swal.fire({
-                                slider: 'error',
+                                icon: 'error',
                                 title: 'Failed',
                                 text: res.message,
                             });

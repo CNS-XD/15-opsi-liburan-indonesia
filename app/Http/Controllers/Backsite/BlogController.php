@@ -8,9 +8,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Blog;
-use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
+use Alert;
+use Log;
+use DB;
 
 class BlogController extends Controller
 {

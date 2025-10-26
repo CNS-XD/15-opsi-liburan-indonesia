@@ -117,7 +117,7 @@
                                                             <img src="/backsite-assets/images/no-image-available.jpg" width="200px" id="img-canvas">
                                                         @endif
                                                     </div>
-                                                    <input type="file" name="slider" class="form-control" accept="image/*" id="img-input">
+                                                    <input type="file" name="slider" class="form-control" id="img-input">
                                                 </div>
                                             </div>
                                         </div>

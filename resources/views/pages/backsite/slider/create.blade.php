@@ -112,7 +112,7 @@
                                                     <div id="place-image" class="ds-none">
                                                         <img src="" width="200px" id="img-canvas">
                                                     </div>
-                                                    <input type="file" name="slider" class="form-control" accept="image/*" id="img-input">
+                                                    <input type="file" name="slider" class="form-control" id="img-input">
                                                 </div>
                                             </div>
                                         </div>
