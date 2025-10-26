@@ -108,8 +108,8 @@
                     data: 'type',
                     name: 'type',
                     render: function(data, type, row) {
-                        let type = row.type;
-                        let badge = type == 1 ? 'Gambar' : 'Video';
+                        let jenis = row.type;
+                        let badge = jenis == 1 ? 'Gambar' : 'Video';
                         let btn = `
                             <span class="badge badge-primary">${badge}</span>
                         `
