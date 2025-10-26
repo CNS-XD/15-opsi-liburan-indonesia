@@ -210,6 +210,7 @@ class BlogController extends Controller
             // Update data
             $data->title = $request->title;
             $data->image = $image;
+            $data->type = $request->type;
             $data->show = $request->show;
             $data->slug = $slug;
             $data->save();
@@ -247,10 +248,10 @@ class BlogController extends Controller
                 }
             }
     
-            // Hapus file image
+            // Delete file image
             $this->clearImage($image, $id, (new Blog), '/blog', true);
     
-            // Hapus data
+            // Delete data
             $data->delete();
             DB::commit();
 

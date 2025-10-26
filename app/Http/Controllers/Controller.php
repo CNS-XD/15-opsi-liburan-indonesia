@@ -37,14 +37,14 @@ class Controller extends BaseController
         foreach ($images as $k => $img) {
             $data = $img->getAttribute('src');
     
-            // Periksa gambar base64
+            // Check image base64
             if (stripos($data, "data:image") !== false) {
                 list($type, $data) = explode(';', $data);
                 list(, $data) = explode(',', $data);
                 $data = base64_decode($data);
                 $image_name = uniqid() . $k . '.png';
                 
-                // Cek apakah gambar sudah ada di storage, jika sudah lewati
+                // Cek apakah image sudah ada di storage, jika sudah lewati
                 if (!Storage::disk('public')->exists($module . '/' . $image_name)) {
                     File::put(storage_path('app/public/' . $module . '/') . $image_name, $data);
                 }
@@ -53,10 +53,10 @@ class Controller extends BaseController
                 $imageUrl = $baseUrl . "/storage/" . $module . "/" . $image_name;
                 $img->setAttribute('src', $imageUrl);
     
-                $arrImages[] = $imageUrl; // Simpan URL gambar ke array
+                $arrImages[] = $imageUrl; // Simpan URL image ke array
     
             } elseif (filter_var($data, FILTER_VALIDATE_URL)) {
-                // Cek apakah gambar dari URL eksternal, jika sudah ada di storage lewati
+                // Cek apakah image dari URL eksternal, jika sudah ada di storage lewati
                 $image_name = basename(parse_url($data, PHP_URL_PATH));
                 if (!Storage::disk('public')->exists($module . '/' . $image_name)) {
                     $imageContent = file_get_contents($data); // Lebih cepat daripada cURL
@@ -73,7 +73,7 @@ class Controller extends BaseController
                 $imageUrl = $baseUrl . "/storage/" . $module . "/" . $image_name;
                 $img->setAttribute('src', $imageUrl);
     
-                $arrImages[] = $imageUrl; // Simpan URL gambar ke array
+                $arrImages[] = $imageUrl; // Simpan URL image ke array
             } else {
                 // Jika bukan base64 atau URL, abaikan atau gunakan URL asli
                 $arrImages[] = $data;
@@ -85,7 +85,7 @@ class Controller extends BaseController
 
     public function clearImage($imagePost = [], $id = '', $model, $module, $isDelete = false)
     {
-        $dbImages = $model->find($id)->gambar ?? null;
+        $dbImages = $model->find($id)->image ?? null;
 
         if (!empty($imagePost)) {
             if (!empty($dbImages)) {

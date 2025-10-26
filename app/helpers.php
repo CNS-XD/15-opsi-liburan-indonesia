@@ -1,13 +1,7 @@
 <?php
 
 use App\Models\ContactGeneral;
-use App\Models\InfoPengumuman;
 use App\Models\ContactSocmed;
-use App\Models\InfoUnduhan;
-use App\Models\InfoHeader;
-use App\Models\InfoGaleri;
-use App\Models\InfoVideo;
-use App\Models\InfoLive;
 use App\Models\Tahapan;
 use App\Models\Theme;
 use App\Models\Blog;
@@ -22,100 +16,12 @@ if (!function_exists('getInitials')) {
     }
 }
 
-if (!function_exists('generateUniqueSlugPengumuman')) {
-    function generateUniqueSlugPengumuman($originalSlug, $id = null)
-    {
-        $query = InfoPengumuman::where('slug', 'like', $originalSlug . '%');
-        if ($id) {
-            $query->where('id', '!=', $id); // Abaikan slug milik pengumuman saat ini
-        }
-    
-        $similarSlugs = $query->pluck('slug')->toArray();
-    
-        if (in_array($originalSlug, $similarSlugs)) {
-            $counter = 2;
-            while (in_array($originalSlug . '-' . $counter, $similarSlugs)) {
-                $counter++;
-            }
-            return $originalSlug . '-' . $counter;
-        }
-    
-        return $originalSlug;
-    }
-}
-
 if (!function_exists('generateUniqueSlugBlog')) {
     function generateUniqueSlugBlog($originalSlug, $id = null)
     {
         $query = Blog::where('slug', 'like', $originalSlug . '%');
         if ($id) {
             $query->where('id', '!=', $id); // Abaikan slug milik blog saat ini
-        }
-    
-        $similarSlugs = $query->pluck('slug')->toArray();
-    
-        if (in_array($originalSlug, $similarSlugs)) {
-            $counter = 2;
-            while (in_array($originalSlug . '-' . $counter, $similarSlugs)) {
-                $counter++;
-            }
-            return $originalSlug . '-' . $counter;
-        }
-    
-        return $originalSlug;
-    }
-}
-
-if (!function_exists('generateUniqueSlugGaleri')) {
-    function generateUniqueSlugGaleri($originalSlug, $id = null)
-    {
-        $query = InfoGaleri::where('slug', 'like', $originalSlug . '%');
-        if ($id) {
-            $query->where('id', '!=', $id); // Abaikan slug milik galeri saat ini
-        }
-    
-        $similarSlugs = $query->pluck('slug')->toArray();
-    
-        if (in_array($originalSlug, $similarSlugs)) {
-            $counter = 2;
-            while (in_array($originalSlug . '-' . $counter, $similarSlugs)) {
-                $counter++;
-            }
-            return $originalSlug . '-' . $counter;
-        }
-    
-        return $originalSlug;
-    }
-}
-
-if (!function_exists('generateUniqueSlugUnduhan')) {
-    function generateUniqueSlugUnduhan($originalSlug, $id = null)
-    {
-        $query = InfoUnduhan::where('slug', 'like', $originalSlug . '%');
-        if ($id) {
-            $query->where('id', '!=', $id); // Abaikan slug milik unduhan saat ini
-        }
-    
-        $similarSlugs = $query->pluck('slug')->toArray();
-    
-        if (in_array($originalSlug, $similarSlugs)) {
-            $counter = 2;
-            while (in_array($originalSlug . '-' . $counter, $similarSlugs)) {
-                $counter++;
-            }
-            return $originalSlug . '-' . $counter;
-        }
-    
-        return $originalSlug;
-    }
-}
-
-if (!function_exists('generateUniqueSlugVideo')) {
-    function generateUniqueSlugVideo($originalSlug, $id = null)
-    {
-        $query = InfoVideo::where('slug', 'like', $originalSlug . '%');
-        if ($id) {
-            $query->where('id', '!=', $id); // Abaikan slug milik video saat ini
         }
     
         $similarSlugs = $query->pluck('slug')->toArray();
@@ -232,12 +138,6 @@ if (!function_exists('getContactGeneral')) {
 }
 
 if (! function_exists('terbilang')) {
-    /**
-     * Ubah angka menjadi kata-kata (terbilang) bahasa Indonesia.
-     *
-     * @param  int|float  $number
-     * @return string
-     */
     function terbilang(int|float $number): string
     {
         // Pastikan extension intl aktif

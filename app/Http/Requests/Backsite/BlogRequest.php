@@ -28,8 +28,8 @@ class BlogRequest extends FormRequest
                 return [
                     'title' => 'required|string|max:255',
                     'description' => 'required',
-                    'show' => 'required|in:0,1',
                     'type' => 'required|string|max:255',
+                    'show' => 'required|in:0,1',
                 ];
 
             case 'backsite.blog.update':
@@ -37,8 +37,8 @@ class BlogRequest extends FormRequest
                     'id' => 'exists:blogs,id',
                     'title' => 'required|string|max:255',
                     'description' => 'required',
-                    'show' => 'required|in:0,1',
                     'type' => 'required|string|max:255',
+                    'show' => 'required|in:0,1',
                 ];
 
             default:
