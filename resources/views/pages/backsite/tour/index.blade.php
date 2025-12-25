@@ -40,9 +40,14 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Image</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th>Rating</th>
+                                            <th>Title</th>
+                                            <th>Day Tour</th>
+                                            <th>Time Tour</th>
+                                            <th>Type Tour</th>
+                                            <th>Price</th>
+                                            <th>Group Size</th>
+                                            <th>Level Tour</th>
+                                            <th>Is Best</th>
                                             <th>Show</th>
                                             <th>Created At</th>
                                             <th>Action</th>
