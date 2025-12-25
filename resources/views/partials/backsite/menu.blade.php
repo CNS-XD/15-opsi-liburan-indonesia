@@ -97,7 +97,7 @@
                         data-original-title="Data">more_horiz</i>
                 </li>
                 <li class="nav-item @yield('activeMenuTour')">
-                    <a href="" class="@yield('activeSubMenuTour')">
+                    <a href="{{ route('backsite.tour.index') }}" class="@yield('activeSubMenuTour')">
                         <i class="la la-globe"></i>
                         <span class="menu-title" data-i18n="eCommerce">Tour</span>
                     </a>
@@ -109,8 +109,8 @@
                     <i class="material-icons nav-menu-icon" data-toggle="tooltip" data-placement="right"
                         data-original-title="Transaction">more_horiz</i>
                 </li>
-                <li class="nav-item @yield('activeMenuTour')">
-                    <a href="" class="@yield('activeSubMenuTour')">
+                <li class="nav-item @yield('activeMenuBooking')">
+                    <a href="" class="@yield('activeSubMenuBooking')">
                         <i class="la la-money"></i>
                         <span class="menu-title" data-i18n="eCommerce">Booking</span>
                     </a>

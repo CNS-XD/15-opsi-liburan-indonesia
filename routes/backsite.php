@@ -12,9 +12,10 @@ use App\Http\Controllers\Backsite\SliderController;
 use App\Http\Controllers\Backsite\ProfilController;
 use App\Http\Controllers\Backsite\AboutController;
 use App\Http\Controllers\Backsite\ThemeController;
+use App\Http\Controllers\Backsite\BlogController;
+use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
-use App\Http\Controllers\Backsite\BlogController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -94,6 +95,14 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-blog/{id}', [BlogController::class, 'destroy'])->name('destroy');
         Route::post('set-show-blog/{id}', [BlogController::class, 'setShow'])->name('set-show');
         Route::get('dtable/blog', [BlogController::class, 'datatable'])->name('datatable');
+    });
+
+    // Tour
+    Route::resource('tour', TourController::class)->except('destroy');
+    Route::prefix('tour')->name('tour.')->group(function () {
+        Route::delete('destroy-tour/{id}', [TourController::class, 'destroy'])->name('destroy');
+        Route::post('set-show-tour/{id}', [TourController::class, 'setShow'])->name('set-show');
+        Route::get('dtable/tour', [TourController::class, 'datatable'])->name('datatable');
     });
 
     // User

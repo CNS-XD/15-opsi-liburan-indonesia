@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-use Auth;
 
 class Tour extends Model
 {
@@ -14,6 +14,11 @@ class Tour extends Model
     
     protected $table = 'tours';
     protected $guarded = [];
+    
+    const SHOW = [
+        'draft' => 0,
+        'publish' => 1,
+    ];
 
     protected static function boot()
     {

@@ -8,9 +8,10 @@ use App\Models\contactGeneral;
 use App\Models\ContactSocmed;
 use Illuminate\Http\Request;
 use App\Models\Partner;
-use Storage;
-use Log;
-use DB;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class GeneralController extends Controller
 {

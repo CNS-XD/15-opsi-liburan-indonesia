@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Backsite;
 
-use App\Http\Requests\Backsite\SliderRequest;
+use App\Http\Requests\Backsite\TourRequest;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Slider;
+use App\Models\Tour;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
-class SliderController extends Controller
+class TourController extends Controller
 {
     use \App\Traits\AjaxTrait;
 
@@ -25,42 +25,60 @@ class SliderController extends Controller
     public function index()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Failed !', session('error_msg'))->persistent('Close');
+            Alert::error('Failed !', session('error_msg'))->persistent('Tutup');
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        return view('pages.backsite.slider.index');
+        return view('pages.backsite.tour.index');
     }
 
     public function datatable()
     {
-        $data = Slider::latest();
+        $data = Tour::latest();
 
         return DataTables::of($data)
         ->addIndexColumn()
-        ->editColumn('slider', function ($data) {
+        ->editColumn('image', function ($data) {
             $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
-            if (!empty($data->value)) {
-                $return = '<img src="/storage/' . $data->value . '" width="80px">';
+            if (!empty($data->image)) {
+                $return = '<img src="/storage/' . $data->image . '" width="80px">';
             }
 
             return $return;
+        })
+        ->editColumn('rating', function ($data) {
+            if ($data->rating == 1) {
+                $return = '⭐';
+            } elseif ($data->rating == 2) {
+                $return = '⭐⭐';
+            } elseif ($data->rating == 3) {
+                $return = '⭐⭐⭐';
+            } elseif ($data->rating == 4) {
+                $return = '⭐⭐⭐⭐';
+            } elseif ($data->rating == 5) {
+                $return = '⭐⭐⭐⭐⭐';
+            }
+
+            return $return;
+        })
+        ->editColumn('description', function ($data) {
+            return strip_tags($data->description);
         })
         ->addColumn('action', function ($data) {
             $btn = "";
             $btn .= '
                 <div class="btn-group">
-                    <a class="btn btn-warning btn-sm round" href="' . route('backsite.slider.edit', $data->id) . '">
+                    <a class="btn btn-warning btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
                         <i class="la la-edit"></i>
                     </a>
-                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm btn_delete round" title="Delete data">
+                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm round btn_delete" title="Hapus data">
                         <i class="la la-trash"></i>
                     </button>
                 </div>
             ';
             return $btn;
         })
-        ->rawColumns(['slider', 'action'])
+        ->rawColumns(['image', 'rating', 'description', 'action'])
         ->make(true);
     }
 
@@ -72,11 +90,11 @@ class SliderController extends Controller
     public function create()
     {
         if (!empty(session('error_msg')))
-            Alert::error('Failed !', session('error_msg'))->persistent('Close');
+            Alert::error('Failed !', session('error_msg'))->persistent('Tutup');
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        return view('pages.backsite.slider.create');
+        return view('pages.backsite.tour.create');
     }
 
     /**
@@ -85,23 +103,23 @@ class SliderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SliderRequest $request)
+    public function store(TourRequest $request)
     {
         DB::beginTransaction();
         try {
-            $data = new Slider;
-            if ($request->hasFile('slider')) {
-                $slider = $this->uploadFile($request->slider, '/slider');
-                $data->value = $slider;
+            $data = new Tour;
+            if ($request->hasFile('image')) {
+                $image = $this->uploadFile($request->image, '/tour');
+                $data->image = $image;
             }
-            $data->title = $request->title;
+            $data->name = $request->name;
             $data->description = $request->description;
-            $data->type = $request->type;
+            $data->rating = $request->rating;
             $data->show = $request->show;
             $data->save();
             DB::commit();
 
-            return redirect()->route('backsite.slider.index')->withSuccess('Successfully added data!');
+            return redirect()->route('backsite.tour.index')->withSuccess('Successfully added data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
@@ -118,18 +136,18 @@ class SliderController extends Controller
     public function show($id)
     {
         try {
-            $data = Slider::findOrFail($id);
+            $data = Tour::findOrFail($id);
 
             return response()->json([
                 'data' => $data,
-                'message' => 'Success Get Data',
+                'message' => 'Successfully Get Data',
                 'success' => true,
             ]);
         } catch (\Exception $e) {
             Log::error("ERROR APP : " . $e->getMessage());
             return response()->json([
                 'data' => null,
-                'message' => 'Failed to Get Data!' . $e->getMessage(),
+                'message' => 'Failed to Get Data' . $e->getMessage(),
                 'success' => false,
             ]);
         }
@@ -143,10 +161,10 @@ class SliderController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('validate-resource', [(new Slider), $id]);
+        $this->authorize('validate-resource', [(new Tour), $id]);
 
-        $data['data'] = Slider::findOrFail($id);
-        return view('pages.backsite.slider.edit', $data);
+        $data['data'] = Tour::findOrFail($id);
+        return view('pages.backsite.tour.edit', $data);
     }
 
     /**
@@ -156,32 +174,36 @@ class SliderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SliderRequest $request, $id)
+    public function update(TourRequest $request, $id)
     {
+        $this->authorize('validate-resource', [(new Tour), $id]);
+    
         DB::beginTransaction();
         try {
-            $data = Slider::findOrFail($id);
-            if ($request->hasFile('slider')) {
-                $slider = $this->uploadFile($request->slider, '/slider');
+            $data = Tour::findOrFail($id);
+    
+            // Update data
+            if ($request->hasFile('image')) {
+                $image = $this->uploadFile($request->image, '/tour');
 
-                if (is_file(storage_path("app/public/" . $data->value))) {
-                    Storage::disk('public')->delete($data->value);
+                if (is_file(storage_path("app/public/" . $data->image))) {
+                    Storage::disk('public')->delete($data->image);
                 }
 
-                $data->value = $slider;
+                $data->image = $image;
             }
-            $data->title = $request->title;
+            $data->name = $request->name;
             $data->description = $request->description;
-            $data->type = $request->type;
+            $data->rating = $request->rating;
             $data->show = $request->show;
             $data->save();
             DB::commit();
     
-            return redirect()->route('backsite.slider.index')->withSuccess('Successfully changed data!');
+            return redirect()->route('backsite.tour.index')->withSuccess('Successfully changed data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
-            return redirect()->back()->with('error_msg', 'Oops something went wrong: ' . $e->getMessage());
+            return redirect()->back()->with('error_msg', 'Failed to change data' . $e->getMessage());
         }
     }
    
@@ -193,13 +215,13 @@ class SliderController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('validate-resource', [(new Slider), $id]);
+        $this->authorize('validate-resource', [(new Tour), $id]);
     
         DB::beginTransaction();
         try {
-            $data = Slider::findOrFail($id);
-            if (is_file(storage_path("app/public/" . $data->value)))
-                Storage::disk('public')->delete($data->value);
+            $data = Tour::findOrFail($id);
+            if (is_file(storage_path("app/public/" . $data->image)))
+                Storage::disk('public')->delete($data->image);
 
             $data->delete();
             DB::commit();
@@ -213,28 +235,28 @@ class SliderController extends Controller
             Log::error("ERROR APP : " . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'message' => 'Oops something went wrong: ' . $e->getMessage(),
+                'message' => 'Oops An Error Occurred: ' . $e->getMessage(),
             ]);
         }
     }
 
     public function setShow($id)
     {
-        $this->authorize('validate-resource', [(new Slider), $id]);
+        $this->authorize('validate-resource', [(new Tour), $id]);
         
         DB::beginTransaction();
         try {
-            $data = Slider::findOrFail($id);
+            $data = Tour::findOrFail($id);
             $data->update([
-                'show' => $data->show == Slider::SHOW['draft'] ? Slider::SHOW['publish'] : Slider::SHOW['draft']
+                'show' => $data->show == Tour::SHOW['draft'] ? Tour::SHOW['publish'] : Tour::SHOW['draft']
             ]);
             DB::commit();
 
             $this->success = \Illuminate\Http\Response::HTTP_OK;
-            $this->message = 'Status successfully updated!';
+            $this->message = 'Status updated successfully!';
         } catch (\Exception $e) {
             $this->success = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
-            $this->message = 'Show failed to update!';
+            $this->message = 'Status failed to update!';
             Log::error("ERROR APP : " . $e->getMessage());
         }
 

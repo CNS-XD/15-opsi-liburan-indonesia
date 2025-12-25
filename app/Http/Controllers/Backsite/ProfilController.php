@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Requests\Backsite\ProfilRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\MKecamatan;
 use App\Models\MProvinsi;
@@ -13,10 +11,12 @@ use App\Models\MKabKota;
 use App\Models\Sekolah;
 use App\Models\User;
 use Carbon\Carbon;
-use Alert;
-use Auth;
-use Hash;
-use Pdf;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class ProfilController extends Controller
 {
@@ -50,7 +50,7 @@ class ProfilController extends Controller
                 $data->photo = $newPath;
             }
             if (!empty($request->password)) {
-                $data->password = \Hash::make($request->password);
+                $data->password = Hash::make($request->password);
                 $data->plain_text = $request->password;
             }
             $data->save();

@@ -4,14 +4,14 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Requests\Backsite\UserRequest;
 use Yajra\DataTables\Facades\DataTables;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Alert;
-use Log;
-use DB;
+use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
