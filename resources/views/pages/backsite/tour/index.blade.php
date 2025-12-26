@@ -90,57 +90,23 @@
                 url: '{{ route('backsite.tour.datatable') }}',
             },
             columns: [
-                {
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    bSearchable: false
-                },
-                {
-                    data: 'image',
-                    name: 'image',
-                    orderable: false,
-                    bSearchable: false,
-                },
-                {
-                    data: 'name',
-                    name: 'name',
-                },
-                {
-                    data: 'description',
-                    name: 'description',
-                },
-                {
-                    data: 'rating',
-                    name: 'rating',
-                },
-                {
-                    data: 'show',
-                    name: 'show',
-                    render: function(data, type, row) {
-                        let show = row.show;
-                        let btn = `
-                            <label class="pure-material-switch">
-                                <input onChange="setShow(${row.id})" 
-                                    type="checkbox" ${show == 1 ? "checked" : "" }>
-                                <span></span>
-                            </label>
-                        `
-                        return btn;
-                    }
-                },
-                {
-                    data: 'created_at',
-                    name: 'created_at',
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    orderable: false,
-                    bSearchable: false
-                }
+                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                { data: 'image', name: 'image', orderable: false, searchable: false },
+                { data: 'title', name: 'title' },  
+                { data: 'day_tour', name: 'day_tour' },
+                { data: 'time_tour', name: 'time_tour' },
+                { data: 'type_tour', name: 'type_tour' },
+                { data: 'price', name: 'price' },
+                { data: 'group_size', name: 'group_size' },
+                { data: 'level_tour', name: 'level_tour' },
+                { data: 'is_best', name: 'is_best' },
+                { data: 'show', name: 'show', orderable: false, searchable: false },
+                { data: 'created_at', name: 'created_at' },
+                { data: 'action', name: 'action', orderable: false, searchable: false }
             ],
-            order: [[6  , 'desc']]
+            order: [[11, 'desc']]
+
+
         });
     }
 
