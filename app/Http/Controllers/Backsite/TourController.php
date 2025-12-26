@@ -37,49 +37,65 @@ class TourController extends Controller
         $data = Tour::latest();
 
         return DataTables::of($data)
-        ->addIndexColumn()
-        ->editColumn('image', function ($data) {
-            $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
-            if (!empty($data->image)) {
-                $return = '<img src="/storage/' . $data->image . '" width="80px">';
-            }
+            ->addIndexColumn()
 
-            return $return;
-        })
-        ->editColumn('rating', function ($data) {
-            if ($data->rating == 1) {
-                $return = '⭐';
-            } elseif ($data->rating == 2) {
-                $return = '⭐⭐';
-            } elseif ($data->rating == 3) {
-                $return = '⭐⭐⭐';
-            } elseif ($data->rating == 4) {
-                $return = '⭐⭐⭐⭐';
-            } elseif ($data->rating == 5) {
-                $return = '⭐⭐⭐⭐⭐';
-            }
+            // Image
+            ->editColumn('image', function ($data) {
+                if ($data->image) {
+                    return '<img src="'.asset('storage/'.$data->image).'" width="80">';
+                }
+                return '<img src="'.asset('backsite-assets/images/no-image-available.jpg').'" width="80">';
+            })
 
-            return $return;
-        })
-        ->editColumn('description', function ($data) {
-            return strip_tags($data->description);
-        })
-        ->addColumn('action', function ($data) {
-            $btn = "";
-            $btn .= '
-                <div class="btn-group">
-                    <a class="btn btn-warning btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
-                        <i class="la la-edit"></i>
-                    </a>
-                    <button onClick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm round btn_delete" title="Hapus data">
-                        <i class="la la-trash"></i>
-                    </button>
-                </div>
-            ';
-            return $btn;
-        })
-        ->rawColumns(['image', 'rating', 'description', 'action'])
-        ->make(true);
+            // Title  
+            ->editColumn('title', function ($data) {
+                return $data->title;
+            })
+
+            // Type Tour
+            ->editColumn('type_tour', function ($data) {
+                return $data->type_tour == 1 ? 'Sharing Tour' : 'Private Tour';
+            })
+
+            // Price
+            ->editColumn('price', function ($data) {
+                return 'Rp ' . number_format($data->price, 0, ',', '.');
+            })
+
+            // Is Best
+            ->editColumn('is_best', function ($data) {
+                return $data->is_best == 1
+                    ? '<span class="badge badge-success">Best</span>'
+                    : '<span class="badge badge-secondary">Normal</span>';
+            })
+
+            // Show Toggle
+            ->editColumn('show', function ($data) {
+                $checked = $data->show ? 'checked' : '';
+                return '
+                    <label class="pure-material-switch">
+                        <input type="checkbox" '.$checked.' onchange="setShow('.$data->id.')">
+                        <span></span>
+                    </label>
+                ';
+            })
+
+            // Action
+            ->addColumn('action', function ($data) {
+                return '
+                    <div class="btn-group">
+                        <a href="'.route('backsite.tour.edit', $data->id).'" class="btn btn-warning btn-sm">
+                            <i class="la la-edit"></i>
+                        </a>
+                        <button onclick="deleteConf('.$data->id.')" class="btn btn-danger btn-sm">
+                            <i class="la la-trash"></i>
+                        </button>
+                    </div>
+                ';
+            })
+
+            ->rawColumns(['image', 'is_best', 'show', 'action'])
+            ->make(true);
     }
 
     /**
@@ -112,10 +128,17 @@ class TourController extends Controller
                 $image = $this->uploadFile($request->image, '/tour');
                 $data->image = $image;
             }
-            $data->name = $request->name;
+            $data->title = $request->title;
+            $data->slug = Str::slug($request->title) . '-' . Str::random(5);
             $data->description = $request->description;
-            $data->rating = $request->rating;
-            $data->show = $request->show;
+            $data->day_tour   = $request->day_tour;
+            $data->time_tour  = $request->time_tour;
+            $data->type_tour  = $request->type_tour;
+            $data->price      = $request->price;
+            $data->is_best    = $request->is_best;
+            $data->group_size = $request->group_size;
+            $data->level_tour = $request->level_tour;
+            $data->show       = $request->show;
             $data->save();
             DB::commit();
 
@@ -192,10 +215,17 @@ class TourController extends Controller
 
                 $data->image = $image;
             }
-            $data->name = $request->name;
-            $data->description = $request->description;
-            $data->rating = $request->rating;
-            $data->show = $request->show;
+                $data->title       = $request->title;
+                $data->slug = Str::slug($request->title) . '-' . Str::random(5);
+                $data->description = $request->description; 
+                $data->day_tour    = $request->day_tour;
+                $data->time_tour   = $request->time_tour;
+                $data->type_tour   = $request->type_tour;
+                $data->price       = $request->price;
+                $data->is_best     = $request->is_best;
+                $data->group_size  = $request->group_size;
+                $data->level_tour  = $request->level_tour;
+                $data->show        = $request->show;
             $data->save();
             DB::commit();
     

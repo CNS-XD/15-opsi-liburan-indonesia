@@ -11,10 +11,10 @@ use Carbon\Carbon;
 class Tour extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'tours';
     protected $guarded = [];
-    
+
     const SHOW = [
         'draft' => 0,
         'publish' => 1,
@@ -24,22 +24,13 @@ class Tour extends Model
     {
         parent::boot();
 
-        static::creating(function ($newData) {
-            $newData->created_by = Auth::user()->email ?? null;
-            $newData->created_at = Carbon::now()->toDateTimeString();
-            $newData->updated_at = NULL;
+        static::creating(function ($data) {
+            $data->created_by = Auth::user()->email ?? null;
         });
 
-        static::updating(function ($updateData) {
-            $updateData->updated_by = Auth::user()->email ?? null;
-            $updateData->updated_at = Carbon::now()->toDateTimeString();
+        static::updating(function ($data) {
+            $data->updated_by = Auth::user()->email ?? null;
         });
-    }
-
-    public function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)
-        ->timezone('Asia/Jakarta')
-        ->translatedFormat('l, d F Y H:i') . ' WIB';
     }
 }
+
