@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
-class TourReviews extends Model
+class TourReview extends Model
 {
     use HasFactory;
     
@@ -37,4 +37,9 @@ class TourReviews extends Model
         ->timezone('Asia/Jakarta')
         ->translatedFormat('l, d F Y H:i') . ' WIB';
     }
+
+	public function tour()
+	{
+		return $this->belongsTo(Tour::class, 'id_tour');
+	}
 }

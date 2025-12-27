@@ -32,5 +32,47 @@ class Tour extends Model
             $data->updated_by = Auth::user()->email ?? null;
         });
     }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::parse($date)
+        ->timezone('Asia/Jakarta')
+        ->translatedFormat('l, d F Y H:i') . ' WIB';
+    }
+
+	public function tour_departures()
+	{
+		return $this->hasMany(TourDeparture::class, 'id_tour');
+	}
+
+	public function tour_destinations()
+	{
+		return $this->hasMany(TourDestination::class, 'id_tour');
+	}
+
+	public function tour_details()
+	{
+		return $this->hasMany(TourDetail::class, 'id_tour');
+	}
+
+	public function tour_photos()
+	{
+		return $this->hasMany(TourPhoto::class, 'id_tour');
+	}
+
+	public function tour_prices()
+	{
+		return $this->hasMany(TourPrice::class, 'id_tour');
+	}
+
+	public function tour_reviews()
+	{
+		return $this->hasMany(TourReview::class, 'id_tour');
+	}
+
+	public function bookings()
+	{
+		return $this->hasMany(Booking::class, 'id_tour');
+	}
 }
 

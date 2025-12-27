@@ -37,4 +37,14 @@ class TourDestination extends Model
         ->timezone('Asia/Jakarta')
         ->translatedFormat('l, d F Y H:i') . ' WIB';
     }
+
+	public function destination()
+	{
+		return $this->belongsTo(Destination::class, 'id_destination');
+	}
+
+	public function tour()
+	{
+		return $this->belongsTo(Tour::class, 'id_tour');
+	}
 }

@@ -12,7 +12,7 @@ class TourPrice extends Model
 {
     use HasFactory;
     
-    protected $table = 'tour_prices';
+    protected $table = 'tour_price';
     protected $guarded = [];
 
     protected static function boot()
@@ -37,4 +37,9 @@ class TourPrice extends Model
         ->timezone('Asia/Jakarta')
         ->translatedFormat('l, d F Y H:i') . ' WIB';
     }
+
+	public function tour()
+	{
+		return $this->belongsTo(Tour::class, 'id_tour');
+	}
 }

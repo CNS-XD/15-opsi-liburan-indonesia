@@ -1,17 +1,17 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Edit Tour')
+@section('title', 'Edit Tour Departure')
 @section('activeMenuTour', 'active open')
-@section('activeSubMenuTour', 'active open')
+@section('activeSubMenuTourDeparture', 'active open')
 
 {{-- Breadcrumb --}}
-@section('breadcrumb1', 'Tour')
-@section('breadcrumb2', 'Edit')
+@section('breadcrumb1', $data->title)
+@section('breadcrumb2', 'Edit Tour Departure')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
-<a href="{{ route('backsite.tour.index') }}" class="btn btn-danger btn-glow round">
+<a href="{{ route('backsite.tour-departure.index', $tour->id) }}" class="btn btn-danger btn-glow round">
     <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
@@ -42,7 +42,7 @@
                             </div>
 
                             <form class="form form-horizontal form-bordered" enctype="multipart/form-data"
-                                action="{{ route('backsite.tour.update', $data->id) }}" method="POST">
+                                action="{{ route('backsite.tour-departure.update', $data->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 
@@ -70,7 +70,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Description</label>
                                         <div class="col-md-9">
-                                            <textarea name="description" class="form-control summernote-tour">{{ $data->description }}</textarea>
+                                            <textarea name="description" class="form-control summernote-tour-departure">{{ $data->description }}</textarea>
                                         </div>
                                     </div>
 
@@ -181,7 +181,7 @@
 
 @push('after-script')
 <script>
-    $('.summernote-tour').summernote({
+    $('.summernote-tour-departure').summernote({
         height: 300,
         toolbar: [
             ['style', ['bold', 'italic', 'underline']],

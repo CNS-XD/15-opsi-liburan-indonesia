@@ -1,17 +1,17 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Edit Tour')
+@section('title', 'Add Tour Departure')
 @section('activeMenuTour', 'active open')
-@section('activeSubMenuTour', 'active open')
+@section('activeSubMenuTourDeparture', 'active open')
 
 {{-- Breadcrumb --}}
-@section('breadcrumb1', 'Tour')
-@section('breadcrumb2', 'Edit')
+@section('breadcrumb1', $data->title)
+@section('breadcrumb2', 'Add Tour Departure')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
-<a href="{{ route('backsite.tour.index') }}" class="btn btn-danger btn-glow round">
+<a href="{{ route('backsite.tour-departure.index', $data->id) }}" class="btn btn-danger btn-glow round">
     <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
@@ -42,17 +42,14 @@
                             </div>
 
                             <form class="form form-horizontal form-bordered" enctype="multipart/form-data"
-                                action="{{ route('backsite.tour.update', $data->id) }}" method="POST">
+                                action="{{ route('backsite.tour-departure.store') }}" method="POST">
                                 @csrf
-                                @method('PUT')
 
                                 <div class="form-body">
                                     {{-- Image --}}
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Image</label>
                                         <div class="col-md-9">
-                                            <img src="{{ $data->image ? asset('storage/'.$data->image) : asset('backsite-assets/images/no-image-available.jpg') }}"
-                                                width="200" class="mb-1">
                                             <input type="file" name="image" class="form-control" accept="image/*">
                                         </div>
                                     </div>
@@ -61,8 +58,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Title</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="title" class="form-control"
-                                                value="{{ $data->title }}">
+                                            <input type="text" name="title" class="form-control" value="{{ old('title') }}" placeholder="Tour title">
                                         </div>
                                     </div>
 
@@ -70,7 +66,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Description</label>
                                         <div class="col-md-9">
-                                            <textarea name="description" class="form-control summernote-tour">{{ $data->description }}</textarea>
+                                            <textarea name="description" class="form-control summernote-tour-departure">{{ old('description') }}</textarea>
                                         </div>
                                     </div>
 
@@ -80,9 +76,7 @@
                                         <div class="col-md-9">
                                             <select name="day_tour" class="form-control">
                                                 @for ($i = 1; $i <= 7; $i++)
-                                                    <option value="{{ $i }}" {{ $data->day_tour == $i ? 'selected' : '' }}>
-                                                        {{ $i }} Day
-                                                    </option>
+                                                    <option value="{{ $i }}">{{ $i }} Day</option>
                                                 @endfor
                                             </select>
                                         </div>
@@ -92,7 +86,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Time Tour</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="time_tour" class="form-control" value="{{ $data->time_tour }}">
+                                            <input type="text" name="time_tour" class="form-control" value="{{ old('time_tour') }}" placeholder="ex: 3 Days 2 Nights">
                                         </div>
                                     </div>
 
@@ -100,12 +94,8 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Type Tour</label>
                                         <div class="col-md-9">
-                                            <label>
-                                                <input type="radio" name="type_tour" value="0" {{ $data->type_tour == 0 ? 'checked' : '' }}> Private Tour
-                                            </label>
-                                            <label class="ml-1">
-                                                <input type="radio" name="type_tour" value="1" {{ $data->type_tour == 1 ? 'checked' : '' }}> Sharing Tour
-                                            </label>
+                                            <input type="radio" name="type_tour" value="0" checked> Private Tour
+                                            <input type="radio" name="type_tour" value="1"> Sharing Tour
                                         </div>
                                     </div>
 
@@ -113,7 +103,7 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Price</label>
                                         <div class="col-md-9">
-                                            <input type="number" name="price" class="form-control" value="{{ $data->price }}">
+                                            <input type="number" name="price" class="form-control" value="{{ old('price') }}">
                                         </div>
                                     </div>
 
@@ -121,12 +111,8 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control">Best Tour</label>
                                         <div class="col-md-9">
-                                            <label>
-                                                <input type="radio" name="is_best" value="1" {{ $data->is_best == 1 ? 'checked' : '' }}> Yes
-                                            </label>
-                                            <label class="ml-1">
-                                                <input type="radio" name="is_best" value="0" {{ $data->is_best == 0 ? 'checked' : '' }}> No
-                                            </label>
+                                            <input type="radio" name="is_best" value="1"> Yes
+                                            <input type="radio" name="is_best" value="0" checked> No
                                         </div>
                                     </div>
 
@@ -134,7 +120,8 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Group Size</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="group_size" class="form-control" value="{{ $data->group_size }}">
+                                            <input type="text" name="group_size" class="form-control"
+                                                value="{{ old('group_size') }}" placeholder="ex: 2-10 pax">
                                         </div>
                                     </div>
 
@@ -143,9 +130,9 @@
                                         <label class="col-md-3 label-control required">Level Tour</label>
                                         <div class="col-md-9">
                                             <select name="level_tour" class="form-control">
-                                                <option value="Low" {{ $data->level_tour == 'Low' ? 'selected' : '' }}>Low</option>
-                                                <option value="Medium" {{ $data->level_tour == 'Medium' ? 'selected' : '' }}>Medium</option>
-                                                <option value="Hard" {{ $data->level_tour == 'Hard' ? 'selected' : '' }}>Hard</option>
+                                                <option value="Low">Low</option>
+                                                <option value="Medium">Medium</option>
+                                                <option value="Hard">Hard</option>
                                             </select>
                                         </div>
                                     </div>
@@ -154,19 +141,15 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Show</label>
                                         <div class="col-md-9">
-                                            <label>
-                                                <input type="radio" name="show" value="1" {{ $data->show == 1 ? 'checked' : '' }}> Publish
-                                            </label>
-                                            <label class="ml-1">
-                                                <input type="radio" name="show" value="0" {{ $data->show == 0 ? 'checked' : '' }}> Draft
-                                            </label>
+                                            <input type="radio" name="show" value="1" checked> Publish
+                                            <input type="radio" name="show" value="0"> Draft
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="mt-1 mb-1">
                                     <button type="submit" class="btn btn-primary">
-                                        <i class="la la-check-square-o"></i> Update
+                                        <i class="la la-check-square-o"></i> Save
                                     </button>
                                 </div>
                             </form>
@@ -181,13 +164,14 @@
 
 @push('after-script')
 <script>
-    $('.summernote-tour').summernote({
-        height: 300,
+    $('.summernote-tour-departure').summernote({
+        height: '300px',
         toolbar: [
-            ['style', ['bold', 'italic', 'underline']],
+            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+            ['font', ['color']],
             ['para', ['ul', 'ol']],
             ['insert', ['link']],
-            ['view', ['fullscreen', 'codeview']]
+            ['misc', ['undo', 'redo', 'fullscreen', 'codeview', 'help']],
         ]
     });
 </script>

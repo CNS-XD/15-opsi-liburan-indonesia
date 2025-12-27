@@ -2,6 +2,7 @@
 
 use App\Http\Middleware\IsLoggedIn;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backsite\TourDepartureController;
 use App\Http\Controllers\Backsite\DestinationController;
 use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
@@ -103,6 +104,16 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete('destroy-tour/{id}', [TourController::class, 'destroy'])->name('destroy');
         Route::post('set-show-tour/{id}', [TourController::class, 'setShow'])->name('set-show');
         Route::get('dtable/tour', [TourController::class, 'datatable'])->name('datatable');
+    });
+
+    // Tour Departures
+    Route::resource('tour-departure', TourDepartureController::class)->except('index', 'create', 'edit', 'destroy');
+    Route::prefix('tour-departure')->name('tour-departure.')->group(function () {
+        Route::get('index/{idTour}', [TourDepartureController::class, 'index'])->name('index');
+        Route::get('create/{idTour}', [TourDepartureController::class, 'create'])->name('create');
+        Route::get('edit/{idTour}/{idTourDeparture}', [TourDepartureController::class, 'create'])->name('create');
+        Route::delete('destroy-tour-departure/{id}', [TourDepartureController::class, 'destroy'])->name('destroy');
+        Route::get('dtable/tour-departure', [TourDepartureController::class, 'datatable'])->name('datatable');
     });
 
     // User

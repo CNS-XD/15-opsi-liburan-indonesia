@@ -45,110 +45,108 @@
                                 action="{{ route('backsite.tour.store') }}" method="POST">
                                 @csrf
 
-                            <div class="form-body">
+                                <div class="form-body">
+                                    {{-- Image --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Image</label>
+                                        <div class="col-md-9">
+                                            <input type="file" name="image" class="form-control" accept="image/*">
+                                        </div>
+                                    </div>
 
-                            {{-- Image --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Photo</label>
-                                <div class="col-md-9">
-                                    <input type="file" name="image" class="form-control" accept="image/*">
-                                </div>
-                            </div>
+                                    {{-- Title --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Title</label>
+                                        <div class="col-md-9">
+                                            <input type="text" name="title" class="form-control" value="{{ old('title') }}" placeholder="Tour title">
+                                        </div>
+                                    </div>
 
-                            {{-- Title --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Title</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="title" class="form-control"
-                                        value="{{ old('title') }}" placeholder="Tour title">
-                                </div>
-                            </div>
+                                    {{-- Description --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Description</label>
+                                        <div class="col-md-9">
+                                            <textarea name="description" class="form-control summernote-tour">{{ old('description') }}</textarea>
+                                        </div>
+                                    </div>
 
-                            {{-- Description --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Description</label>
-                                <div class="col-md-9">
-                                    <textarea name="description" class="form-control summernote-tour">{{ old('description') }}</textarea>
-                                </div>
-                            </div>
+                                    {{-- Day Tour --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Day Tour</label>
+                                        <div class="col-md-9">
+                                            <select name="day_tour" class="form-control">
+                                                @for ($i = 1; $i <= 7; $i++)
+                                                    <option value="{{ $i }}">{{ $i }} Day</option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            {{-- Day Tour --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Day Tour</label>
-                                <div class="col-md-9">
-                                    <select name="day_tour" class="form-control">
-                                        @for ($i = 1; $i <= 7; $i++)
-                                            <option value="{{ $i }}">{{ $i }} Day</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                            </div>
+                                    {{-- Time Tour --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Time Tour</label>
+                                        <div class="col-md-9">
+                                            <input type="text" name="time_tour" class="form-control" value="{{ old('time_tour') }}" placeholder="ex: 3 Days 2 Nights">
+                                        </div>
+                                    </div>
 
-                            {{-- Time Tour --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Time Tour</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="time_tour" class="form-control"
-                                        value="{{ old('time_tour') }}" placeholder="ex: 3 Days 2 Nights">
-                                </div>
-                            </div>
+                                    {{-- Type Tour --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Type Tour</label>
+                                        <div class="col-md-9">
+                                            <input type="radio" name="type_tour" value="0" checked> Private Tour
+                                            <input type="radio" name="type_tour" value="1"> Sharing Tour
+                                        </div>
+                                    </div>
 
-                            {{-- Type Tour --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Type Tour</label>
-                                <div class="col-md-9">
-                                    <input type="radio" name="type_tour" value="0" checked> Private
-                                    <input type="radio" name="type_tour" value="1"> Sharing
-                                </div>
-                            </div>
+                                    {{-- Price --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Price</label>
+                                        <div class="col-md-9">
+                                            <input type="number" name="price" class="form-control" value="{{ old('price') }}">
+                                        </div>
+                                    </div>
 
-                            {{-- Price --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Price</label>
-                                <div class="col-md-9">
-                                    <input type="number" name="price" class="form-control" value="{{ old('price') }}">
-                                </div>
-                            </div>
+                                    {{-- Is Best --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control">Best Tour</label>
+                                        <div class="col-md-9">
+                                            <input type="radio" name="is_best" value="1"> Yes
+                                            <input type="radio" name="is_best" value="0" checked> No
+                                        </div>
+                                    </div>
 
-                            {{-- Is Best --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control">Best Tour</label>
-                                <div class="col-md-9">
-                                    <input type="radio" name="is_best" value="1"> Yes
-                                    <input type="radio" name="is_best" value="0" checked> No
-                                </div>
-                            </div>
+                                    {{-- Group Size --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Group Size</label>
+                                        <div class="col-md-9">
+                                            <input type="text" name="group_size" class="form-control"
+                                                value="{{ old('group_size') }}" placeholder="ex: 2-10 pax">
+                                        </div>
+                                    </div>
 
-                            {{-- Group Size --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Group Size</label>
-                                <div class="col-md-9">
-                                    <input type="text" name="group_size" class="form-control"
-                                        value="{{ old('group_size') }}" placeholder="ex: 2-10 pax">
-                                </div>
-                            </div>
+                                    {{-- Level Tour --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Level Tour</label>
+                                        <div class="col-md-9">
+                                            <select name="level_tour" class="form-control">
+                                                <option value="Low">Low</option>
+                                                <option value="Medium">Medium</option>
+                                                <option value="Hard">Hard</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            {{-- Level Tour --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Level Tour</label>
-                                <div class="col-md-9">
-                                    <select name="level_tour" class="form-control">
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="Hard">Hard</option>
-                                    </select>
+                                    {{-- Show --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Show</label>
+                                        <div class="col-md-9">
+                                            <input type="radio" name="show" value="1" checked> Publish
+                                            <input type="radio" name="show" value="0"> Draft
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {{-- Show --}}
-                            <div class="form-group row">
-                                <label class="col-md-3 label-control required">Show</label>
-                                <div class="col-md-9">
-                                    <input type="radio" name="show" value="1" checked> Publish
-                                    <input type="radio" name="show" value="0"> Draft
-                                </div>
-                            </div>
-                            </div>
                                 <div class="mt-1 mb-1">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="la la-check-square-o"></i> Save

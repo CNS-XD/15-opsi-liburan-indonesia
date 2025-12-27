@@ -576,3 +576,6 @@ body.vertical-layout.vertical-menu .main-menu .main-menu-content {
 .card-content {
     color: #000;
 }
+.overflow-hidden {
+    overflow: hidden !important;
+}

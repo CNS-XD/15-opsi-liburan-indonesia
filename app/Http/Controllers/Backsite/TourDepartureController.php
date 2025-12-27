@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Backsite;
 
-use App\Http\Requests\Backsite\TourRequest;
+use App\Http\Requests\Backsite\TourDepartureRequest;
 use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Models\TourDeparture;
 use App\Models\Tour;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
 
-class TourController extends Controller
+class TourDepartureController extends Controller
 {
     use \App\Traits\AjaxTrait;
 
@@ -22,19 +23,20 @@ class TourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($idTour)
     {
         if (!empty(session('error_msg')))
             Alert::error('Failed !', session('error_msg'))->persistent('Tutup');
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        return view('pages.backsite.tour.index');
+        $data['data'] = Tour::with('tour_departures')->where('id', $idTour)->first();
+        return view('pages.backsite.tour-departure.index', $data);
     }
 
     public function datatable()
     {
-        $data = Tour::latest();
+        $data = TourDeparture::latest();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -47,7 +49,7 @@ class TourController extends Controller
                         <i class="la la-list"></i>
                     </button>
                     <div class="dropdown-menu overflow-hidden">
-                        <a class="dropdown-item" href="'.route('backsite.tour.edit', $data->id).'">Edit</a>
+                        <a class="dropdown-item" href="'.route('backsite.tour-departure.edit', $data->id).'">Edit</a>
                         <a class="dropdown-item" onclick="deleteConf('.$data->id.')">Hapus</a>
                     </div>
                 </div>
@@ -98,7 +100,7 @@ class TourController extends Controller
             // Departures
             ->addColumn('departures', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.index', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
                         Departures
                     </a>
                 ';
@@ -107,7 +109,7 @@ class TourController extends Controller
             // Destinations
             ->addColumn('destinations', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
                         Destinations
                     </a>
                 ';
@@ -116,7 +118,7 @@ class TourController extends Controller
             // Details
             ->addColumn('details', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
                         Details
                     </a>
                 ';
@@ -125,7 +127,7 @@ class TourController extends Controller
             // Photos
             ->addColumn('photos', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
                         Photos
                     </a>
                 ';
@@ -134,7 +136,7 @@ class TourController extends Controller
             // Prices
             ->addColumn('prices', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
                         Prices
                     </a>
                 ';
@@ -143,7 +145,7 @@ class TourController extends Controller
             // Reviews
             ->addColumn('reviews', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
                         Reviews
                     </a>
                 ';
@@ -158,14 +160,16 @@ class TourController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($idTour)
     {
         if (!empty(session('error_msg')))
             Alert::error('Failed !', session('error_msg'))->persistent('Tutup');
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        return view('pages.backsite.tour.create');
+
+        $data['data'] = Tour::with('tour_departures')->where('id', $idTour)->first();
+        return view('pages.backsite.tour-departure.create', $data);
     }
 
     /**
@@ -174,11 +178,11 @@ class TourController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TourRequest $request)
+    public function store(TourDepartureRequest $request)
     {
         DB::beginTransaction();
         try {
-            $data = new Tour;
+            $data = new TourDeparture;
 
             // Cek apakah slug sudah ada di database
             $originalSlug = Str::slug($request->title, '-');
@@ -202,7 +206,7 @@ class TourController extends Controller
             $data->save();
             DB::commit();
 
-            return redirect()->route('backsite.tour.index')->withSuccess('Successfully added data!');
+            return redirect()->route('backsite.tour-departure.index')->withSuccess('Successfully added data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
@@ -219,7 +223,7 @@ class TourController extends Controller
     public function show($id)
     {
         try {
-            $data = Tour::findOrFail($id);
+            $data = TourDeparture::findOrFail($id);
 
             return response()->json([
                 'data' => $data,
@@ -242,12 +246,13 @@ class TourController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($idTour, $idTourDeparture)
     {
-        $this->authorize('validate-resource', [(new Tour), $id]);
+        $this->authorize('validate-resource', [(new TourDeparture), $idTourDeparture]);
 
-        $data['data'] = Tour::findOrFail($id);
-        return view('pages.backsite.tour.edit', $data);
+        $data['tour'] = Tour::findOrFail($idTour);
+        $data['data'] = TourDeparture::findOrFail($idTourDeparture);
+        return view('pages.backsite.tour-departure.edit', $data);
     }
 
     /**
@@ -257,13 +262,13 @@ class TourController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TourRequest $request, $id)
+    public function update(TourDepartureRequest $request, $id)
     {
-        $this->authorize('validate-resource', [(new Tour), $id]);
+        $this->authorize('validate-resource', [(new TourDeparture), $id]);
     
         DB::beginTransaction();
         try {
-            $data = Tour::findOrFail($id);
+            $data = TourDeparture::findOrFail($id);
     
             // Optimasi slug
             $originalSlug = Str::slug($request->title, '-');
@@ -293,7 +298,7 @@ class TourController extends Controller
             $data->save();
             DB::commit();
     
-            return redirect()->route('backsite.tour.index')->withSuccess('Successfully changed data!');
+            return redirect()->route('backsite.tour-departure.index')->withSuccess('Successfully changed data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
@@ -309,11 +314,11 @@ class TourController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('validate-resource', [(new Tour), $id]);
+        $this->authorize('validate-resource', [(new TourDeparture), $id]);
     
         DB::beginTransaction();
         try {
-            $data = Tour::findOrFail($id);
+            $data = TourDeparture::findOrFail($id);
             if (is_file(storage_path("app/public/" . $data->image)))
                 Storage::disk('public')->delete($data->image);
 
@@ -332,28 +337,5 @@ class TourController extends Controller
                 'message' => 'Oops An Error Occurred: ' . $e->getMessage(),
             ]);
         }
-    }
-
-    public function setShow($id)
-    {
-        $this->authorize('validate-resource', [(new Tour), $id]);
-        
-        DB::beginTransaction();
-        try {
-            $data = Tour::findOrFail($id);
-            $data->update([
-                'show' => $data->show == Tour::SHOW['draft'] ? Tour::SHOW['publish'] : Tour::SHOW['draft']
-            ]);
-            DB::commit();
-
-            $this->success = \Illuminate\Http\Response::HTTP_OK;
-            $this->message = 'Status updated successfully!';
-        } catch (\Exception $e) {
-            $this->success = \Illuminate\Http\Response::HTTP_INTERNAL_SERVER_ERROR;
-            $this->message = 'Status failed to update!';
-            Log::error("ERROR APP : " . $e->getMessage());
-        }
-
-        return $this->json();
     }
 }

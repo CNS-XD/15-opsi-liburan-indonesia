@@ -6,7 +6,7 @@ use Illuminate\Validation\Validator as LaravelValidator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class TourRequest extends FormRequest
+class TourDepartureRequest extends FormRequest
 {
     public function authorize(): bool
     {

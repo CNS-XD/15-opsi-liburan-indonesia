@@ -1,20 +1,23 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Tour')
+@section('title', 'Tour Departure')
 @section('activeMenuTour', 'open active')
-@section('activeSubMenuTour', 'open active')
+@section('activeSubMenuTourDeparture', 'open active')
 
 {{-- Breadcrumb --}}
-@section('breadcrumb1', 'Data')
-@section('breadcrumb2', 'Tour')
+@section('breadcrumb1', $data->title)
+@section('breadcrumb2', 'Tour Departure')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
-<a href="{{ route('backsite.tour.create') }}" class="btn btn-success btn-sm btn-glow round">
+<a href="{{ route('backsite.tour.index') }}" class="btn btn-danger btn-sm round">
+    <i class="fa fa-arrow-left mr5"></i> Back
+</a>
+<a href="{{ route('backsite.tour-departure.create', $data->id) }}" class="btn btn-success btn-sm round">
     <i class="fa fa-plus"></i> Add
 </a>
-<a href="{{ url('/') }}" class="btn btn-info btn-sm btn-glow round" target="_blank">
+<a href="{{ url('/') }}" class="btn btn-info btn-sm round" target="_blank">
     View Page <i class="fa fa-arrow-right"></i>
 </a>
 @endsection
@@ -92,7 +95,7 @@
                 [50, 100, "All"]
             ],
             "ajax": {
-                url: '{{ route('backsite.tour.datatable') }}',
+                url: '{{ route('backsite.tour-departure.datatable') }}',
             },
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
@@ -117,39 +120,8 @@
         });
     }
 
-    // Set show
-    function setShow(id) {
-        let show = $(`input[data-id="${id}"]`).data('show');
-        let url = `{{ route('backsite.tour.set-show', ':id') }}`;
-        url = url.replace(':id', id);
-
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                if (response.success == 200) {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: response.message,
-                    });
-                    datatable();
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Failed',
-                        text: response.message,
-                    });
-                }
-            }
-        });
-    }
-
     // Delete
-    const deleteRoute = "{{ route('backsite.tour.destroy', ':id') }}";
+    const deleteRoute = "{{ route('backsite.tour-departure.destroy', ':id') }}";
     function deleteConf(id) {
         Swal.fire({
             icon: 'warning',

@@ -28,4 +28,11 @@ class ContactGeneral extends Model
             $updateData->updated_at = Carbon::now()->toDateTimeString();
         });
     }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return Carbon::parse($date)
+        ->timezone('Asia/Jakarta')
+        ->translatedFormat('l, d F Y H:i') . ' WIB';
+    }
 }
