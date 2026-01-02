@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Backsite;
 
 use App\Http\Requests\Backsite\TourDepartureRequest;
-use Yajra\DataTables\Facades\DataTables;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
-use App\Models\TourDeparture;
-use App\Models\Tour;
 use RealRashid\SweetAlert\Facades\Alert;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Models\TourDeparture;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\Departure;
+use App\Models\Tour;
 
 class TourDepartureController extends Controller
 {
@@ -30,128 +31,43 @@ class TourDepartureController extends Controller
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        $data['data'] = Tour::with('tour_departures')->where('id', $idTour)->first();
-        return view('pages.backsite.tour-departure.index', $data);
+        $tour = Tour::with('tour_departures')->findOrFail($idTour);
+
+        return view('pages.backsite.tour-departure.index', compact('tour'));
     }
 
-    public function datatable()
+
+    public function datatable($idTour)
     {
-        $data = TourDeparture::latest();
+        $data = TourDeparture::with(['tour', 'departure'])
+            ->where('id_tour', $idTour)
+            ->latest();
 
         return DataTables::of($data)
             ->addIndexColumn()
 
-            // Action
-            ->addColumn('action', function ($data) {
+            ->addColumn('tour', function ($row) {
+                return optional($row->tour)->title ?? '-';
+            })
+
+            ->addColumn('departure', function ($row) {
+                return optional($row->departure)->title ?? '-';
+            })
+
+            ->addColumn('action', function ($row) {
                 return '
-                <div class="btn-group mr-1 mb-1">
-                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="la la-list"></i>
+                    <a href="'.route('backsite.tour-departure.edit', [$row->id_tour, $row->id]).'"
+                    class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+                    <button onclick="deleteConf('.$row->id.')"
+                            class="btn btn-danger btn-sm">
+                        Delete
                     </button>
-                    <div class="dropdown-menu overflow-hidden">
-                        <a class="dropdown-item" href="'.route('backsite.tour-departure.edit', $data->id).'">Edit</a>
-                        <a class="dropdown-item" onclick="deleteConf('.$data->id.')">Hapus</a>
-                    </div>
-                </div>
                 ';
             })
 
-            // Image
-            ->editColumn('image', function ($data) {
-                if ($data->image) {
-                    return '<img src="'.asset('storage/'.$data->image).'" width="80">';
-                }
-                return '<img src="'.asset('backsite-assets/images/no-image-available.jpg').'" width="80">';
-            })
-
-            // Title  
-            ->editColumn('title', function ($data) {
-                return $data->title;
-            })
-
-            // Type Tour
-            ->editColumn('type_tour', function ($data) {
-                return $data->type_tour == 1 ? 'Sharing Tour' : 'Private Tour';
-            })
-
-            // Price
-            ->editColumn('price', function ($data) {
-                return 'Rp ' . number_format($data->price, 0, ',', '.');
-            })
-
-            // Is Best
-            ->editColumn('is_best', function ($data) {
-                return $data->is_best == 1
-                    ? '<span class="badge badge-success">Yes</span>'
-                    : '<span class="badge badge-danger">No</span>';
-            })
-
-            // Show Toggle
-            ->editColumn('show', function ($data) {
-                $checked = $data->show ? 'checked' : '';
-                return '
-                    <label class="pure-material-switch">
-                        <input type="checkbox" '.$checked.' onchange="setShow('.$data->id.')">
-                        <span></span>
-                    </label>
-                ';
-            })
-
-            // Departures
-            ->addColumn('departures', function ($data) {
-                return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
-                        Departures
-                    </a>
-                ';
-            })
-
-            // Destinations
-            ->addColumn('destinations', function ($data) {
-                return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
-                        Destinations
-                    </a>
-                ';
-            })
-
-            // Details
-            ->addColumn('details', function ($data) {
-                return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
-                        Details
-                    </a>
-                ';
-            })
-
-            // Photos
-            ->addColumn('photos', function ($data) {
-                return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
-                        Photos
-                    </a>
-                ';
-            })
-
-            // Prices
-            ->addColumn('prices', function ($data) {
-                return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
-                        Prices
-                    </a>
-                ';
-            })
-
-            // Reviews
-            ->addColumn('reviews', function ($data) {
-                return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-departure.edit', $data->id) . '">
-                        Reviews
-                    </a>
-                ';
-            })
-
-            ->rawColumns(['action', 'image', 'is_best', 'show', 'departures', 'destinations', 'details', 'photos', 'prices', 'reviews'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 
@@ -167,9 +83,13 @@ class TourDepartureController extends Controller
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
+        $tour = Tour::findOrFail($idTour);
+        $departures = Departure::select('id', 'title')->get();
 
-        $data['data'] = Tour::with('tour_departures')->where('id', $idTour)->first();
-        return view('pages.backsite.tour-departure.create', $data);
+        return view(
+            'pages.backsite.tour-departure.create',
+            compact('tour', 'departures') 
+        );
     }
 
     /**
@@ -181,38 +101,30 @@ class TourDepartureController extends Controller
     public function store(TourDepartureRequest $request)
     {
         DB::beginTransaction();
+
         try {
             $data = new TourDeparture;
 
-            // Cek apakah slug sudah ada di database
-            $originalSlug = Str::slug($request->title, '-');
-            $slug = generateUniqueSlugBlog($originalSlug, null);
-            
-            if ($request->hasFile('image')) {
-                $image = $this->uploadFile($request->image, '/tour');
-                $data->image = $image;
-            }
-            $data->title        = $request->title;
-            $data->description  = $request->description;
-            $data->day_tour     = $request->day_tour;
-            $data->time_tour    = $request->time_tour;
-            $data->type_tour    = $request->type_tour;
-            $data->price        = $request->price;
-            $data->is_best      = $request->is_best;
-            $data->group_size   = $request->group_size;
-            $data->level_tour   = $request->level_tour;
-            $data->show         = $request->show;
-            $data->slug         = $slug;
+            $data->id_tour = $request->id_tour;
+            $data->id_departure = $request->id_departure;
+
             $data->save();
             DB::commit();
 
-            return redirect()->route('backsite.tour-departure.index')->withSuccess('Successfully added data!');
+            return redirect()
+                ->route('backsite.tour-departure.index', $request->id_tour)
+                ->withSuccess('Successfully added Tour Departure!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
-            return redirect()->back()->with('error_msg', 'Failed to add data: ' . $e->getMessage());
+
+            return redirect()->back()->withInput()->with(
+                'error_msg',
+                'Failed to add data: ' . $e->getMessage()
+            );
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -248,11 +160,14 @@ class TourDepartureController extends Controller
      */
     public function edit($idTour, $idTourDeparture)
     {
-        $this->authorize('validate-resource', [(new TourDeparture), $idTourDeparture]);
+        $data = TourDeparture::with('tour')->findOrFail($idTourDeparture);
 
-        $data['tour'] = Tour::findOrFail($idTour);
-        $data['data'] = TourDeparture::findOrFail($idTourDeparture);
-        return view('pages.backsite.tour-departure.edit', $data);
+        $departures = Departure::select('id', 'title')->get();
+
+        return view(
+            'pages.backsite.tour-departure.edit',
+            compact('data', 'departures')
+        );
     }
 
     /**
@@ -264,47 +179,30 @@ class TourDepartureController extends Controller
      */
     public function update(TourDepartureRequest $request, $id)
     {
-        $this->authorize('validate-resource', [(new TourDeparture), $id]);
-    
+        $data = TourDeparture::findOrFail($id);
+        $this->authorize('validate-resource', [$data, $id]);
+
         DB::beginTransaction();
         try {
-            $data = TourDeparture::findOrFail($id);
-    
-            // Optimasi slug
-            $originalSlug = Str::slug($request->title, '-');
-            $slug = generateUniqueSlugBlog($originalSlug, $id);
-    
-            // Update data
-            if ($request->hasFile('image')) {
-                $image = $this->uploadFile($request->image, '/tour');
-
-                if (is_file(storage_path("app/public/" . $data->image))) {
-                    Storage::disk('public')->delete($data->image);
-                }
-
-                $data->image = $image;
-            }
-            $data->title        = $request->title;
-            $data->description  = $request->description; 
-            $data->day_tour     = $request->day_tour;
-            $data->time_tour    = $request->time_tour;
-            $data->type_tour    = $request->type_tour;
-            $data->price        = $request->price;
-            $data->is_best      = $request->is_best;
-            $data->group_size   = $request->group_size;
-            $data->level_tour   = $request->level_tour;
-            $data->show         = $request->show;
-            $data->slug         = $slug;
+            $data->id_tour = $request->id_tour;
+            $data->id_departure = $request->id_departure;
             $data->save();
+
             DB::commit();
-    
-            return redirect()->route('backsite.tour-departure.index')->withSuccess('Successfully changed data!');
+
+            return redirect()
+                ->route('backsite.tour-departure.index', $data->id_tour)
+                ->with('success', 'Successfully changed data!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
-            return redirect()->back()->with('error_msg', 'Failed to change data' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->with('error_msg', 'Failed to change data: ' . $e->getMessage());
         }
     }
+
    
     /**
      * Remove the specified resource from storage.
@@ -319,8 +217,6 @@ class TourDepartureController extends Controller
         DB::beginTransaction();
         try {
             $data = TourDeparture::findOrFail($id);
-            if (is_file(storage_path("app/public/" . $data->image)))
-                Storage::disk('public')->delete($data->image);
 
             $data->delete();
             DB::commit();

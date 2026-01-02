@@ -106,15 +106,45 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::get('dtable/tour', [TourController::class, 'datatable'])->name('datatable');
     });
 
-    // Tour Departures
-    Route::resource('tour-departure', TourDepartureController::class)->except('index', 'create', 'edit', 'destroy');
-    Route::prefix('tour-departure')->name('tour-departure.')->group(function () {
-        Route::get('index/{idTour}', [TourDepartureController::class, 'index'])->name('index');
-        Route::get('create/{idTour}', [TourDepartureController::class, 'create'])->name('create');
-        Route::get('edit/{idTour}/{idTourDeparture}', [TourDepartureController::class, 'create'])->name('create');
-        Route::delete('destroy-tour-departure/{id}', [TourDepartureController::class, 'destroy'])->name('destroy');
-        Route::get('dtable/tour-departure', [TourDepartureController::class, 'datatable'])->name('datatable');
-    });
+    // Tour Departure (custom karena nested ke Tour)
+Route::prefix('tour-departure')->name('tour-departure.')->group(function () {
+
+    Route::get(
+        'datatable/{idTour}',
+        [TourDepartureController::class, 'datatable']
+    )->name('datatable');
+
+    Route::get(
+        '{idTour}',
+        [TourDepartureController::class, 'index']
+    )->name('index');
+
+    Route::get(
+        '{idTour}/create',
+        [TourDepartureController::class, 'create']
+    )->name('create');
+
+    Route::post(
+        'store',
+        [TourDepartureController::class, 'store']
+    )->name('store');
+
+    Route::get(
+        '{idTour}/edit/{idTourDeparture}',
+        [TourDepartureController::class, 'edit']
+    )->name('edit');
+
+    Route::put(
+        'update/{idTourDeparture}',
+        [TourDepartureController::class, 'update']
+    )->name('update');
+
+    Route::delete(
+        'destroy/{idTourDeparture}',
+        [TourDepartureController::class, 'destroy']
+    )->name('destroy');
+
+});
 
     // User
     Route::prefix('user')->name('user.')->group(function () {

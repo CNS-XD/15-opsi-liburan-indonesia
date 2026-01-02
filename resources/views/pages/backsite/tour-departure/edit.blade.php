@@ -11,7 +11,7 @@
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
-<a href="{{ route('backsite.tour-departure.index', $tour->id) }}" class="btn btn-danger btn-glow round">
+<a href="{{ route('backsite.tour-departure.index', $data->id_tour) }}" class="btn btn-danger btn-glow round">
     <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
@@ -47,127 +47,34 @@
                                 @method('PUT')
 
                                 <div class="form-body">
-                                    {{-- Image --}}
                                     <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Image</label>
+                                        <label class="col-md-3 label-control required">Departure</label>
                                         <div class="col-md-9">
-                                            <img src="{{ $data->image ? asset('storage/'.$data->image) : asset('backsite-assets/images/no-image-available.jpg') }}"
-                                                width="200" class="mb-1">
-                                            <input type="file" name="image" class="form-control" accept="image/*">
-                                        </div>
-                                    </div>
-
-                                    {{-- Title --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Title</label>
-                                        <div class="col-md-9">
-                                            <input type="text" name="title" class="form-control"
-                                                value="{{ $data->title }}">
-                                        </div>
-                                    </div>
-
-                                    {{-- Description --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Description</label>
-                                        <div class="col-md-9">
-                                            <textarea name="description" class="form-control summernote-tour-departure">{{ $data->description }}</textarea>
-                                        </div>
-                                    </div>
-
-                                    {{-- Day Tour --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Day Tour</label>
-                                        <div class="col-md-9">
-                                            <select name="day_tour" class="form-control">
-                                                @for ($i = 1; $i <= 7; $i++)
-                                                    <option value="{{ $i }}" {{ $data->day_tour == $i ? 'selected' : '' }}>
-                                                        {{ $i }} Day
+                                            <select name="id_departure" class="form-control select2" required>
+                                                @foreach ($departures as $departure)
+                                                    <option value="{{ $departure->id }}"
+                                                        {{ $data->id_departure == $departure->id ? 'selected' : '' }}>
+                                                        {{ $departure->title }}
                                                     </option>
-                                                @endfor
+                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
-
-                                    {{-- Time Tour --}}
                                     <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Time Tour</label>
+                                        <label class="col-md-3 label-control required">Tour</label>
                                         <div class="col-md-9">
-                                            <input type="text" name="time_tour" class="form-control" value="{{ $data->time_tour }}">
-                                        </div>
-                                    </div>
-
-                                    {{-- Type Tour --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Type Tour</label>
-                                        <div class="col-md-9">
-                                            <label>
-                                                <input type="radio" name="type_tour" value="0" {{ $data->type_tour == 0 ? 'checked' : '' }}> Private Tour
-                                            </label>
-                                            <label class="ml-1">
-                                                <input type="radio" name="type_tour" value="1" {{ $data->type_tour == 1 ? 'checked' : '' }}> Sharing Tour
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    {{-- Price --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Price</label>
-                                        <div class="col-md-9">
-                                            <input type="number" name="price" class="form-control" value="{{ $data->price }}">
-                                        </div>
-                                    </div>
-
-                                    {{-- Is Best --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control">Best Tour</label>
-                                        <div class="col-md-9">
-                                            <label>
-                                                <input type="radio" name="is_best" value="1" {{ $data->is_best == 1 ? 'checked' : '' }}> Yes
-                                            </label>
-                                            <label class="ml-1">
-                                                <input type="radio" name="is_best" value="0" {{ $data->is_best == 0 ? 'checked' : '' }}> No
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    {{-- Group Size --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Group Size</label>
-                                        <div class="col-md-9">
-                                            <input type="text" name="group_size" class="form-control" value="{{ $data->group_size }}">
-                                        </div>
-                                    </div>
-
-                                    {{-- Level Tour --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Level Tour</label>
-                                        <div class="col-md-9">
-                                            <select name="level_tour" class="form-control">
-                                                <option value="Low" {{ $data->level_tour == 'Low' ? 'selected' : '' }}>Low</option>
-                                                <option value="Medium" {{ $data->level_tour == 'Medium' ? 'selected' : '' }}>Medium</option>
-                                                <option value="Hard" {{ $data->level_tour == 'Hard' ? 'selected' : '' }}>Hard</option>
+                                            <select name="id_tour" class="form-control" required>
+                                                <option value="{{ $data->id_tour }}" selected>
+                                                    {{ $data->tour->title }}
+                                                </option>
                                             </select>
                                         </div>
-                                    </div>
-
-                                    {{-- Show --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Show</label>
-                                        <div class="col-md-9">
-                                            <label>
-                                                <input type="radio" name="show" value="1" {{ $data->show == 1 ? 'checked' : '' }}> Publish
-                                            </label>
-                                            <label class="ml-1">
-                                                <input type="radio" name="show" value="0" {{ $data->show == 0 ? 'checked' : '' }}> Draft
-                                            </label>
+                                        <div class="mt-1 mb-1">
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="la la-check-square-o"></i> Update
+                                            </button>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="mt-1 mb-1">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="la la-check-square-o"></i> Update
-                                    </button>
                                 </div>
                             </form>
                         </div>

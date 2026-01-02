@@ -16,41 +16,8 @@ class TourDepartureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image'       => 'nullable|mimes:jpeg,jpg,png|max:5000',
-            'title'       => ['required', 'string', 'max:255', Rule::unique('tours', 'title')->ignore($this->tour)],
-            'description' => 'required|string',
-            'day_tour'    => 'required|integer|min:1|max:7',
-            'time_tour'   => 'required|string|max:100',
-            'type_tour'   => 'required|in:0,1',
-            'price'       => 'required|numeric|min:0',
-            'is_best'     => 'required|in:0,1',
-            'group_size'  => 'required|string|max:50',
-            'level_tour'  => 'required|in:Low,Medium,Hard',
-            'show'        => 'required|in:0,1',
+            'id_tour' => 'required|exists:tours,id',
+            'id_departure' => 'required|exists:departures,id',
         ];
-    }
-
-    public function withValidator(LaravelValidator $validator): void
-    {
-        $validator->after(function ($validator) {
-            if ($this->hasFile('image')) {
-                $file = $this->file('image');
-
-                // MIME check
-                $finfo = finfo_open(FILEINFO_MIME_TYPE);
-                $mime = finfo_file($finfo, $file->getPathname());
-                finfo_close($finfo);
-
-                if (!in_array($mime, ['image/png', 'image/jpeg'])) {
-                    $validator->errors()->add('image', 'The image must be JPG or PNG.');
-                }
-
-                // Security check
-                $content = file_get_contents($file->getPathname());
-                if (preg_match('/<\?(php|html)|<script>|eval\(/i', $content)) {
-                    $validator->errors()->add('image', 'The image contains harmful content.');
-                }
-            }
-        });
-    }
+    } 
 }

@@ -11,40 +11,34 @@ use Carbon\Carbon;
 class TourDeparture extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'tour_departures';
-    protected $guarded = [];
+
+    protected $fillable = [
+        'id_tour',
+        'id_departure',
+    ];
 
     protected static function boot()
     {
         parent::boot();
 
-        static::creating(function ($newData) {
-            $newData->created_by = Auth::user()->email ?? null;
-            $newData->created_at = Carbon::now()->toDateTimeString();
-            $newData->updated_at = NULL;
+        static::creating(function ($model) {
+            $model->created_by = Auth::user()->email ?? null;
         });
 
-        static::updating(function ($updateData) {
-            $updateData->updated_by = Auth::user()->email ?? null;
-            $updateData->updated_at = Carbon::now()->toDateTimeString();
+        static::updating(function ($model) {
+            $model->updated_by = Auth::user()->email ?? null;
         });
     }
 
-    public function getCreatedAtAttribute($date)
+    public function tour()
     {
-        return Carbon::parse($date)
-        ->timezone('Asia/Jakarta')
-        ->translatedFormat('l, d F Y H:i') . ' WIB';
+        return $this->belongsTo(Tour::class, 'id_tour');
     }
 
-	public function departure()
-	{
-		return $this->belongsTo(Departure::class, 'id_departure');
-	}
-
-	public function tour()
-	{
-		return $this->belongsTo(Tour::class, 'id_tour');
-	}
+    public function departure()
+    {
+        return $this->belongsTo(Departure::class, 'id_departure');
+    }
 }

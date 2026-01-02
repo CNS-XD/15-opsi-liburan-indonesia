@@ -6,7 +6,7 @@
 @section('activeSubMenuTourDeparture', 'open active')
 
 {{-- Breadcrumb --}}
-@section('breadcrumb1', $data->title)
+@section('breadcrumb1', $tour->title)
 @section('breadcrumb2', 'Tour Departure')
 
 {{-- Button Pojok Kanan --}}
@@ -14,7 +14,7 @@
 <a href="{{ route('backsite.tour.index') }}" class="btn btn-danger btn-sm round">
     <i class="fa fa-arrow-left mr5"></i> Back
 </a>
-<a href="{{ route('backsite.tour-departure.create', $data->id) }}" class="btn btn-success btn-sm round">
+<a href="{{ route('backsite.tour-departure.create', $tour->id) }}" class="btn btn-success btn-sm round">
     <i class="fa fa-plus"></i> Add
 </a>
 <a href="{{ url('/') }}" class="btn btn-info btn-sm round" target="_blank">
@@ -42,28 +42,11 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
+                                            <th>Tour</th>
+                                            <th>Departure</th>
                                             <th>Action</th>
-                                            <th>Image</th>
-                                            <th>Title</th>
-                                            <th>Day Tour</th>
-                                            <th>Time Tour</th>
-                                            <th>Type Tour</th>
-                                            <th>Price</th>
-                                            <th>Group Size</th>
-                                            <th>Level Tour</th>
-                                            <th>Is Best</th>
-                                            <th>Show</th>
-                                            <th>Departures</th>
-                                            <th>Destinations</th>
-                                            <th>Details</th>
-                                            <th>Photos</th>
-                                            <th>Prices</th>
-                                            <th>Reviews</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-
-                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -73,96 +56,44 @@
         </div>
     </section>
 </div>
+
 @endsection
 
 @push('after-script')
 <script>
-    $(document).ready(function() {
-        datatable()
-    });
+$(document).ready(function () {
+    initDatatable();
+});
 
-    // Table
-    const datatable = () => {
-        $('#dataTable').DataTable().destroy();
-        $('#dataTable').DataTable({
-            // "scrollX": true,
-            processing: true,
-            serverSide: true,
-            "bAutoWidth": false,
-            "bDestroy": true,
-            "lengthMenu": [
-                [50, 100, -1],
-                [50, 100, "All"]
-            ],
-            "ajax": {
-                url: '{{ route('backsite.tour-departure.datatable') }}',
+function initDatatable() {
+    $('#dataTable').DataTable({
+        processing: true,
+        serverSide: true,
+        destroy: true,
+
+        ajax: "{{ route('backsite.tour-departure.datatable', $tour->id) }}",
+
+        columns: [
+            {
+                data: 'DT_RowIndex',
+                orderable: false,
+                searchable: false
             },
-            columns: [
-                { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
-                { data: 'action', name: 'action', orderable: false, searchable: false },
-                { data: 'image', name: 'image', orderable: false, searchable: false },
-                { data: 'title', name: 'title' },  
-                { data: 'day_tour', name: 'day_tour' },
-                { data: 'time_tour', name: 'time_tour' },
-                { data: 'type_tour', name: 'type_tour' },
-                { data: 'price', name: 'price' },
-                { data: 'group_size', name: 'group_size' },
-                { data: 'level_tour', name: 'level_tour' },
-                { data: 'is_best', name: 'is_best' },
-                { data: 'show', name: 'show', orderable: false, searchable: false },
-                { data: 'departures', name: 'departures' },
-                { data: 'destinations', name: 'destinations' },
-                { data: 'details', name: 'details' },
-                { data: 'photos', name: 'photos' },
-                { data: 'prices', name: 'prices' },
-                { data: 'reviews', name: 'reviews' },
-            ]
-        });
-    }
-
-    // Delete
-    const deleteRoute = "{{ route('backsite.tour-departure.destroy', ':id') }}";
-    function deleteConf(id) {
-        Swal.fire({
-            icon: 'warning',
-            title: 'Are you sure?',
-            text: "You will not be able to restore this data back!",
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete!'
-        }).then((result) => {
-            if (result.value) {
-                let url = deleteRoute.replace(':id', id);
-
-                $.ajax({
-                    type: 'DELETE',
-                    url: url,
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
-                    success: function(res) {
-                        if (res.success == true) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: res.message,
-                            });
-                            datatable();
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Failed',
-                                text: res.message,
-                            });
-                        }
-                    },
-                    error: function(xhr) {
-                        Swal.fire('Oops Something went wrong!', xhr.responseJSON.message || 'Failed to delete data.', 'error');
-                    }
-                });
+            {
+                data: 'tour',
+                name: 'tour.title'
+            },
+            {
+                data: 'departure',
+                name: 'departure.title'
+            },
+            {
+                data: 'action',
+                orderable: false,
+                searchable: false
             }
-        });
-    }
+        ]
+    });
+}
 </script>
 @endpush
