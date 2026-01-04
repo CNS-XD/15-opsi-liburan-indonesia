@@ -41,7 +41,7 @@
                                             <th>No</th>
                                             <th>Action</th>
                                             <th>Image</th>
-                                            <th>Title</th>
+                                            <th style="min-width: 300px;">Title</th>
                                             <th>Day Tour</th>
                                             <th>Time Tour</th>
                                             <th>Type Tour</th>

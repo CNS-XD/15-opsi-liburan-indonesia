@@ -59,7 +59,7 @@
                                             <div class="form-group row">
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Description</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
-                                                    <textarea name="description" class="form-control" placeholder="Ex: We work to simplify your journey. Saving your time & mind, just enjoy the experience." cols="10" rows="4">{{ old('deskripsi') }}</textarea>
+                                                    <textarea name="description" class="form-control" placeholder="Ex: We work to simplify your journey. Saving your time & mind, just enjoy the experience." cols="10" rows="4">{{ old('description') }}</textarea>
                                                 </div>
                                             </div>
                                         </div>

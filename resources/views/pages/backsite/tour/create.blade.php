@@ -166,13 +166,13 @@
 <script>
     $('.summernote-tour').summernote({
         height: '300px',
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
-            ['font', ['color']],
-            ['para', ['ul', 'ol']],
-            ['insert', ['link']],
-            ['misc', ['undo', 'redo', 'fullscreen', 'codeview', 'help']],
-        ]
+        // toolbar: [
+        //     ['style', ['bold', 'italic', 'underline', 'strikethrough', 'superscript', 'subscript', 'clear']],
+        //     ['font', ['color']],
+        //     ['para', ['ul', 'ol']],
+        //     ['insert', ['link']],
+        //     ['misc', ['undo', 'redo', 'fullscreen', 'codeview', 'help']],
+        // ]
     });
 </script>
 @endpush

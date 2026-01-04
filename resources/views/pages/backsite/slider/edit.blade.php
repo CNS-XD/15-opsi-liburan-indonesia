@@ -110,13 +110,19 @@
                                             <div class="form-group row">
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Slider</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
-                                                    <div id="place-image">
+                                                    @if ($data->type == 1)
                                                         @if (!empty($data->value))
-                                                            <img src="/storage/{{ $data->value }}" width="200px" id="img-canvas">
+                                                            <video src="/storage/{{ $data->value }}" width="200px" autoplay></video>
                                                         @else
-                                                            <img src="/backsite-assets/images/no-image-available.jpg" width="200px" id="img-canvas">
+                                                            <img src="/backsite-assets/images/no-image-available.jpg" width="200px">
                                                         @endif
-                                                    </div>
+                                                    @else
+                                                        @if (!empty($data->value))
+                                                            <img src="/storage/{{ $data->value }}" width="200px">
+                                                        @else
+                                                            <img src="/backsite-assets/images/no-image-available.jpg" width="200px">
+                                                        @endif
+                                                    @endif
                                                     <input type="file" name="slider" class="form-control" id="img-input">
                                                 </div>
                                             </div>
@@ -138,21 +144,3 @@
     </section>
 </div>
 @endsection
-
-@push('after-script')
-<script>
-    $(document).on('change','#img-input',function(){
-        var el = $("#img-canvas");
-        var files = !!this.files ? this.files : [];
-        if (!files.length || !window.FileReader) return;
-        if (/^image/.test( files[0].type)){
-            var reader = new FileReader();
-            reader.readAsDataURL(files[0]);
-            reader.onloadend = function(){
-                el.attr("src",this.result);
-                $('#place-image').show();
-            }
-        }
-    });
-</script>
-@endpush

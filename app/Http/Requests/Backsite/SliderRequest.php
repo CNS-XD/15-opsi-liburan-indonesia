@@ -28,7 +28,7 @@ class SliderRequest extends FormRequest
         switch (true) {
             case str_contains($uri, "backsite/slider"):
                 $rules = [
-                    'slider' => 'mimes:jpeg,jpg,png,mp4,mov,avi,webm|max:20000',
+                    'slider' => 'mimes:jpeg,jpg,png,webp,svg,mp4,mov,avi,webm|max:20000',
                     'title' => 'required|string|max:255',
                     'type' => 'required|in:0,1',
                     'show' => 'required|in:0,1',
@@ -51,13 +51,13 @@ class SliderRequest extends FormRequest
                 finfo_close($finfo);
 
                 $allowedMimes = [
-                    'image/jpeg', 'image/png',
+                    'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml',
                     'video/mp4', 'video/quicktime', 'video/x-msvideo', 'video/webm',
                 ];
 
                 // Validasi jenis file
                 if (!in_array($mime, $allowedMimes)) {
-                    $validator->errors()->add('slider', 'The file must be a JPG, PNG, or video (MP4, MOV, AVI, WEBM).');
+                    $validator->errors()->add('slider', 'The file must be a JPG, PNG, WEBP, SVG, or video (MP4, MOV, AVI, WEBM).');
                 }
 
                 // Validasi konten berbahaya hanya untuk file gambar (tidak untuk video)

@@ -86,7 +86,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="phone">Phone</label>
-                                                <input class="form-control" placeholder="ex: 081234698453" name="phone" type="number" value="{{ $contactGeneral->phone ?? null }}" required />
+                                                <input class="form-control" placeholder="ex: 081234698453" name="phone" type="text" value="{{ $contactGeneral->phone ?? null }}" required />
                                             </div>
                                             <div class="form-group">
                                                 <label for="fax">Fax</label>
@@ -388,6 +388,9 @@
                 },
             })
         } else {
+            let currentForm = $(`#${typeForm}`);
+            currentForm[0].reset();
+            currentForm.find('input[name="id"]').val('');
             $(`#modal_${typeForm}`).modal('show');
         }
 

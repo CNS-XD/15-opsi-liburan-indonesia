@@ -16,7 +16,7 @@ class TourDepartureRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image'       => 'nullable|mimes:jpeg,jpg,png|max:5000',
+            'image'       => 'nullable|mimes:jpeg,jpg,png,webp,svg|max:5000',
             'title'       => ['required', 'string', 'max:255', Rule::unique('tours', 'title')->ignore($this->tour)],
             'description' => 'required|string',
             'day_tour'    => 'required|integer|min:1|max:7',
@@ -41,8 +41,8 @@ class TourDepartureRequest extends FormRequest
                 $mime = finfo_file($finfo, $file->getPathname());
                 finfo_close($finfo);
 
-                if (!in_array($mime, ['image/png', 'image/jpeg'])) {
-                    $validator->errors()->add('image', 'The image must be JPG or PNG.');
+                if (!in_array($mime, ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'])) {
+                    $validator->errors()->add('image', 'The image must be JPG, PNG, WEBP or SVG.');
                 }
 
                 // Security check

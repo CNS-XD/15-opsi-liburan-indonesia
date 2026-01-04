@@ -104,6 +104,7 @@ class FaqController extends Controller
             $slug = generateUniqueSlugFaq($originalSlug, null);
 
             $data = new Faq;
+            $data->category = $request->category;
             $data->title = $request->title;
             $data->description = $editor[1]->saveHTML();
             $data->image = implode(',', $editor[0]);
@@ -208,6 +209,7 @@ class FaqController extends Controller
             }
     
             // Update data
+            $data->category = $request->category;
             $data->title = $request->title;
             $data->image = $image;
             $data->show = $request->show;

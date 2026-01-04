@@ -40,6 +40,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Image</th>
+                                            <th>Category</th>
                                             <th>Title</th>
                                             <th>Show</th>
                                             <th>Created At</th>
@@ -94,6 +95,10 @@
                     name: 'image',
                     orderable: false,
                     bSearchable: false,
+                },
+                {
+                    data: 'category',
+                    name: 'category',
                 },
                 {
                     data: 'title',
