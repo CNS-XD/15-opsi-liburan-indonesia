@@ -39,14 +39,12 @@ class FaqController extends Controller
         return DataTables::of($data)
         ->addIndexColumn()
         ->editColumn('image', function ($data) {
-            $dom    = new \DomDocument();
-            @$dom->loadHtml($data->description, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
-            $image = $dom->getElementsByTagName('img')[0];
+            $images = explode(',', $data->image ?? '');
+            $firstImage = isset($images[0]) ? trim($images[0]) : '';
 
             $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
-            if (!empty($image)) {
-                $image = $image->getAttribute('src');
-                $return = '<img src="' . $image . '" width="80px">';
+            if (!empty($firstImage)) {
+                $return = '<img src="' . $firstImage . '" width="80px">';
             }
 
             return $return;
