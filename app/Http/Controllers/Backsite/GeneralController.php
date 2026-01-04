@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backsite;
 
 use App\Http\Requests\Backsite\GeneralRequest;
 use App\Http\Controllers\Controller;
-use App\Models\contactGeneral;
+use App\Models\ContactGeneral;
 use App\Models\ContactSocmed;
 use Illuminate\Http\Request;
 use App\Models\Partner;
@@ -22,7 +22,7 @@ class GeneralController extends Controller
      */
     public function index()
     {
-        $data['contactGeneral'] = contactGeneral::first();
+        $data['contactGeneral'] = ContactGeneral::first();
 
         return view('pages.backsite.general.index', $data);
     }
@@ -120,9 +120,9 @@ class GeneralController extends Controller
             }
 
             if ($request->form_input == 'form_contact_general') {
-                $contactGeneral = contactGeneral::first();
+                $contactGeneral = ContactGeneral::first();
                 if (empty($contactGeneral)) {
-                    $contactGeneral = new contactGeneral();
+                    $contactGeneral = new ContactGeneral();
                 }
                 $contactGeneral->email = $request->email;
                 $contactGeneral->phone = $request->phone;
