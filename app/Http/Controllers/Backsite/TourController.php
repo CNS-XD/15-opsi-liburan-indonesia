@@ -107,7 +107,7 @@ class TourController extends Controller
             // Destinations
             ->addColumn('destinations', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-destination.index', $data->id) . '">
                         Destinations
                     </a>
                 ';

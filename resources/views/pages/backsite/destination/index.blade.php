@@ -98,7 +98,7 @@
     }
 
     // Delete
-    const deleteRoute = "{{ route('backsite.destination.destroy', ':id') }}";
+    const deleteRoute = "{{ route('backsite.tour-destination.destroy', ':id') }}";
     function deleteConf(id) {
         Swal.fire({
             icon: 'warning',

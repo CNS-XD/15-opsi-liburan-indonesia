@@ -32,21 +32,30 @@ class AuthServiceProvider extends ServiceProvider
             return User::SUPERADMIN == Auth::user()->role ? Response::allow() : Response::deny('Anda tidak berhak mengakses halaman ini.');
         });
         
-        Gate::define('validate-resource', function($user, $model, $id) {
-            if (in_array($user->role, [1])) {
-                return Response::allow();
-            }
+Gate::define('validate-resource', function ($user, $data) {
 
-            $data = $model->find($id);
-            if (empty($data->created_by)) {
-                return Response::deny('Kolom Created By Kosong !');
-            }
+    // Superadmin bebas
+    if ($user->role == 1) {
+        return Response::allow();
+    }
 
-            if ($data->created_by != $user->email) {
-                return Response::deny('User anda tidak berhak akses halaman ini');
-            } else {
-                return Response::allow();
-            }
-        });
+    // Data tidak ada
+    if (!$data) {
+        return Response::deny('Data tidak ditemukan');
+    }
+
+    // created_by kosong
+    if (empty($data->created_by)) {
+        return Response::deny('Kolom created_by kosong');
+    }
+
+    // Bukan pemilik data
+    if ($data->created_by !== $user->email) {
+        return Response::deny('Anda tidak berhak mengakses data ini');
+    }
+
+    return Response::allow();
+});
+
     }
 }

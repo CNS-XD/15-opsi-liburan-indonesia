@@ -17,6 +17,7 @@ use App\Http\Controllers\Backsite\BlogController;
 use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
+use App\Http\Controllers\Backsite\TourDestinationController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -107,44 +108,83 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
     });
 
     // Tour Departure (custom karena nested ke Tour)
-Route::prefix('tour-departure')->name('tour-departure.')->group(function () {
+    Route::prefix('tour-departure')->name('tour-departure.')->group(function () {
 
-    Route::get(
-        'datatable/{idTour}',
-        [TourDepartureController::class, 'datatable']
-    )->name('datatable');
+        Route::get(
+            'datatable/{idTour}',
+            [TourDepartureController::class, 'datatable']
+        )->name('datatable');
 
-    Route::get(
-        '{idTour}',
-        [TourDepartureController::class, 'index']
-    )->name('index');
+        Route::get(
+            '{idTour}',
+            [TourDepartureController::class, 'index']
+        )->name('index');
 
-    Route::get(
-        '{idTour}/create',
-        [TourDepartureController::class, 'create']
-    )->name('create');
+        Route::get(
+            '{idTour}/create',
+            [TourDepartureController::class, 'create']
+        )->name('create');
 
-    Route::post(
-        'store',
-        [TourDepartureController::class, 'store']
-    )->name('store');
+        Route::post(
+            'store',
+            [TourDepartureController::class, 'store']
+        )->name('store');
 
-    Route::get(
-        '{idTour}/edit/{idTourDeparture}',
-        [TourDepartureController::class, 'edit']
-    )->name('edit');
+        Route::get(
+            '{idTour}/edit/{idTourDeparture}',
+            [TourDepartureController::class, 'edit']
+        )->name('edit');
 
-    Route::put(
-        'update/{idTourDeparture}',
-        [TourDepartureController::class, 'update']
-    )->name('update');
+        Route::put(
+            'update/{idTourDeparture}',
+            [TourDepartureController::class, 'update']
+        )->name('update');
 
-    Route::delete(
-        'destroy/{idTourDeparture}',
-        [TourDepartureController::class, 'destroy']
-    )->name('destroy');
+        Route::delete(
+            'destroy/{idTourDeparture}',
+            [TourDepartureController::class, 'destroy']
+        )->name('destroy');
 
-});
+    });
+
+    // Tour Destination (custom karena nested ke Tour)
+    Route::prefix('tour-destination')->name('tour-destination.')->group(function () {
+
+        Route::get(
+            'datatable/{idTour}',
+            [TourDestinationController::class, 'datatable']
+        )->name('datatable');
+
+        Route::get(
+            '{idTour}',
+            [TourDestinationController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '{idTour}/create',
+            [TourDestinationController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            'store',
+            [TourDestinationController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '{idTour}/edit/{idTourDestination}',
+            [TourDestinationController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            'update/{idTourDestination}',
+            [TourDestinationController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            'destroy/{idTourDestination}',
+            [TourDestinationController::class, 'destroy']
+        )->name('destroy');
+    });
 
     // User
     Route::prefix('user')->name('user.')->group(function () {
