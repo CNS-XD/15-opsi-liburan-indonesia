@@ -2,8 +2,10 @@
 
 use App\Http\Middleware\IsLoggedIn;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backsite\TourDestinationController;
 use App\Http\Controllers\Backsite\TourDepartureController;
 use App\Http\Controllers\Backsite\DestinationController;
+use App\Http\Controllers\Backsite\TourDetailController;
 use App\Http\Controllers\Backsite\DepartureController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Backsite\AdvantageController;
@@ -17,7 +19,6 @@ use App\Http\Controllers\Backsite\BlogController;
 use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
-use App\Http\Controllers\Backsite\TourDestinationController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -183,6 +184,45 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete(
             'destroy/{idTourDestination}',
             [TourDestinationController::class, 'destroy']
+        )->name('destroy');
+    });
+
+    // Tour Detail (custom karena nested ke Tour)
+    Route::prefix('tour-detail')->name('tour-detail.')->group(function () {
+
+        Route::get(
+            'datatable/{idTour}',
+            [TourDetailController::class, 'datatable']
+        )->name('datatable');
+
+        Route::get(
+            '{idTour}',
+            [TourDetailController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '{idTour}/create',
+            [TourDetailController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            'store',
+            [TourDetailController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '{idTour}/edit/{idTourDetail}',
+            [TourDetailController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            'update/{idTourDetail}',
+            [TourDetailController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            'destroy/{idTourDetail}',
+            [TourDetailController::class, 'destroy']
         )->name('destroy');
     });
 

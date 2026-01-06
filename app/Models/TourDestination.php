@@ -35,13 +35,6 @@ class TourDestination extends Model
         });
     }
 
-    public function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)
-        ->timezone('Asia/Jakarta')
-        ->translatedFormat('l, d F Y H:i') . ' WIB';
-    }
-
 	public function destination()
 	{
 		return $this->belongsTo(Destination::class, 'id_destination');
