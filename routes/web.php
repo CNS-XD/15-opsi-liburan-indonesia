@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Frontsite\DivisiKompetisiController;
+use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Frontsite\PengumumanController;
 use App\Http\Controllers\Frontsite\StatistikController;
 use App\Http\Controllers\Frontsite\ProvinsiController;

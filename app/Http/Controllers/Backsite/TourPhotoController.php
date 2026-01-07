@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Backsite;
 
-use App\Http\Requests\Backsite\TourDetailRequest;
+use App\Http\Requests\Backsite\TourPhotoRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +12,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\TourDestination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\TourDetail;
+use App\Models\TourPhoto;
 use App\Models\Tour;
 
-class TourDetailController extends Controller
+class TourPhotoController extends Controller
 {
     use \App\Traits\AjaxTrait;
 
@@ -34,61 +34,62 @@ class TourDetailController extends Controller
             Alert::success('Success!', session('success'));
         }
 
-        $tour = Tour::with('tour_details')->findOrFail($idTour);
+        $tour = Tour::findOrFail($idTour);
+        $photos = TourPhoto::where('id_tour', $idTour)
+            ->latest()
+            ->get();
 
-        return view('pages.backsite.tour-detail.index', compact('tour'));
+        return view(
+            'pages.backsite.tour-photo.index',
+            compact('tour', 'photos')
+        );
     }
+
 
 
 
     public function datatable($idTour)
     {
-        $data = TourDetail::with('tour')
-            ->where('id_tour', $idTour)
+        $data = TourPhoto::where('id_tour', $idTour)
             ->latest();
 
         return DataTables::of($data)
             ->addIndexColumn()
 
-            // TOUR
-            ->addColumn('tour', function ($row) {
-                return optional($row->tour)->title ?? '-';
-            })
-
-            // TYPE (BIAR RAPI)
-            ->addColumn('type', function ($row) {
-                return ucfirst(str_replace('_', ' ', $row->type));
-            })
-
-            // DESCRIPTION (POTONG BIAR TIDAK PANJANG)
-            ->addColumn('description', function ($row) {
-                return \Str::limit(strip_tags($row->description), 80);
+            // PHOTO
+            ->addColumn('image', function ($row) {
+                return '
+                    <img src="'.asset('storage/'.$row->image).'"
+                        class="img-thumbnail"
+                        style="height:80px">
+                ';
             })
 
             // ACTION (POLA ADVANTAGE ✔)
             ->addColumn('action', function ($row) {
-                $btn = '';
-                $btn .= '
+                return '
                     <div class="btn-group">
+
                         <a class="btn btn-warning btn-sm round"
-                        href="'.route('backsite.tour-detail.edit', [$row->id_tour, $row->id]).'">
+                        href="'.route('backsite.tour-photo.edit', [$row->id_tour, $row->id]).'">
                             <i class="la la-edit"></i>
                         </a>
 
                         <button
-                            onClick="deleteConf('.$row->id.')"
-                            class="btn btn-danger btn-sm btn_delete round"
+                            onclick="deleteConf('.$row->id.')"
+                            class="btn btn-danger btn-sm round"
                             title="Delete data">
                             <i class="la la-trash"></i>
                         </button>
+
                     </div>
                 ';
-                return $btn;
             })
 
-            ->rawColumns(['action'])
+            ->rawColumns(['image', 'show', 'action'])
             ->make(true);
     }
+
 
 
     /**
@@ -108,19 +109,11 @@ class TourDetailController extends Controller
 
         $tour = Tour::findOrFail($idTour);
 
-        $types = [
-            'schedule'      => 'Schedule',
-            'inclusion'     => 'Inclusion',
-            'exclusion'     => 'Exclusion',
-            'what_to_bring' => 'What To Bring',
-        ];
-
         return view(
-            'pages.backsite.tour-detail.create',
-            compact('tour', 'types')
+            'pages.backsite.tour-photo.create',
+            compact('tour')
         );
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -135,37 +128,31 @@ class TourDetailController extends Controller
         try {
             $request->validate([
                 'id_tour' => 'required|exists:tours,id',
-                'type' => 'required|in:schedule,inclusion,exclusion,what_to_bring',
-                'description' => 'required|string',
+                'image' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+                'show' => 'required|boolean'
             ]);
 
-            $data = new TourDetail;
+            $path = $request->file('image')->store('tour/photos', 'public');
 
-            $data->id_tour     = $request->id_tour;
-            $data->type        = $request->type;
-            $data->description = $request->description;
-            $data->created_by  = auth()->user()->email;
+            TourPhoto::create([
+                'id_tour' => $request->id_tour,
+                'image' => $path,
+                'show' => $request->show,
+            ]);
 
-            $data->save();
             DB::commit();
 
             return redirect()
-                ->route('backsite.tour-detail.index', $request->id_tour)
-                ->withSuccess('Successfully added Tour Detail!');
+                ->route('backsite.tour-photo.index', $request->id_tour)
+                ->withSuccess('Tour photo added successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error("ERROR APP : " . $e->getMessage());
 
-            return redirect()
-                ->back()
+            return back()
                 ->withInput()
-                ->with(
-                    'error_msg',
-                    'Failed to add data: ' . $e->getMessage()
-                );
+                ->with('error_msg', $e->getMessage());
         }
     }
-
 
 
     /**
@@ -177,7 +164,7 @@ class TourDetailController extends Controller
     public function show($id)
     {
         try {
-            $data = TourDetail::findOrFail($id);
+            $data = TourPhoto::findOrFail($id);
 
             return response()->json([
                 'data' => $data,
@@ -200,33 +187,20 @@ class TourDetailController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($idTour, $idTourDetail)
+    public function edit($idTour, $idTourPhoto)
     {
-        // Tour (WAJIB untuk blade)
+        // Tour (untuk breadcrumb & readonly select)
         $tour = Tour::findOrFail($idTour);
 
-        // Ambil data tour detail + relasi tour
-        $data = TourDetail::with('tour')
-            ->where('id_tour', $idTour)
-            ->findOrFail($idTourDetail);
-
-        // List tour (jika suatu saat mau dipakai select)
-        $tours = Tour::select('id', 'title')->get();
-
-        // Type options (STATIC)
-        $types = [
-            'schedule'      => 'Schedule',
-            'inclusion'     => 'Inclusion',
-            'exclusion'     => 'Exclusion',
-            'what_to_bring' => 'What To Bring',
-        ];
+        // Ambil data tour photo (PASTI MILIK TOUR TERSEBUT)
+        $data = TourPhoto::where('id_tour', $idTour)
+            ->findOrFail($idTourPhoto);
 
         return view(
-            'pages.backsite.tour-detail.edit',
-            compact('tour', 'data', 'tours', 'types')
+            'pages.backsite.tour-photo.edit',
+            compact('tour', 'data')
         );
     }
-
 
     /**
      * Update the specified resource in storage.
@@ -237,41 +211,48 @@ class TourDetailController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = TourDetail::findOrFail($id);
-
-        // Authorization (optional, jika pakai gate)
-        $this->authorize('validate-resource', [$data, $id]);
+        $data = TourPhoto::findOrFail($id);
 
         // VALIDATION
         $request->validate([
-            'id_tour'     => 'required|exists:tours,id',
-            'type'        => 'required|in:schedule,inclusion,exclusion,what_to_bring',
-            'description' => 'required|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'show'  => 'required|boolean',
         ]);
 
         DB::beginTransaction();
+
         try {
-            $data->id_tour     = $request->id_tour;
-            $data->type        = $request->type;
-            $data->description = $request->description;
+            // JIKA ADA FOTO BARU → HAPUS YANG LAMA
+            if ($request->hasFile('image')) {
+                if ($data->image && Storage::disk('public')->exists($data->image)) {
+                    Storage::disk('public')->delete($data->image);
+                }
+
+                $data->image = $request->file('image')
+                    ->store('tour/photos', 'public');
+            }
+
+            $data->show       = $request->show;
             $data->save();
 
             DB::commit();
 
             return redirect()
-                ->route('backsite.tour-detail.index', $data->id_tour)
-                ->with('success', 'Successfully updated tour detail!');
+                ->route('backsite.tour-photo.index', $data->id_tour)
+                ->withSuccess('Successfully updated tour photo!');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('ERROR TOUR DETAIL UPDATE : ' . $e->getMessage());
+            Log::error('ERROR TOUR PHOTO UPDATE : ' . $e->getMessage());
 
             return redirect()
                 ->back()
-                ->with('error_msg', 'Failed to update data: ' . $e->getMessage());
+                ->withInput()
+                ->with(
+                    'error_msg',
+                    'Failed to update data: ' . $e->getMessage()
+                );
         }
     }
-
-
    
     /**
      * Remove the specified resource from storage.
@@ -281,30 +262,21 @@ class TourDetailController extends Controller
      */
     public function destroy($id)
     {
-        DB::beginTransaction();
         try {
-            $data = TourDetail::findOrFail($id);
+            $data = TourPhoto::findOrFail($id);
 
-            // Authorization (WAJIB sesuai Gate)
-            $this->authorize('validate-resource', [$data, $id]);
-
+            Storage::disk('public')->delete($data->image);
             $data->delete();
-
-            DB::commit();
 
             return response()->json([
                 'success' => true,
-                'message' => 'Successfully deleted tour detail!',
+                'message' => 'Photo deleted successfully'
             ]);
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('ERROR TOUR DETAIL DESTROY : ' . $e->getMessage());
-
             return response()->json([
                 'success' => false,
-                'message' => 'Failed to delete data: ' . $e->getMessage(),
+                'message' => $e->getMessage()
             ], 500);
         }
     }
-
 }

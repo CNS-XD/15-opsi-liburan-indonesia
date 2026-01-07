@@ -19,6 +19,7 @@ use App\Http\Controllers\Backsite\BlogController;
 use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
+use App\Http\Controllers\Backsite\TourPhotoController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -223,6 +224,45 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete(
             'destroy/{idTourDetail}',
             [TourDetailController::class, 'destroy']
+        )->name('destroy');
+    });
+
+    // Tour Photo (custom karena nested ke Tour)
+    Route::prefix('tour-photo')->name('tour-photo.')->group(function () {
+
+        Route::get(
+            'datatable/{idTour}',
+            [TourPhotoController::class, 'datatable']
+        )->name('datatable');
+
+        Route::get(
+            '{idTour}',
+            [TourPhotoController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '{idTour}/create',
+            [TourPhotoController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            'store',
+            [TourPhotoController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '{idTour}/edit/{idTourPhoto}',
+            [TourPhotoController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            'update/{idTourPhoto}',
+            [TourPhotoController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            'destroy/{idTourPhoto}',
+            [TourPhotoController::class, 'destroy']
         )->name('destroy');
     });
 
