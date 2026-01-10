@@ -26,6 +26,7 @@ class FaqRequest extends FormRequest
         switch ($route) {
             case 'backsite.update.faq.store':
                 return [
+                    'category' => 'required|string|max:255',
                     'title' => 'required|string|max:255',
                     'description' => 'required',
                     'show' => 'required|in:0,1',
@@ -34,6 +35,7 @@ class FaqRequest extends FormRequest
             case 'backsite.update.faq.update':
                 return [
                     'id' => 'exists:faqs,id',
+                    'category' => 'required|string|max:255',
                     'title' => 'required|string|max:255',
                     'description' => 'required',
                     'show' => 'required|in:0,1',

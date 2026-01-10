@@ -13,7 +13,7 @@
                     </svg>
                     <div class="content">
                         <h6>To More Inquiry</h6>
-                        <span>Don’t hesitate Call  to GoFly.</span>
+                        <span>Don’t hesitate Call  to Opsi Liburan.</span>
                     </div>
                 </div>
                 <ul class="contact-area">
@@ -23,7 +23,7 @@
                         </div>
                         <div class="content">
                             <span>WhatsApp</span>
-                            <a href="https://wa.me/91345533865">+91 345 533 865</a>
+                            <a href="https://wa.me/6281234698453">+62 81 234 698 453</a>
                         </div>
                     </li>
                     <li class="single-contact">
@@ -32,7 +32,9 @@
                         </div>
                         <div class="content">
                             <span>Mail Us</span>
-                            <a href="https://demo.egenslab.com/cdn-cgi/l/email-protection#9cf5f2faf3dcf9e4fdf1ecf0f9b2fff3f1"><span class="__cf_email__" data-cfemail="50393e363f103528313d203c357e333f3d">[email&#160;protected]</span></a>
+                            <span>
+                                opsiliburan@gmail.com
+                            </span>
                         </div>
                     </li>
                     <li class="single-contact">
@@ -41,7 +43,7 @@
                         </div>
                         <div class="content">
                             <span>Call Us</span>
-                            <a href="tel:+91456453345">+91 456 453 345</a>
+                            <a href="tel:+6285739131763">+62 857 391 317 63</a>
                         </div>
                     </li>
                 </ul>
@@ -54,18 +56,21 @@
                 <div class="row gy-md-4 gy-5">
                     <div class="col-lg-3 col-md-4 col-sm-6">
                         <div class="footer-logo-and-addition-info">
-                            <a href="index.html" class="footer-logo">
-                                <img src="/frontsite-assets/img/footer-logo.svg" alt="">
+                            <a href="{{ url('/') }}" class="footer-logo">
+                                <img src="/frontsite-assets/img/logo-text-white.png" alt="Logo Opsi Liburan">
                             </a>
                             <div class="address-area">
-                                <span>GoFly Travel Agency</span>
-                                <a href="#">Skyline Plaza, 5th Floor, 123 Main Street Los Angeles, CA 90001, USA</a>
+                                <span>PT. Opsi Liburan Indonesia</span>
+                                <a href="javascript:void(0);">
+                                    Perumahan Jl. Magersari Permai No.BP 9, Gajah Timur, Magersari, Kec. Sidoarjo, Kabupaten Sidoarjo, Jawa Timur 61211
+                                </a>
                             </div>
                             <ul class="social-list">
-                                <li><a href="https://www.facebook.com/"><i class="bx bxl-facebook"></i></a></li>
-                                <li><a href="https://www.linkedin.com/"><i class="bx bxl-linkedin"></i></a></li>
-                                <li><a href="https://www.youtube.com/"><i class="bx bxl-youtube"></i></a></li>
-                                <li><a href="https://www.instagram.com/"><i class="bx bxl-instagram-alt"></i></a></li>
+                                <li><a target="_blank" href="https://www.instagram.com/opsiliburan"><i class="bx bxl-instagram-alt"></i></a></li>
+                                <li><a target="_blank" href="https://web.facebook.com/opsiliburan"><i class="bx bxl-facebook"></i></a></li>
+                                <li><a target="_blank" href="https://www.tiktok.com/@opsiliburan"><i class="bx bxl-tiktok"></i></a></li>
+                                <li><a target="_blank" href="https://www.linkedin.com/in/opsi-liburan-content-4093392a8"><i class="bx bxl-linkedin"></i></a></li>
+                                <li><a target="_blank" href="https://www.youtube.com/@ersyaretnawati5853"><i class="bx bxl-youtube"></i></a></li>
                             </ul>
                             <div class="language-area">
                                 <div class="language-btn">
@@ -87,14 +92,14 @@
                                     <i class="bi bi-caret-down-fill"></i>
                                 </div>
                                 <ul class="language-list">
-                                    <li><a href="#"><img src="/frontsite-assets/img/home1/england-flag.png" alt="">English</a></li>
-                                    <li><a href="#"><img src="/frontsite-assets/img/home1/netherlands-flag.png" alt="">Dutch</a></li>
-                                    <li><a href="#"><img src="/frontsite-assets/img/home1/japan-flag.png" alt="">Japanese</a></li>
-                                    <li><a href="#"><img src="/frontsite-assets/img/home1/korea-flag.png" alt="">Korean</a></li>
-                                    <li><a href="#"><img src="/frontsite-assets/img/home1/china-flag.png" alt="">Chinese</a></li>
+                                    <li><a href="javascript:void(0);"><img src="/frontsite-assets/img/home1/england-flag.png" alt="">English</a></li>
+                                    <li><a href="javascript:void(0);"><img src="/frontsite-assets/img/home1/netherlands-flag.png" alt="">Dutch</a></li>
+                                    <li><a href="javascript:void(0);"><img src="/frontsite-assets/img/home1/japan-flag.png" alt="">Japanese</a></li>
+                                    <li><a href="javascript:void(0);"><img src="/frontsite-assets/img/home1/korea-flag.png" alt="">Korean</a></li>
+                                    <li><a href="javascript:void(0);"><img src="/frontsite-assets/img/home1/china-flag.png" alt="">Chinese</a></li>
                                 </ul>
                             </div>
-                            <a href="#"><img src="/frontsite-assets/img/home1/icon/google-play.svg" alt=""></a>
+                            {{-- <a href="javascript:void(0);"><img src="/frontsite-assets/img/home1/icon/google-play.svg" alt=""></a> --}}
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-md-end">
@@ -103,54 +108,51 @@
                                 <h5>Top Destination</h5>
                             </div>
                             <ul class="widget-list">
-                                <li><a href="travel-package-01.html">Maldives Tour</a></li>
-                                <li><a href="travel-package-01.html">Bali, Indonesia Tour</a></li>
-                                <li><a href="travel-package-01.html">Thailand Tour</a></li>
-                                <li><a href="travel-package-01.html">Philippines Tour</a></li>
-                                <li><a href="travel-package-01.html">Hawaii, USA Tour</a></li>
-                                <li><a href="travel-package-01.html">Switzerland Tour</a></li>
-                                <li><a href="travel-package-01.html">New Zealand Tour </a></li>
-                                <li><a href="travel-package-01.html">Costa Rica Tour</a></li>
-                                <li><a href="travel-package-01.html">Peru (Machu Picchu)</a></li>
-                                <li><a href="travel-package-01.html">Paris, France Tour</a></li>
-                                <li><a href="travel-package-01.html">Rome, Italy Tour</a></li>
+                                <li><a href="javascript:void(0);">Bromo Mount</a></li>
+                                <li><a href="javascript:void(0);">Ijen Crater</a></li>
+                                <li><a href="javascript:void(0);">Tumpak Sewu Waterfall</a></li>
+                                <li><a href="javascript:void(0);">Madakaripura Waterfall</a></li>
+                                <li><a href="javascript:void(0);">Surabaya Shore Excursion</a></li>
+                                <li><a href="javascript:void(0);">Probolinggo Shore Excursion </a></li>
+                                <li><a href="javascript:void(0);">Taman Safari</a></li>
+                                <li><a href="javascript:void(0);">Surabaya City</a></li>
+                                <li><a href="javascript:void(0);">Malang City</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-4 col-sm-6 d-flex justify-content-md-end">
                         <div class="footer-widget">
                             <div class="widget-title">
-                                <h5>Popular Search</h5>
+                                <h5>Popular Departure</h5>
                             </div>
                             <ul class="widget-list">
-                                <li><a href="travel-package-02.html">Adventure</a></li>
-                                <li><a href="travel-package-02.html">Hiking & Stiking</a></li>
-                                <li><a href="travel-package-02.html">Holiday Packages</a></li>
-                                <li><a href="travel-package-02.html">Flights And Hotels</a></li>
-                                <li><a href="travel-package-02.html">Honeymoon Trip</a></li>
-                                <li><a href="travel-package-02.html">Bali Vacation Package</a></li>
-                                <li><a href="travel-package-02.html">Desert Safari</a></li>
-                                <li><a href="travel-package-02.html">Last-Minute Deals</a></li>
-                                <li><a href="travel-package-02.html">Summer Vacation</a></li>
-                                <li><a href="travel-package-02.html">Wildlife Safari</a></li>
-                                <li><a href="travel-package-02.html"> Dubai Luxury Tours</a></li>
+                                <li><a href="javascript:void(0);">Surabaya City</a></li>
+                                <li><a href="javascript:void(0);">Malang City</a></li>
+                                <li><a href="javascript:void(0);">Yogyakarta City</a></li>
+                                <li><a href="javascript:void(0);">Jakarta City</a></li>
+                                <li><a href="javascript:void(0);">Bali City</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-lg-3 col-sm-6 d-flex justify-content-lg-end">
                         <div class="footer-widget">
                             <div class="widget-title">
-                                <h5>Resources</h5>
+                                <h5>Resources Pages</h5>
                             </div>
                             <ul class="widget-list">
-                                <li><a href="about.html">About GoFly</a></li>
-                                <li><a href="#">Health & Safety Measure</a></li>
-                                <li><a href="visa.html">Visa Processing</a></li>
-                                <li><a href="contact.html">Customize Tour</a></li>
-                                <li><a href="travel-inspiration-01.html">Travel Inspirations</a></li>
-                                <li><a href="#">Traveler Reviews</a></li>
-                                <li><a href="#">Terms & Condition</a></li>
-                                <li><a href="https://www.google.com/maps">Sitemap</a></li>
+                                <li><a href="javascript:void(0);">Guide Book</a></li>
+                                <li><a href="javascript:void(0);">Package Tour</a></li>
+                                <li><a href="javascript:void(0);">About Us</a></li>
+                                <li><a href="javascript:void(0);">Travel News</a></li>
+                                <li><a href="javascript:void(0);">Gallery</a></li>
+                                <li><a href="javascript:void(0);">FAQ</a></li>
+                                <li><a href="javascript:void(0);">Destinations</a></li>
+                                <li><a href="javascript:void(0);">Departure City</a></li>
+                                <li><a href="javascript:void(0);">Customized Tour</a></li>
+                                <li><a href="javascript:void(0);">Review or Testimony</a></li>
+                                <li><a href="javascript:void(0);">Contact</a></li>
+                                <li><a href="javascript:void(0);">Terms & Condition</a></li>
+                                <li><a href="javascript:void(0);">Privacy & Policy</a></li>
                             </ul>
                         </div>
                     </div>
@@ -160,9 +162,9 @@
         <div class="footer-bottom">
             <div class="container">
                 <div class="copyright-and-payment-method-area">
-                    <p>Copyright 2025 <a href="https://www.egenslab.com/">Egens Lab</a> | All Right Reserved.</p>
+                    <p>Copyright {{ date('Y') }} Opsi Liburan Indonesia | All Right Reserved.</p>
                     <div class="payment-method-area">
-                        <span>Accepted Payment Methods :</span>
+                        <span>Payment Gateway :</span>
                         <ul>
                             <li><img src="/frontsite-assets/img/home1/icon/mastar-card-icon.svg" alt=""></li>
                             <li><img src="/frontsite-assets/img/home1/icon/visa-icon.svg" alt=""></li>

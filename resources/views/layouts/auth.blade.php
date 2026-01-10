@@ -29,7 +29,7 @@
             <div class="navbar-header">
                 <ul class="nav navbar-nav flex-row">
                     <li class="nav-item">
-                        <a class="navbar-brand" href="index.html">
+                        <a class="navbar-brand" href="{{ url('/') }}">
                             <img class="brand-logo" alt="modern admin logo" src="/frontsite-assets/img/logo.png" style="height: 36px">
                         </a>
                     </li>

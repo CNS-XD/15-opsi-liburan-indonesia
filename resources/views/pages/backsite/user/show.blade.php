@@ -14,7 +14,7 @@
                         <tr>
                             <th><b>Photo Profile</b></th>
                             <td>
-                                <img src="" class="photo" width="80px" id="photo" alt="">
+                                <img src="" class="photo" width="80px" id="photo" alt="Photo Pofile">
                             </td>
                         </tr>
                         <tr>

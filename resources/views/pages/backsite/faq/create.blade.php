@@ -49,6 +49,20 @@
                                     <div class="row">
                                         <div class="col-md-12 p-0">
                                             <div class="form-group row">
+                                                <label class="col-md-3 pl1-2 pr1-2 label-control required">Category</label>
+                                                <div class="col-md-9 pl1-2 pr1-2 mx-auto">
+                                                    <select name="category" class="form-control select2">
+                                                        <option value="General">General</option>
+                                                        <option value="Shore Excursion">Shore Excursion</option>
+                                                        <option value="Mount Bromo">Mount Bromo</option>
+                                                        <option value="Ijen Crater">Ijen Crater</option>
+                                                        <option value="Tumpak Sewu Waterfall">Tumpak Sewu Waterfall</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 p-0">
+                                            <div class="form-group row">
                                                 <label class="col-md-3 pl1-2 pr1-2 label-control required">Title</label>
                                                 <div class="col-md-9 pl1-2 pr1-2 mx-auto">
                                                     <input type="text" name="title" class="form-control" value="{{ old('title') }}" />

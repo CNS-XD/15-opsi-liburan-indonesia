@@ -19,5 +19,5 @@ class TourDepartureRequest extends FormRequest
             'id_tour' => 'required|exists:tours,id',
             'id_departure' => 'required|exists:departures,id',
         ];
-    } 
+    }
 }

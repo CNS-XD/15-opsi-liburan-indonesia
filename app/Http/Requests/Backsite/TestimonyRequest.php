@@ -28,7 +28,7 @@ class TestimonyRequest extends FormRequest
         switch (true) {
             case str_contains($uri, "backsite/testimony"):
                 $rules = [
-                    'image' => 'mimes:jpeg,jpg,png|max:5000',
+                    'image' => 'mimes:jpeg,jpg,png,webp,svg|max:5000',
                     'name' => 'required|string|max:255',
                     'description' => 'required',
                     'rating' => 'required|integer',
@@ -51,8 +51,8 @@ class TestimonyRequest extends FormRequest
                 $mime = finfo_file($finfo, $file->getPathname());
                 finfo_close($finfo);
 
-                if (!in_array($mime, ['image/png', 'image/jpeg'])) {
-                    $validator->errors()->add('image', 'The file must be a JPG or PNG image.');
+                if (!in_array($mime, ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'])) {
+                    $validator->errors()->add('image', 'The image must be JPG, PNG, WEBP or SVG.');
                 }
 
                 $content = file_get_contents($file->getPathname());

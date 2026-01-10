@@ -39,9 +39,18 @@ class SliderController extends Controller
         return DataTables::of($data)
         ->addIndexColumn()
         ->editColumn('slider', function ($data) {
-            $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
-            if (!empty($data->value)) {
-                $return = '<img src="/storage/' . $data->value . '" width="80px">';
+            if ($data->type == 1) {
+                if (!empty($data->value)) {
+                    $return = '<video src="/storage/' . $data->value . '" width="80px"></video>';
+                } else {
+                    $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
+                }
+            } else {
+                if (!empty($data->value)) {
+                    $return = '<img src="/storage/' . $data->value . '" width="80px">';
+                } else {
+                    $return = "<img src='/backsite-assets/images/no-image-available.jpg' width='80px'>";
+                }
             }
 
             return $return;

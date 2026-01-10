@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('faqs', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             
+            $table->string('category', 255);
             $table->string('title', 255);
             $table->text('description');
             $table->text('image')->nullable()->comment('untuk tampung nama file gambar dari text editor');

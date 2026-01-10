@@ -30,7 +30,7 @@ class AdvantageRequest extends FormRequest
                 $rules = [
                     'title' => 'required|string|max:255',
                     'show' => 'required|in:0,1',
-                    'icon' => 'mimes:jpeg,jpg,png|max:5000',
+                    'icon' => 'mimes:jpeg,jpg,png,webp,svg|max:5000',
                 ];
                 break;
         }
@@ -49,8 +49,8 @@ class AdvantageRequest extends FormRequest
                 $mime = finfo_file($finfo, $file->getPathname());
                 finfo_close($finfo);
 
-                if (!in_array($mime, ['image/png', 'image/jpeg'])) {
-                    $validator->errors()->add('icon', 'The file must be a JPG or PNG image.');
+                if (!in_array($mime, ['image/png', 'image/jpeg', 'image/webp', 'image/svg+xml'])) {
+                    $validator->errors()->add('image', 'The image must be JPG, PNG, WEBP or SVG.');
                 }
 
                 $content = file_get_contents($file->getPathname());

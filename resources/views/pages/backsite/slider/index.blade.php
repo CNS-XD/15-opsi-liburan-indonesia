@@ -40,9 +40,9 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Slider</th>
+                                            <th>Type</th>
                                             <th>Title</th>
                                             <th>Description</th>
-                                            <th>Type</th>
                                             <th>Show</th>
                                             <th>Action</th>
                                         </tr>
@@ -97,14 +97,6 @@
                     bSearchable: false,
                 },
                 {
-                    data: 'title',
-                    name: 'title',
-                },
-                {
-                    data: 'description',
-                    name: 'description',
-                },
-                {
                     data: 'type',
                     name: 'type',
                     render: function(data, type, row) {
@@ -115,6 +107,14 @@
                         `
                         return result;
                     }
+                },
+                {
+                    data: 'title',
+                    name: 'title',
+                },
+                {
+                    data: 'description',
+                    name: 'description',
                 },
                 {
                     data: 'show',

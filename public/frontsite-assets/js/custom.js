@@ -106,11 +106,51 @@
     }
   });
 
-  //Counter up
-  $(".counter").counterUp({
-    delay: 10,
-    time: 1000,
-  });
+  (function initStableCounters() {
+    var DURATION = 1000;
+    $(".counter").each(function () {
+      var $el = $(this);
+      var target = $el.attr("data-target");
+      if (!target) {
+        target = $el.text().replace(/[^0-9]/g, "");
+        $el.attr("data-target", target);
+      }
+      $el.data("animating", false);
+    });
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            var $el = $(entry.target);
+            if ($el.data("animating")) return;
+            $el.data("animating", true);
+            var target = parseInt($el.attr("data-target"), 10) || 0;
+            var startTime = performance.now();
+            $el.text("0");
+            function step(now) {
+              var progress = Math.min((now - startTime) / DURATION, 1);
+              var value = Math.floor(progress * target);
+              $el.text(value);
+              if (progress < 1) {
+                requestAnimationFrame(step);
+              } else {
+                $el.text(target);
+                $el.data("animating", false);
+              }
+            }
+            requestAnimationFrame(step);
+          } else {
+            var $el = $(entry.target);
+            $el.data("animating", false);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    $(".counter").each(function () {
+      observer.observe(this);
+    });
+  })();
 
   // Home1 Offer Slider
   var swiper = new Swiper(".home1-offer-slider", {
