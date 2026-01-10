@@ -13,7 +13,11 @@ class TourDestination extends Model
     use HasFactory;
     
     protected $table = 'tour_destinations';
-    protected $guarded = [];
+    
+    protected $fillable = [
+        'id_tour',
+        'id_destination',
+    ];
 
     protected static function boot()
     {
@@ -29,13 +33,6 @@ class TourDestination extends Model
             $updateData->updated_by = Auth::user()->email ?? null;
             $updateData->updated_at = Carbon::now()->toDateTimeString();
         });
-    }
-
-    public function getCreatedAtAttribute($date)
-    {
-        return Carbon::parse($date)
-        ->timezone('Asia/Jakarta')
-        ->translatedFormat('l, d F Y H:i') . ' WIB';
     }
 
 	public function destination()

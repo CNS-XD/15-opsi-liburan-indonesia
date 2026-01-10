@@ -1,14 +1,14 @@
 @extends('layouts.backsite')
 
-@section('title', 'Add Tour Departure')
+@section('title', 'Add Tour Destination')
 @section('activeMenuTour', 'active open')
-@section('activeSubMenuTourDeparture', 'active open')
+@section('activeSubMenuTourDestination', 'active open')
 
 @section('breadcrumb1', $tour->title)
-@section('breadcrumb2', 'Add Tour Departure')
+@section('breadcrumb2', 'Add Tour Destination')
 
 @section('buttonRight')
-<a href="{{ route('backsite.tour-departure.index', $tour->id) }}" class="btn btn-danger btn-glow round">
+<a href="{{ route('backsite.tour-destination.index', $tour->id) }}" class="btn btn-danger btn-glow round">
     <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
@@ -25,17 +25,17 @@
                     <div class="card-content collapse show">
                         <div class="card-body">
 
-                            <form action="{{ route('backsite.tour-departure.store') }}" method="POST">
+                            <form action="{{ route('backsite.tour-destination.store') }}" method="POST">
                             @csrf
-                                {{-- MASTER DEPARTURE --}}
+                                {{-- MASTER DESTINATION --}}
                                 <div class="form-group row">
-                                    <label class="col-md-3 label-control required">Departure</label>
+                                    <label class="col-md-3 label-control required">Destination</label>
                                     <div class="col-md-9">
-                                        <select name="id_departure" class="form-control select2" required>
-                                            <option value="">-- Pilih Departure --</option>
-                                                @foreach ($departures as $departure)
-                                                    <option value="{{ $departure->id }}">
-                                                        {{ $departure->title }}
+                                        <select name="id_destination" class="form-control select2" required>
+                                            <option value="">-- Pilih Destination --</option>
+                                                @foreach ($destinations as $destination)
+                                                    <option value="{{ $destination->id }}">
+                                                        {{ $destination->title }}
                                                     </option>
                                                 @endforeach
                                         </select>

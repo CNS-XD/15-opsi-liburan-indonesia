@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers\Backsite;
 
-use App\Http\Requests\Backsite\TourDepartureRequest;
+use App\Http\Requests\Backsite\TourDestinationRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use App\Models\TourDeparture;
+use App\Models\TourDestination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\Departure;
+use App\Models\Destination;
 use App\Models\Tour;
 
-class TourDepartureController extends Controller
+class TourDestinationController extends Controller
 {
     use \App\Traits\AjaxTrait;
 
@@ -31,53 +31,52 @@ class TourDepartureController extends Controller
         if (!empty(session('success')))
             Alert::success('Success !', session('success'));
 
-        $tour = Tour::with('tour_departures')->findOrFail($idTour);
+        $tour = Tour::with('tour_destinations')->findOrFail($idTour);
 
-        return view('pages.backsite.tour-departure.index', compact('tour'));
+        return view('pages.backsite.tour-destination.index', compact('tour'));
     }
 
 
-    public function datatable($idTour)
-    {
-        $data = TourDeparture::with(['tour', 'departure'])
-            ->where('id_tour', $idTour)
-            ->latest();
+public function datatable($idTour)
+{
+    $data = TourDestination::with(['tour', 'destination'])
+        ->where('id_tour', $idTour)
+        ->latest();
 
-        return DataTables::of($data)
-            ->addIndexColumn()
+    return DataTables::of($data)
+        ->addIndexColumn()
 
-            ->addColumn('tour', function ($row) {
-                return optional($row->tour)->title ?? '-';
-            })
+        ->addColumn('tour', function ($row) {
+            return optional($row->tour)->title ?? '-';
+        })
 
-            ->addColumn('departure', function ($row) {
-                return optional($row->departure)->title ?? '-';
-            })
+        ->addColumn('destination', function ($row) {
+            return optional($row->destination)->title ?? '-';
+        })
 
-            ->addColumn('action', function ($row) {
-                $btn = '';
-                $btn .= '
-                    <div class="btn-group">
-                        <a class="btn btn-warning btn-sm round"
-                        href="'.route('backsite.tour-departure.edit', [$row->id_tour, $row->id]).'">
-                            <i class="la la-edit"></i>
-                        </a>
+        ->addColumn('action', function ($row) {
+            $btn = '';
+            $btn .= '
+                <div class="btn-group">
+                    <a class="btn btn-warning btn-sm round"
+                       href="'.route('backsite.tour-destination.edit', [$row->id_tour, $row->id]).'">
+                        <i class="la la-edit"></i>
+                    </a>
 
-                        <button
-                            onClick="deleteConf('.$row->id.')"
-                            class="btn btn-danger btn-sm btn_delete round"
-                            title="Delete data">
-                            <i class="la la-trash"></i>
-                        </button>
-                    </div>
-                ';
-                return $btn;
-            })
+                    <button
+                        onClick="deleteConf('.$row->id.')"
+                        class="btn btn-danger btn-sm btn_delete round"
+                        title="Delete data">
+                        <i class="la la-trash"></i>
+                    </button>
+                </div>
+            ';
+            return $btn;
+        })
 
-            ->rawColumns(['action'])
-            ->make(true);
-    }
-
+        ->rawColumns(['action'])
+        ->make(true);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -92,11 +91,11 @@ class TourDepartureController extends Controller
             Alert::success('Success !', session('success'));
 
         $tour = Tour::findOrFail($idTour);
-        $departures = Departure::select('id', 'title')->get();
+        $destinations = Destination::select('id', 'title')->get();
 
         return view(
-            'pages.backsite.tour-departure.create',
-            compact('tour', 'departures') 
+            'pages.backsite.tour-destination.create',
+            compact('tour', 'destinations') 
         );
     }
 
@@ -106,22 +105,22 @@ class TourDepartureController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TourDepartureRequest $request)
+    public function store(TourDestinationRequest $request)
     {
         DB::beginTransaction();
 
         try {
-            $data = new TourDeparture;
+            $data = new TourDestination;
 
             $data->id_tour = $request->id_tour;
-            $data->id_departure = $request->id_departure;
+            $data->id_destination = $request->id_destination;
 
             $data->save();
             DB::commit();
 
             return redirect()
-                ->route('backsite.tour-departure.index', $request->id_tour)
-                ->withSuccess('Successfully added Tour Departure!');
+                ->route('backsite.tour-destination.index', $request->id_tour)
+                ->withSuccess('Successfully added Tour Destination!');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error("ERROR APP : " . $e->getMessage());
@@ -143,7 +142,7 @@ class TourDepartureController extends Controller
     public function show($id)
     {
         try {
-            $data = TourDeparture::findOrFail($id);
+            $data = TourDestination::findOrFail($id);
 
             return response()->json([
                 'data' => $data,
@@ -166,15 +165,15 @@ class TourDepartureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($idTour, $idTourDeparture)
+    public function edit($idTour, $idTourDestination)
     {
-        $data = TourDeparture::with('tour')->findOrFail($idTourDeparture);
+        $data = TourDestination::with('tour')->findOrFail($idTourDestination);
 
-        $departures = Departure::select('id', 'title')->get();
+        $destinations = Destination::select('id', 'title')->get();
 
         return view(
-            'pages.backsite.tour-departure.edit',
-            compact('data', 'departures')
+            'pages.backsite.tour-destination.edit',
+            compact('data', 'destinations')
         );
     }
 
@@ -185,21 +184,21 @@ class TourDepartureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TourDepartureRequest $request, $id)
+    public function update(TourDestinationRequest $request, $id)
     {
-        $data = TourDeparture::findOrFail($id);
+        $data = TourDestination::findOrFail($id);
         $this->authorize('validate-resource', [$data, $id]);
 
         DB::beginTransaction();
         try {
             $data->id_tour = $request->id_tour;
-            $data->id_departure = $request->id_departure;
+            $data->id_destination = $request->id_destination;
             $data->save();
 
             DB::commit();
 
             return redirect()
-                ->route('backsite.tour-departure.index', $data->id_tour)
+                ->route('backsite.tour-destination.index', $data->id_tour)
                 ->with('success', 'Successfully changed data!');
         } catch (\Exception $e) {
             DB::rollBack();
@@ -218,28 +217,28 @@ class TourDepartureController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $this->authorize('validate-resource', [(new TourDeparture), $id]);
-    
-        DB::beginTransaction();
-        try {
-            $data = TourDeparture::findOrFail($id);
+public function destroy($id)
+{
+    DB::beginTransaction();
+    try {
+        $data = TourDestination::findOrFail($id);
+        $this->authorize('validate-resource', $data);
 
-            $data->delete();
-            DB::commit();
+        $data->delete();
+        DB::commit();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Successfully deleted data!',
-            ]);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error("ERROR APP : " . $e->getMessage());
-            return response()->json([
-                'success' => false,
-                'message' => 'Oops An Error Occurred: ' . $e->getMessage(),
-            ]);
-        }
+        return response()->json([
+            'success' => true,
+            'message' => 'Successfully deleted data!',
+        ]);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        Log::error("ERROR APP : " . $e->getMessage());
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Oops An Error Occurred: ' . $e->getMessage(),
+        ], 500);
     }
+}
 }

@@ -107,7 +107,7 @@ class TourController extends Controller
             // Destinations
             ->addColumn('destinations', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-destination.index', $data->id) . '">
                         Destinations
                     </a>
                 ';
@@ -116,7 +116,7 @@ class TourController extends Controller
             // Details
             ->addColumn('details', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-detail.index', $data->id) . '">
                         Details
                     </a>
                 ';
@@ -125,7 +125,7 @@ class TourController extends Controller
             // Photos
             ->addColumn('photos', function ($data) {
                 return '
-                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour.edit', $data->id) . '">
+                    <a class="btn btn-secondary btn-sm round" href="' . route('backsite.tour-photo.index', $data->id) . '">
                         Photos
                     </a>
                 ';

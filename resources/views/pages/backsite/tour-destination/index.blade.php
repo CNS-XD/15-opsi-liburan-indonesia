@@ -1,20 +1,20 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Tour Departure')
+@section('title', 'Tour Destination')
 @section('activeMenuTour', 'open active')
-@section('activeSubMenuTourDeparture', 'open active')
+@section('activeSubMenuTourDestination', 'open active')
 
 {{-- Breadcrumb --}}
 @section('breadcrumb1', $tour->title)
-@section('breadcrumb2', 'Tour Departure')
+@section('breadcrumb2', 'Tour Destination')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
 <a href="{{ route('backsite.tour.index') }}" class="btn btn-danger btn-sm round">
     <i class="fa fa-arrow-left mr5"></i> Back
 </a>
-<a href="{{ route('backsite.tour-departure.create', $tour->id) }}" class="btn btn-success btn-sm round">
+<a href="{{ route('backsite.tour-destination.create', $tour->id) }}" class="btn btn-success btn-sm round">
     <i class="fa fa-plus"></i> Add
 </a>
 <a href="{{ url('/') }}" class="btn btn-info btn-sm round" target="_blank">
@@ -43,7 +43,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Tour</th>
-                                            <th>Departure</th>
+                                            <th>Destination</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -78,7 +78,7 @@
                 [50, 100, "All"]
             ],
             ajax: {
-                url: "{{ route('backsite.tour-departure.datatable', $tour->id) }}",
+                url: "{{ route('backsite.tour-destination.datatable', $tour->id) }}",
             },
             columns: [
                 {
@@ -91,8 +91,8 @@
                     name: 'tour.title'
                 },
                 {
-                    data: 'departure',
-                    name: 'departure.title'
+                    data: 'destination',
+                    name: 'destination.title'
                 },
                 {
                     data: 'action',
@@ -103,8 +103,8 @@
         });
     }
 
-    // Delete (SAMA DENGAN ADVANTAGE)
-    const deleteRoute = "{{ route('backsite.tour-departure.destroy', ':id') }}";
+    // Delete (DISAMAKAN DENGAN ADVANTAGE)
+    const deleteRoute = "{{ route('backsite.tour-destination.destroy', ':id') }}";
 
     function deleteConf(id) {
         Swal.fire({
@@ -132,7 +132,7 @@
                                 title: 'Success',
                                 text: res.message,
                             });
-                            datatable(); // ⬅️ RELOAD TABLE
+                            datatable();
                         } else {
                             Swal.fire({
                                 icon: 'error',

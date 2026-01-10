@@ -1,20 +1,20 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Tour Departure')
+@section('title', 'Tour Detail')
 @section('activeMenuTour', 'open active')
-@section('activeSubMenuTourDeparture', 'open active')
+@section('activeSubMenuTourDetail', 'open active')
 
 {{-- Breadcrumb --}}
 @section('breadcrumb1', $tour->title)
-@section('breadcrumb2', 'Tour Departure')
+@section('breadcrumb2', 'Tour Detail')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
 <a href="{{ route('backsite.tour.index') }}" class="btn btn-danger btn-sm round">
     <i class="fa fa-arrow-left mr5"></i> Back
 </a>
-<a href="{{ route('backsite.tour-departure.create', $tour->id) }}" class="btn btn-success btn-sm round">
+<a href="{{ route('backsite.tour-detail.create', $tour->id) }}" class="btn btn-success btn-sm round">
     <i class="fa fa-plus"></i> Add
 </a>
 <a href="{{ url('/') }}" class="btn btn-info btn-sm round" target="_blank">
@@ -28,6 +28,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+
                     {{-- Card Header --}}
                     @include('partials.backsite.content.card-header')
 
@@ -37,18 +38,19 @@
 
                             <div class="table-responsive">
                                 <table id="dataTable"
-                                    class="table material-table table-hover table-striped dataTable no-footer zero-configuration datatable"
-                                    style="width:100% !important">
+                                    class="table table-striped table-bordered zero-configuration datatable"
+                                    style="width:100%">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Tour</th>
-                                            <th>Departure</th>
+                                            <th>Type</th>
+                                            <th>Description</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                 </table>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -56,29 +58,27 @@
         </div>
     </section>
 </div>
-
 @endsection
+
 
 @push('after-script')
 <script>
-    $(document).ready(function() {
-        datatable();
+    $(document).ready(function () {
+        initDatatable();
     });
 
-    // Table
-    const datatable = () => {
-        $('#dataTable').DataTable().destroy();
+    const initDatatable = () => {
         $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
-            bAutoWidth: false,
-            bDestroy: true,
+            destroy: true,
+            responsive: true,
             lengthMenu: [
                 [50, 100, -1],
                 [50, 100, "All"]
             ],
             ajax: {
-                url: "{{ route('backsite.tour-departure.datatable', $tour->id) }}",
+                url: "{{ route('backsite.tour-detail.datatable', $tour->id) }}"
             },
             columns: [
                 {
@@ -87,12 +87,12 @@
                     searchable: false
                 },
                 {
-                    data: 'tour',
-                    name: 'tour.title'
+                    data: 'type',
+                    name: 'type'
                 },
                 {
-                    data: 'departure',
-                    name: 'departure.title'
+                    data: 'description',
+                    name: 'description'
                 },
                 {
                     data: 'action',
@@ -101,22 +101,22 @@
                 }
             ]
         });
-    }
+    };
 
-    // Delete (SAMA DENGAN ADVANTAGE)
-    const deleteRoute = "{{ route('backsite.tour-departure.destroy', ':id') }}";
+    // DELETE (SAMA PERSIS POLA ADVANTAGE / DESTINATION)
+    const deleteRoute = "{{ route('backsite.tour-detail.destroy', ':id') }}";
 
     function deleteConf(id) {
         Swal.fire({
             icon: 'warning',
             title: 'Are you sure?',
-            text: "You will not be able to restore this data back!",
+            text: "You will not be able to restore this data!",
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
-            if (result.value) {
+            if (result.isConfirmed) {
                 let url = deleteRoute.replace(':id', id);
 
                 $.ajax({
@@ -125,25 +125,17 @@
                     data: {
                         _token: '{{ csrf_token() }}'
                     },
-                    success: function(res) {
-                        if (res.success == true) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Success',
-                                text: res.message,
-                            });
-                            datatable(); // ⬅️ RELOAD TABLE
+                    success: function (res) {
+                        if (res.success === true) {
+                            Swal.fire('Success', res.message, 'success');
+                            $('#dataTable').DataTable().ajax.reload();
                         } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Failed',
-                                text: res.message,
-                            });
+                            Swal.fire('Failed', res.message, 'error');
                         }
                     },
-                    error: function(xhr) {
+                    error: function (xhr) {
                         Swal.fire(
-                            'Oops something went wrong!',
+                            'Error',
                             xhr.responseJSON?.message || 'Failed to delete data.',
                             'error'
                         );
@@ -153,5 +145,5 @@
         });
     }
 </script>
-
 @endpush
+

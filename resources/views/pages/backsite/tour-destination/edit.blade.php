@@ -1,17 +1,17 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Edit Tour Departure')
+@section('title', 'Edit Tour Destination')
 @section('activeMenuTour', 'active open')
-@section('activeSubMenuTourDeparture', 'active open')
+@section('activeSubMenuTourDestination', 'active open')
 
 {{-- Breadcrumb --}}
 @section('breadcrumb1', $data->title)
-@section('breadcrumb2', 'Edit Tour Departure')
+@section('breadcrumb2', 'Edit Tour Destination')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
-<a href="{{ route('backsite.tour-departure.index', $data->id_tour) }}" class="btn btn-danger btn-glow round">
+<a href="{{ route('backsite.tour-destination.index', $data->id_tour) }}" class="btn btn-danger btn-glow round">
     <i class="fas fa-arrow-left mr5"></i> Back
 </a>
 @endsection
@@ -42,19 +42,19 @@
                             </div>
 
                             <form class="form form-horizontal form-bordered" enctype="multipart/form-data"
-                                action="{{ route('backsite.tour-departure.update', $data->id) }}" method="POST">
+                                action="{{ route('backsite.tour-destination.update', $data->id) }}" method="POST">
                                 @csrf
                                 @method('PUT')
 
                                 <div class="form-body">
                                     <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Departure</label>
+                                        <label class="col-md-3 label-control required">Destination</label>
                                         <div class="col-md-9">
-                                            <select name="id_departure" class="form-control select2" required>
-                                                @foreach ($departures as $departure)
-                                                    <option value="{{ $departure->id }}"
-                                                        {{ $data->id_departure == $departure->id ? 'selected' : '' }}>
-                                                        {{ $departure->title }}
+                                            <select name="id_destination" class="form-control select2" required>
+                                                @foreach ($destinations as $destination)
+                                                    <option value="{{ $destination->id }}"
+                                                        {{ $data->id_destination == $destination->id ? 'selected' : '' }}>
+                                                        {{ $destination->title }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -88,7 +88,7 @@
 
 @push('after-script')
 <script>
-    $('.summernote-tour-departure').summernote({
+    $('.summernote-tour-destination').summernote({
         height: 300,
         toolbar: [
             ['style', ['bold', 'italic', 'underline']],
