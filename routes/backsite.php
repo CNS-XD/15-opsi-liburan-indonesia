@@ -4,6 +4,9 @@ use App\Http\Middleware\IsLoggedIn;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backsite\TourDestinationController;
 use App\Http\Controllers\Backsite\TourDepartureController;
+use App\Http\Controllers\Backsite\TourPhotoController;
+use App\Http\Controllers\Backsite\TourPriceController;
+use App\Http\Controllers\Backsite\TourReviewController;
 use App\Http\Controllers\Backsite\DestinationController;
 use App\Http\Controllers\Backsite\TourDetailController;
 use App\Http\Controllers\Backsite\DepartureController;
@@ -19,8 +22,6 @@ use App\Http\Controllers\Backsite\BlogController;
 use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
-use App\Http\Controllers\Backsite\TourPhotoController;
-use App\Http\Controllers\Backsite\TourPriceController;
 
 // Backsite Routes with Middleware
 Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
@@ -303,6 +304,46 @@ Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function
         Route::delete(
             'destroy/{idTourPrice}',
             [TourPriceController::class, 'destroy']
+        )->name('destroy');
+    });
+
+
+    // Tour Review (custom karena nested ke Tour)
+    Route::prefix('tour-review')->name('tour-review.')->group(function () {
+
+        Route::get(
+            'datatable/{idTour}',
+            [TourReviewController::class, 'datatable']
+        )->name('datatable');
+
+        Route::get(
+            '{idTour}',
+            [TourReviewController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            '{idTour}/create',
+            [TourReviewController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            'store',
+            [TourReviewController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            '{idTour}/edit/{idTourReview}',
+            [TourReviewController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            'update/{idTourReview}',
+            [TourReviewController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            'destroy/{idTourReview}',
+            [TourReviewController::class, 'destroy']
         )->name('destroy');
     });
 

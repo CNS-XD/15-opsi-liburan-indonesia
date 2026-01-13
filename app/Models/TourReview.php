@@ -11,35 +11,47 @@ use Carbon\Carbon;
 class TourReview extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'tour_reviews';
     protected $guarded = [];
+
+    public $timestamps = false;
 
     protected static function boot()
     {
         parent::boot();
 
-        static::creating(function ($newData) {
-            $newData->created_by = Auth::user()->email ?? null;
-            $newData->created_at = Carbon::now()->toDateTimeString();
-            $newData->updated_at = NULL;
+        static::creating(function ($model) {
+            $model->created_by = Auth::user()->email ?? null;
+            $model->created_at = Carbon::now()->toDateTimeString();
+            $model->updated_at = null;
         });
 
-        static::updating(function ($updateData) {
-            $updateData->updated_by = Auth::user()->email ?? null;
-            $updateData->updated_at = Carbon::now()->toDateTimeString();
+        static::updating(function ($model) {
+            $model->updated_by = Auth::user()->email ?? null;
+            $model->updated_at = Carbon::now()->toDateTimeString();
         });
     }
 
-    public function getCreatedAtAttribute($date)
+    /**
+     * Relasi ke tabel tours
+     */
+    public function tour()
     {
-        return Carbon::parse($date)
-        ->timezone('Asia/Jakarta')
-        ->translatedFormat('l, d F Y H:i') . ' WIB';
+        return $this->belongsTo(Tour::class, 'id_tour');
     }
 
-	public function tour()
-	{
-		return $this->belongsTo(Tour::class, 'id_tour');
-	}
+    /**
+     * Format created_at ke WIB (Indonesia)
+     */
+    public function getCreatedAtAttribute($value)
+    {
+        if (!$value) {
+            return null;
+        }
+
+        return Carbon::parse($value)
+            ->timezone('Asia/Jakarta')
+            ->translatedFormat('l, d F Y H:i') . ' WIB';
+    }
 }
