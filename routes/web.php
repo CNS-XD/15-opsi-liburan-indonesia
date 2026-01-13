@@ -19,8 +19,6 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-require base_path('routes/backsite.php');
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 // Auth::routes();

@@ -23,11 +23,11 @@ use App\Http\Controllers\Backsite\TourPhotoController;
 use App\Http\Controllers\Backsite\TourPriceController;
 
 // Backsite Routes with Middleware
-Route::prefix('backsite')->name('backsite.')->middleware('auth')->group(function () {
+Route::name('backsite.')->middleware('auth')->group(function () {
     // Profil
-    Route::prefix('profil')->name('profil.')->group(function () {
-        Route::resource('user', ProfilController::class)->except('destroy');
-        Route::get('print', [ProfilController::class, 'print'])->name('print');
+    Route::prefix('profil')->group(function () {
+        Route::resource('profile', ProfilController::class)->except('destroy')->names('profil.profile');
+        Route::get('print', [ProfilController::class, 'print'])->name('profil.print');
     });
     
     // Dashboard
