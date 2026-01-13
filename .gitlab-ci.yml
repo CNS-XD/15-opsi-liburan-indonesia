@@ -1,0 +1,127 @@
+image: php:8.3
+
+stages:
+  - build
+  - deploy
+
+# =========================
+# GLOBAL SETUP
+# =========================
+before_script:
+  - apt-get update -y
+  - |
+    apt-get install -y \
+      unzip \
+      git \
+      rsync \
+      openssh-client \
+      libzip-dev \
+      libpng-dev \
+      libjpeg-dev \
+      libfreetype6-dev
+  - docker-php-ext-configure gd --with-freetype --with-jpeg
+  - docker-php-ext-install zip gd
+
+# =========================
+# BUILD STAGE
+# =========================
+build_laravel:
+  stage: build
+
+  cache:
+    key:
+      files:
+        - composer.lock
+    paths:
+      - ~/.composer/cache
+
+  script:
+    - rm -rf vendor
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar clear-cache
+    - php composer.phar install --no-dev --prefer-dist --no-interaction --optimize-autoloader
+
+  artifacts:
+    paths:
+      - app/
+      - bootstrap/
+      - config/
+      - database/
+      - public/
+      - resources/
+      - routes/
+      - vendor/
+      - artisan
+      - composer.json
+      - composer.lock
+    exclude:
+      - .git
+      - .env
+      - storage
+    expire_in: 1 hour
+
+# =========================
+# DEPLOY STAGE
+# =========================
+deploy_production:
+  stage: deploy
+  image: php:8.3
+
+  dependencies:
+    - build_laravel   # build hanya sekali
+
+  before_script:
+    - apt-get update -y
+    - apt-get install -y rsync openssh-client
+    - mkdir -p ~/.ssh
+    - printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - ssh-keyscan -p $SSH_PORT $SSH_HOST >> ~/.ssh/known_hosts
+
+  script:
+    - echo "SSH_HOST=$SSH_HOST"
+    - echo "SSH_PORT=$SSH_PORT"
+    - echo "SSH_USER=$SSH_USER"
+
+    # Sync source code ke server
+    - |
+      rsync -avz --delete \
+        --exclude=".git" \
+        --exclude=".env" \
+        --exclude="storage/**" \
+        --exclude="public/storage" \
+        --exclude="uploads" \
+        -e "ssh -p $SSH_PORT" \
+        ./ $SSH_USER@$SSH_HOST:$DEPLOY_PATH
+
+    # Remote server command
+    - ssh -p $SSH_PORT $SSH_USER@$SSH_HOST "
+        cd $DEPLOY_PATH &&
+
+        echo '== Prepare permission ==' &&
+        mkdir -p storage bootstrap/cache &&
+        chown -R $SSH_USER:$SSH_USER storage bootstrap/cache &&
+        chmod -R 775 storage bootstrap/cache &&
+
+        echo '== Laravel optimize clear ==' &&
+        php artisan optimize:clear &&
+
+        echo '== Database migrate ==' &&
+        php artisan migrate --force || (echo "Migration failed" && exit 1) &&
+
+        echo '== Cache production ==' &&
+        php artisan config:cache &&
+        php artisan route:cache &&
+        php artisan view:cache &&
+
+        echo '== Health check ==' &&
+        (
+          php artisan about 2>/dev/null ||
+          php artisan --version ||
+          php artisan route:list > /dev/null ||
+          (echo "Health check failed" && exit 1)
+        )
+      "
+
+  only:
+    - master
