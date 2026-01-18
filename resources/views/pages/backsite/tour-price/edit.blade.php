@@ -46,44 +46,43 @@
                                 @csrf
                                 @method('PUT')
                                 <div class="form-body">
-
-                                    {{-- Type --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Type</label>
-                                        <div class="col-md-9">
-                                            <select name="type" class="form-control select2" required>
-                                                @foreach ($types as $key => $label)
-                                                    <option value="{{ $key }}"
-                                                        {{ isset($data) && $data->type == $key ? 'selected' : '' }}>
-                                                        {{ $label }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    {{-- Description --}}
-                                    <div class="form-group row">
-                                        <label class="col-md-3 label-control required">Description</label>
-                                        <div class="col-md-9">
-                                            <textarea name="description" class="form-control summernote" required>
-                                                {{ isset($data) ? $data->description : '' }}
-                                            </textarea>
-                                        </div>
-                                    </div>
-
-                                    {{-- Tour (readonly / fixed) --}}
+                                    {{-- TOUR (LOCKED) --}}
                                     <div class="form-group row">
                                         <label class="col-md-3 label-control required">Tour</label>
                                         <div class="col-md-9">
-                                            <select name="id_tour" class="form-control" required>
-                                                <option value="{{ $tour->id }}" selected>
-                                                    {{ $tour->title }}
-                                                </option>
+                                            <select class="form-control" disabled>
+                                                <option selected>{{ $tour->title }}</option>
                                             </select>
+
+                                            <input type="hidden" name="id_tour" value="{{ $tour->id }}">
                                         </div>
                                     </div>
 
+                                    {{-- PAX --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Pax</label>
+                                        <div class="col-md-9">
+                                            <input type="number"
+                                                name="pax"
+                                                class="form-control"
+                                                value="{{ old('pax', $data->pax) }}"
+                                                min="1"
+                                                required>
+                                        </div>
+                                    </div>
+
+                                    {{-- PRICE --}}
+                                    <div class="form-group row">
+                                        <label class="col-md-3 label-control required">Price</label>
+                                        <div class="col-md-9">
+                                            <input type="number"
+                                                name="price"
+                                                class="form-control"
+                                                value="{{ old('price', $data->price) }}"
+                                                min="0"
+                                                required>
+                                        </div>
+                                    </div>
                                     {{-- Submit --}}
                                     <div class="mt-1 mb-1">
                                         <button type="submit" class="btn btn-primary">
