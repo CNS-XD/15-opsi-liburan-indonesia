@@ -44,7 +44,7 @@ public function boot()
             ->namespace($this->namespace)
             ->group(base_path('routes/api.php'));
 
-        Route::middleware(['web', 'backsite'])
+        Route::middleware('web')
             ->prefix('backsite')
             ->namespace($this->namespace)
             ->group(base_path('routes/backsite.php'));

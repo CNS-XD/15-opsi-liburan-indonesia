@@ -60,7 +60,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item @yield('activeSubMenuProfil') waves-effect waves-dark"
-                                href="{{ route('backsite.profil.user.index') }}">
+                                href="{{ route('backsite.profil.profile.index') }}">
                                 <i class="material-icons">person_outline</i> Edit Profile
                             </a>
 

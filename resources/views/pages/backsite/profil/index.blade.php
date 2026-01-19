@@ -29,7 +29,7 @@
                     <div class="card-content collapse show">
                         <div class="card-body">
                             <form class="form form-horizontal row-separator"
-                                action="{{ route('backsite.profil.user.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                                action="{{ route('backsite.profil.profile.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 
