@@ -22,6 +22,7 @@ use App\Http\Controllers\Backsite\BlogController;
 use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
+use App\Http\Controllers\Backsite\BookingController;
 
 // Backsite Routes with Middleware
 Route::name('backsite.')->middleware('auth')->group(function () {
@@ -346,6 +347,14 @@ Route::name('backsite.')->middleware('auth')->group(function () {
             [TourReviewController::class, 'destroy']
         )->name('destroy');
     });
+
+    // Booking
+    Route::prefix('booking')->name('booking.')->group(function () {
+        Route::get('/', [BookingController::class, 'index'])->name('index');
+        Route::get('datatable', [BookingController::class, 'datatable'])->name('datatable');
+    });
+
+
 
     // User
     Route::prefix('user')->name('user.')->group(function () {

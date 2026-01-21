@@ -11,9 +11,20 @@ use Carbon\Carbon;
 class Booking extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'bookings';
-    protected $guarded = [];
+
+    protected $fillable = [
+        'id_tour',
+        'id_tour_price',
+        'order_date',
+        'created_by',
+        'updated_by',
+        'created_at',
+        'updated_at',
+    ];
+
+    public $timestamps = false;
 
     protected static function boot()
     {
@@ -22,7 +33,7 @@ class Booking extends Model
         static::creating(function ($newData) {
             $newData->created_by = Auth::user()->email ?? null;
             $newData->created_at = Carbon::now()->toDateTimeString();
-            $newData->updated_at = NULL;
+            $newData->updated_at = null;
         });
 
         static::updating(function ($updateData) {
@@ -31,10 +42,26 @@ class Booking extends Model
         });
     }
 
+    // FORMAT CREATED AT
     public function getCreatedAtAttribute($date)
     {
+        if (!$date) {
+            return null;
+        }
+
         return Carbon::parse($date)
-        ->timezone('Asia/Jakarta')
-        ->translatedFormat('l, d F Y H:i') . ' WIB';
+            ->timezone('Asia/Jakarta')
+            ->translatedFormat('l, d F Y H:i') . ' WIB';
+    }
+
+    // RELATION
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class, 'id_tour');
+    }
+
+    public function tourPrice()
+    {
+        return $this->belongsTo(TourPrice::class, 'id_tour_price');
     }
 }
