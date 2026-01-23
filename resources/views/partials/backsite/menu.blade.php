@@ -110,7 +110,7 @@
                         data-original-title="Transaction">more_horiz</i>
                 </li>
                 <li class="nav-item @yield('activeMenuBooking')">
-                    <a href="" class="@yield('activeSubMenuBooking')">
+                    <a href="{{ route('backsite.booking.index') }}" class="@yield('activeSubMenuBooking')">
                         <i class="la la-money"></i>
                         <span class="menu-title" data-i18n="eCommerce">Booking</span>
                     </a>
