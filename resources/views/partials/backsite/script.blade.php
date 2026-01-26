@@ -86,4 +86,21 @@
             .replace(/[\s\W-]+/g, '-')  // Ganti spasi dan karakter tidak valid dengan "-"
             .replace(/^-+|-+$/g, '');   // Hilangkan "-" di awal/akhir
     }
+
+    // ================================
+    // UX SIDEBAR: AUTO SCROLL KE MENU AKTIF
+    // ================================
+    document.addEventListener("DOMContentLoaded", function () {
+        const activeMenu = document.querySelector(
+            ".main-menu .navigation li.active"
+        );
+
+        if (activeMenu) {
+            activeMenu.scrollIntoView({
+                behavior: "smooth",
+                block: "center"
+            });
+        }
+    });
+
 </script>

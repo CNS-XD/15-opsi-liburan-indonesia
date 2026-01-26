@@ -17,3 +17,6 @@
     <link href="/frontsite-assets/css/boxicons.min.css" rel="stylesheet">
     <!--  Style CSS  -->
     <link rel="stylesheet" href="/frontsite-assets/css/style.css">
+
+    <link rel="icon" href="/frontsite-assets/img/fav-icon.svg" type="image/gif" sizes="20x20">
+    <link href="/frontsite-assets/css/nice-select.css" rel="stylesheet">
