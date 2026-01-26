@@ -60,4 +60,45 @@
     .loader-primary div {
         background-color: {{ getColorTheme()->color_1 }} !important;
     }
+
+/* ================================
+   FIX SIDEBAR SCROLLBAR KETUTUP
+   ================================ */
+
+/* sidebar utama */
+.main-menu {
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* area yang discroll */
+.main-menu .main-menu-content {
+    height: calc(100vh - 70px); /* header */
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* 🔑 ini kunci agar scrollbar tidak ketutup */
+    padding-right: 12px;
+    box-sizing: content-box;
+}
+
+/* scrollbar style */
+.main-menu .main-menu-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.main-menu .main-menu-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.main-menu .main-menu-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 10px;
+}
+
+.main-menu .main-menu-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.5);
+}
+
+
 </style>

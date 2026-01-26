@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontsite\AboutUsController;
 use App\Http\Controllers\Frontsite\DivisiKompetisiController;
 use App\Http\Controllers\Backsite\DashboardController;
 use App\Http\Controllers\Frontsite\PengumumanController;
@@ -16,6 +17,8 @@ use App\Http\Controllers\Frontsite\VideoController;
 use App\Http\Controllers\Frontsite\HomeController;
 use App\Http\Controllers\Frontsite\FaqController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Frontsite\ContactController;
+use App\Http\Controllers\Frontsite\TravelNewsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -27,10 +30,15 @@ Route::post('login', [LoginController::class, 'login'])->name('login.auth');
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('sinkronisasi/{regCode}/{compCode}', [LoginController::class, 'storeSinkron'])->name('login.store-sinkron');
 
-// Route::name('frontsite.')->middleware('pbh')->group(function () {
-    // Tentang
-    // Route::get('tentang', [TentangController::class, 'index'])->name('tentang.index');
-
+Route::name('frontsite.')->middleware('pbh')->group(function () {
+    // About Us
+    Route::get('about-us', [AboutUsController::class, 'index'])->name('about-us.index');
+    // Contact Us
+    Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
+    // FAQ
+    Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
+    // Travel News
+    Route::get('travel-news', [TravelNewsController::class, 'index'])->name('travel-news.index');
     // Divisi Kompetisi
     // Route::get('divisi-kompetisi', [DivisiKompetisiController::class, 'index'])->name('divisi-kompetisi.index');
     // Route::get('divisi-kompetisi/{slug}', [DivisiKompetisiController::class, 'show'])->name('divisi-kompetisi.show');
@@ -62,20 +70,20 @@ Route::get('sinkronisasi/{regCode}/{compCode}', [LoginController::class, 'storeS
     // Route::get('unduhan', [UnduhanController::class, 'index'])->name('unduhan.index');
 
     // Statistik
-//     Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
-//     Route::get('get-total', [StatistikController::class, 'getTotal'])->name('statistik.get-total');
-//     Route::get('get-tim-divisi', [StatistikController::class, 'getTimDivisi'])->name('statistik.get-tim-divisi');
-//     Route::get('tim-provinsi-dtable', [StatistikController::class, 'dtableTimProvinsi'])->name('statistik.dtable-tim-provinsi');
+    // Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
+    // Route::get('get-total', [StatistikController::class, 'getTotal'])->name('statistik.get-total');
+    // Route::get('get-tim-divisi', [StatistikController::class, 'getTimDivisi'])->name('statistik.get-tim-divisi');
+    // Route::get('tim-provinsi-dtable', [StatistikController::class, 'dtableTimProvinsi'])->name('statistik.dtable-tim-provinsi');
 
-//     Route::get('peserta', [PesertaController::class, 'index'])->name('peserta.index');
-//     Route::get('peserta-dtable', [PesertaController::class, 'dtable'])->name('peserta.dtable');
+    // Route::get('peserta', [PesertaController::class, 'index'])->name('peserta.index');
+    // Route::get('peserta-dtable', [PesertaController::class, 'dtable'])->name('peserta.dtable');
 
-//     Route::get('sekolah', [SekolahController::class, 'index'])->name('sekolah.index');
-//     Route::get('sekolah-dtable', [SekolahController::class, 'dtable'])->name('sekolah.dtable');
-//     Route::get('sekolah/show/{id}', [SekolahController::class, 'show'])->name('sekolah.show');
+    // Route::get('sekolah', [SekolahController::class, 'index'])->name('sekolah.index');
+    // Route::get('sekolah-dtable', [SekolahController::class, 'dtable'])->name('sekolah.dtable');
+    // Route::get('sekolah/show/{id}', [SekolahController::class, 'show'])->name('sekolah.show');
 
-//     Route::get('provinsi', [ProvinsiController::class, 'index'])->name('provinsi.index');
-//     Route::get('provinsi-dtable', [ProvinsiController::class, 'dtable'])->name('provinsi.dtable');
-//     Route::get('provinsi-dtable-kab-kota', [ProvinsiController::class, 'dtableKabKota'])->name('provinsi.dtable-kab-kota');
-//     Route::get('provinsi/show/{id}', [ProvinsiController::class, 'show'])->name('provinsi.show');
-// });
+    // Route::get('provinsi', [ProvinsiController::class, 'index'])->name('provinsi.index');
+    // Route::get('provinsi-dtable', [ProvinsiController::class, 'dtable'])->name('provinsi.dtable');
+    // Route::get('provinsi-dtable-kab-kota', [ProvinsiController::class, 'dtableKabKota'])->name('provinsi.dtable-kab-kota');
+    // Route::get('provinsi/show/{id}', [ProvinsiController::class, 'show'])->name('provinsi.show');
+});

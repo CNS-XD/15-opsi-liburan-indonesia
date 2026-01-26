@@ -1,4 +1,4 @@
-    <!--  Main jQuery  -->
+        <!--  Main jQuery  -->
     <script src="/frontsite-assets/js/jquery-3.7.1.min.js"></script>
     <script src="/frontsite-assets/js/jquery-ui.js"></script>
     <script src="/frontsite-assets/js/moment.min.js"></script>
@@ -23,3 +23,7 @@
     <!-- Custom JS -->
     <script src="/frontsite-assets/js/select-dropdown.js"></script>
     <script src="/frontsite-assets/js/custom.js"></script>
+
+    <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="/frontsite-assets/js/jquery-3.7.1.min.js"></script>
+    <!-- Nice Select JS -->
+    <script src="frontsite-assets/js/jquery.nice-select.min.js"></script>

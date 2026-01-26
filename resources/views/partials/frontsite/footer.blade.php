@@ -142,15 +142,15 @@
                             <ul class="widget-list">
                                 <li><a href="javascript:void(0);">Guide Book</a></li>
                                 <li><a href="javascript:void(0);">Package Tour</a></li>
-                                <li><a href="javascript:void(0);">About Us</a></li>
-                                <li><a href="javascript:void(0);">Travel News</a></li>
+                                <li><a href="{{ route('frontsite.about-us.index') }}">About Us</a></li>
+                                <li><a href="{{ route('frontsite.travel-news.index') }}">Travel News</a></li>
                                 <li><a href="javascript:void(0);">Gallery</a></li>
-                                <li><a href="javascript:void(0);">FAQ</a></li>
+                                <li><a href="{{ route('frontsite.faq.index') }}">FAQ</a></li>
                                 <li><a href="javascript:void(0);">Destinations</a></li>
                                 <li><a href="javascript:void(0);">Departure City</a></li>
                                 <li><a href="javascript:void(0);">Customized Tour</a></li>
                                 <li><a href="javascript:void(0);">Review or Testimony</a></li>
-                                <li><a href="javascript:void(0);">Contact</a></li>
+                                <li><a href="{{ route('frontsite.contact.index') }}">Contact</a></li>
                                 <li><a href="javascript:void(0);">Terms & Condition</a></li>
                                 <li><a href="javascript:void(0);">Privacy & Policy</a></li>
                             </ul>
