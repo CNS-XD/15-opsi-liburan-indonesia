@@ -26,10 +26,20 @@ class Tour extends Model
 
         static::creating(function ($data) {
             $data->created_by = Auth::user()->email ?? null;
+            
+            // Generate slug if not provided
+            if (empty($data->slug)) {
+                $data->slug = Str::slug($data->title);
+            }
         });
 
         static::updating(function ($data) {
             $data->updated_by = Auth::user()->email ?? null;
+            
+            // Update slug if title changed
+            if ($data->isDirty('title') && empty($data->slug)) {
+                $data->slug = Str::slug($data->title);
+            }
         });
     }
 

@@ -15,7 +15,14 @@ class TourReview extends Model
     protected $table = 'tour_reviews';
     protected $guarded = [];
 
-    public $timestamps = false;
+    // Enable timestamps
+    public $timestamps = true;
+    
+    // Cast created_at to Carbon instance
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
 
     protected static function boot()
     {
@@ -23,13 +30,10 @@ class TourReview extends Model
 
         static::creating(function ($model) {
             $model->created_by = Auth::user()->email ?? null;
-            $model->created_at = Carbon::now()->toDateTimeString();
-            $model->updated_at = null;
         });
 
         static::updating(function ($model) {
             $model->updated_by = Auth::user()->email ?? null;
-            $model->updated_at = Carbon::now()->toDateTimeString();
         });
     }
 
@@ -39,19 +43,5 @@ class TourReview extends Model
     public function tour()
     {
         return $this->belongsTo(Tour::class, 'id_tour');
-    }
-
-    /**
-     * Format created_at ke WIB (Indonesia)
-     */
-    public function getCreatedAtAttribute($value)
-    {
-        if (!$value) {
-            return null;
-        }
-
-        return Carbon::parse($value)
-            ->timezone('Asia/Jakarta')
-            ->translatedFormat('l, d F Y H:i') . ' WIB';
     }
 }

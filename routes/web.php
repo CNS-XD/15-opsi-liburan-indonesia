@@ -16,13 +16,20 @@ use App\Http\Controllers\Frontsite\JadwalController;
 use App\Http\Controllers\Frontsite\VideoController;
 use App\Http\Controllers\Frontsite\HomeController;
 use App\Http\Controllers\Frontsite\FaqController;
+use App\Http\Controllers\Frontsite\TourController;
+use App\Http\Controllers\Frontsite\BookingController;
+use App\Http\Controllers\Frontsite\PaymentController;
+use App\Http\Controllers\Frontsite\ReviewController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Frontsite\ContactController;
-use App\Http\Controllers\Frontsite\TravelNewsController;
+use App\Http\Controllers\Frontsite\NewsController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [HomeController::class, 'index'])->name('index');
+
+// Xendit Webhook (outside middleware)
+Route::post('webhook/xendit/invoice', [PaymentController::class, 'webhook'])->name('webhook.xendit.invoice');
 
 // Auth::routes();
 Route::get('login', [LoginController::class, 'index'])->name('login');
@@ -31,59 +38,34 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('sinkronisasi/{regCode}/{compCode}', [LoginController::class, 'storeSinkron'])->name('login.store-sinkron');
 
 Route::name('frontsite.')->middleware('pbh')->group(function () {
+    // Tours
+    Route::get('tours', [TourController::class, 'index'])->name('tours.index');
+    Route::get('tours/{slug}', [TourController::class, 'show'])->name('tours.show');
+    Route::get('tours/{slug}/reviews', [ReviewController::class, 'index'])->name('tours.reviews');
+    
+    // Booking
+    Route::post('booking', [BookingController::class, 'store'])->name('booking.store');
+    Route::get('booking/success/{bookingCode}', [BookingController::class, 'success'])->name('booking.success');
+    Route::get('booking/{bookingCode}', [BookingController::class, 'show'])->name('booking.show');
+    
+    // Payment
+    Route::get('payment/{bookingCode}', [PaymentController::class, 'show'])->name('payment.show');
+    Route::post('payment/{bookingCode}', [PaymentController::class, 'create'])->name('payment.create');
+    Route::get('payment/status/{paymentCode}', [PaymentController::class, 'status'])->name('payment.status');
+    Route::get('payment/success/{paymentCode}', [PaymentController::class, 'success'])->name('payment.success');
+    Route::get('payment/failed/{paymentCode}', [PaymentController::class, 'failed'])->name('payment.failed');
+    Route::post('payment/cancel/{paymentCode}', [PaymentController::class, 'cancel'])->name('payment.cancel');
+    Route::get('payment/check-status/{paymentCode}', [PaymentController::class, 'checkStatus'])->name('payment.check-status');
+    
+    // Reviews
+    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    
     // About Us
     Route::get('about-us', [AboutUsController::class, 'index'])->name('about-us.index');
     // Contact Us
     Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
     // FAQ
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
-    // Travel News
-    Route::get('travel-news', [TravelNewsController::class, 'index'])->name('travel-news.index');
-    // Divisi Kompetisi
-    // Route::get('divisi-kompetisi', [DivisiKompetisiController::class, 'index'])->name('divisi-kompetisi.index');
-    // Route::get('divisi-kompetisi/{slug}', [DivisiKompetisiController::class, 'show'])->name('divisi-kompetisi.show');
-
-    // Pengumuman
-    // Route::get('pengumuman', [PengumumanController::class, 'index'])->name('pengumuman.index');
-    // Route::get('pengumuman/{slug}', [PengumumanController::class, 'show'])->name('pengumuman.show');
-    
-    // Berita
-    // Route::get('berita', [BeritaController::class, 'index'])->name('berita.index');
-    // Route::get('berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
-
-    // Galeri
-    // Route::get('galeri', [GaleriController::class, 'index'])->name('galeri.index');
-    // Route::get('galeri/{slug}', [GaleriController::class, 'show'])->name('galeri.show');
-
-    // Video
-    // Route::get('video', [VideoController::class, 'index'])->name('video.index');
-    // Route::get('video/{slug}', [VideoController::class, 'show'])->name('video.show');
-
-    // Jadwal
-    // Route::get('jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
-
-    // FAQ
-    // Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
-    // Route::get('faq/{id}', [FaqController::class, 'show'])->name('faq.show');
-
-    // Unduhan
-    // Route::get('unduhan', [UnduhanController::class, 'index'])->name('unduhan.index');
-
-    // Statistik
-    // Route::get('statistik', [StatistikController::class, 'index'])->name('statistik.index');
-    // Route::get('get-total', [StatistikController::class, 'getTotal'])->name('statistik.get-total');
-    // Route::get('get-tim-divisi', [StatistikController::class, 'getTimDivisi'])->name('statistik.get-tim-divisi');
-    // Route::get('tim-provinsi-dtable', [StatistikController::class, 'dtableTimProvinsi'])->name('statistik.dtable-tim-provinsi');
-
-    // Route::get('peserta', [PesertaController::class, 'index'])->name('peserta.index');
-    // Route::get('peserta-dtable', [PesertaController::class, 'dtable'])->name('peserta.dtable');
-
-    // Route::get('sekolah', [SekolahController::class, 'index'])->name('sekolah.index');
-    // Route::get('sekolah-dtable', [SekolahController::class, 'dtable'])->name('sekolah.dtable');
-    // Route::get('sekolah/show/{id}', [SekolahController::class, 'show'])->name('sekolah.show');
-
-    // Route::get('provinsi', [ProvinsiController::class, 'index'])->name('provinsi.index');
-    // Route::get('provinsi-dtable', [ProvinsiController::class, 'dtable'])->name('provinsi.dtable');
-    // Route::get('provinsi-dtable-kab-kota', [ProvinsiController::class, 'dtableKabKota'])->name('provinsi.dtable-kab-kota');
-    // Route::get('provinsi/show/{id}', [ProvinsiController::class, 'show'])->name('provinsi.show');
+    // News
+    Route::get('news', [NewsController::class, 'index'])->name('news.index');
 });

@@ -23,6 +23,7 @@ use App\Http\Controllers\Backsite\TourController;
 use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
 use App\Http\Controllers\Backsite\BookingController;
+use App\Http\Controllers\Backsite\PaymentController;
 
 // Backsite Routes with Middleware
 Route::name('backsite.')->middleware('auth')->group(function () {
@@ -114,7 +115,6 @@ Route::name('backsite.')->middleware('auth')->group(function () {
 
     // Tour Departure (custom karena nested ke Tour)
     Route::prefix('tour-departure')->name('tour-departure.')->group(function () {
-
         Route::get(
             'datatable/{idTour}',
             [TourDepartureController::class, 'datatable']
@@ -154,7 +154,6 @@ Route::name('backsite.')->middleware('auth')->group(function () {
 
     // Tour Destination (custom karena nested ke Tour)
     Route::prefix('tour-destination')->name('tour-destination.')->group(function () {
-
         Route::get(
             'datatable/{idTour}',
             [TourDestinationController::class, 'datatable']
@@ -193,7 +192,6 @@ Route::name('backsite.')->middleware('auth')->group(function () {
 
     // Tour Detail (custom karena nested ke Tour)
     Route::prefix('tour-detail')->name('tour-detail.')->group(function () {
-
         Route::get(
             'datatable/{idTour}',
             [TourDetailController::class, 'datatable']
@@ -232,7 +230,6 @@ Route::name('backsite.')->middleware('auth')->group(function () {
 
     // Tour Photo (custom karena nested ke Tour)
     Route::prefix('tour-photo')->name('tour-photo.')->group(function () {
-
         Route::get(
             'datatable/{idTour}',
             [TourPhotoController::class, 'datatable']
@@ -271,7 +268,6 @@ Route::name('backsite.')->middleware('auth')->group(function () {
 
     // Tour Price (custom karena nested ke Tour)
     Route::prefix('tour-price')->name('tour-price.')->group(function () {
-
         Route::get(
             'datatable/{idTour}',
             [TourPriceController::class, 'datatable']
@@ -311,7 +307,6 @@ Route::name('backsite.')->middleware('auth')->group(function () {
 
     // Tour Review (custom karena nested ke Tour)
     Route::prefix('tour-review')->name('tour-review.')->group(function () {
-
         Route::get(
             'datatable/{idTour}',
             [TourReviewController::class, 'datatable']
@@ -352,9 +347,21 @@ Route::name('backsite.')->middleware('auth')->group(function () {
     Route::prefix('booking')->name('booking.')->group(function () {
         Route::get('/', [BookingController::class, 'index'])->name('index');
         Route::get('datatable', [BookingController::class, 'datatable'])->name('datatable');
+        Route::get('{id}', [BookingController::class, 'show'])->name('show');
+        Route::put('{id}/status', [BookingController::class, 'updateStatus'])->name('update-status');
     });
 
+    // Payment
+    Route::prefix('payment')->name('payment.')->group(function () {
+        Route::get('/', [PaymentController::class, 'index'])->name('index');
+        Route::get('datatable', [PaymentController::class, 'datatable'])->name('datatable');
+        Route::get('{id}', [PaymentController::class, 'show'])->name('show');
+    });
 
+    // Currency
+    Route::prefix('currency')->name('currency.')->group(function () {
+        Route::post('refresh', [BookingController::class, 'refreshExchangeRate'])->name('refresh');
+    });
 
     // User
     Route::prefix('user')->name('user.')->group(function () {

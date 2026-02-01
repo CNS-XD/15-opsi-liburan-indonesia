@@ -17,6 +17,7 @@
         "realrashid/sweet-alert": "^7.3",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/image-optimizer": "^1.8",
+        "xendit/xendit-php": "^7.0",
         "yajra/laravel-datatables-oracle": "^12.6"
     },
     "require-dev": {

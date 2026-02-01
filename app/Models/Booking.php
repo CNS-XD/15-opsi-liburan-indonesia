@@ -13,16 +13,7 @@ class Booking extends Model
     use HasFactory;
 
     protected $table = 'bookings';
-
-    protected $fillable = [
-        'id_tour',
-        'id_tour_price',
-        'order_date',
-        'created_by',
-        'updated_by',
-        'created_at',
-        'updated_at',
-    ];
+    protected $guarded = [];
 
     public $timestamps = false;
 
@@ -31,7 +22,8 @@ class Booking extends Model
         parent::boot();
 
         static::creating(function ($newData) {
-            $newData->created_by = Auth::user()->email ?? null;
+            // For frontend bookings, use the customer's email as created_by
+            $newData->created_by = $newData->email ?? (Auth::user()->email ?? null);
             $newData->created_at = Carbon::now()->toDateTimeString();
             $newData->updated_at = null;
         });
@@ -63,5 +55,15 @@ class Booking extends Model
     public function tourPrice()
     {
         return $this->belongsTo(TourPrice::class, 'id_tour_price');
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function latestPayment()
+    {
+        return $this->hasOne(Payment::class)->latest();
     }
 }

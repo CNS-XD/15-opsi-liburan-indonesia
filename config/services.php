@@ -35,4 +35,19 @@ return [
         ],
     ],
 
+    // Exchange Rate APIs
+    'exchange_rate' => [
+        'api_key' => env('EXCHANGE_RATE_API_KEY'),
+        'base_url' => env('EXCHANGE_RATE_BASE_URL', 'https://api.exchangerate-api.com/v4/latest'),
+        'fallback_rate' => env('EXCHANGE_RATE_FALLBACK', 17100), // Fallback rate USD to IDR
+    ],
+
+    'fixer' => [
+        'api_key' => env('FIXER_API_KEY'),
+    ],
+
+    'currencylayer' => [
+        'api_key' => env('CURRENCYLAYER_API_KEY'),
+    ],
+
 ];

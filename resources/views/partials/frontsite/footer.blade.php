@@ -143,7 +143,7 @@
                                 <li><a href="javascript:void(0);">Guide Book</a></li>
                                 <li><a href="javascript:void(0);">Package Tour</a></li>
                                 <li><a href="{{ route('frontsite.about-us.index') }}">About Us</a></li>
-                                <li><a href="{{ route('frontsite.travel-news.index') }}">Travel News</a></li>
+                                <li><a href="{{ route('frontsite.news.index') }}">Travel News</a></li>
                                 <li><a href="javascript:void(0);">Gallery</a></li>
                                 <li><a href="{{ route('frontsite.faq.index') }}">FAQ</a></li>
                                 <li><a href="javascript:void(0);">Destinations</a></li>

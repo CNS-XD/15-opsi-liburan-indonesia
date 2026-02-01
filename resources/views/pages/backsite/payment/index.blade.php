@@ -1,12 +1,12 @@
 @extends('layouts.backsite')
 
 {{-- Title dan Active Menu --}}
-@section('title', 'Booking Management')
-@section('activeMenuBooking', 'open active')
+@section('title', 'Payment Management')
+@section('activeMenuPayment', 'open active')
 
 {{-- Breadcrumb --}}
 @section('breadcrumb1', 'Transaction')
-@section('breadcrumb2', 'Booking')
+@section('breadcrumb2', 'Payment')
 
 {{-- Button Pojok Kanan --}}
 @section('buttonRight')
@@ -25,11 +25,11 @@
                     <div class="card-body">
                         <div class="media d-flex">
                             <div class="media-body text-left">
-                                <h3 class="primary">{{ $stats['total_bookings'] }}</h3>
-                                <span>Total Booking</span>
+                                <h3 class="primary">{{ $stats['total_payments'] }}</h3>
+                                <span>Total Payment</span>
                             </div>
                             <div class="align-self-center">
-                                <i class="icon-book-open primary font-large-2 float-right"></i>
+                                <i class="icon-credit-card primary font-large-2 float-right"></i>
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,7 @@
                     <div class="card-body">
                         <div class="media d-flex">
                             <div class="media-body text-left">
-                                <h3 class="warning">{{ $stats['pending_bookings'] }}</h3>
+                                <h3 class="warning">{{ $stats['pending_payments'] }}</h3>
                                 <span>Pending</span>
                             </div>
                             <div class="align-self-center">
@@ -61,8 +61,8 @@
                     <div class="card-body">
                         <div class="media d-flex">
                             <div class="media-body text-left">
-                                <h3 class="success">{{ $stats['confirmed_bookings'] }}</h3>
-                                <span>Confirmed</span>
+                                <h3 class="success">{{ $stats['paid_payments'] }}</h3>
+                                <span>Paid</span>
                             </div>
                             <div class="align-self-center">
                                 <i class="icon-check success font-large-2 float-right"></i>
@@ -79,8 +79,8 @@
                     <div class="card-body">
                         <div class="media d-flex">
                             <div class="media-body text-left">
-                                <h3 class="danger">{{ $stats['cancelled_bookings'] }}</h3>
-                                <span>Cancelled</span>
+                                <h3 class="danger">{{ $stats['failed_payments'] }}</h3>
+                                <span>Failed</span>
                             </div>
                             <div class="align-self-center">
                                 <i class="icon-close danger font-large-2 float-right"></i>
@@ -115,11 +115,11 @@
                     <div class="card-body">
                         <div class="media d-flex">
                             <div class="media-body text-left">
-                                <h3 class="warning">{{ $stats['pending_payments'] }}</h3>
-                                <span>Pending Payment</span>
+                                <h3 class="warning">Rp {{ number_format($stats['pending_amount'], 0, ',', '.') }}</h3>
+                                <span>Pending Amount</span>
                             </div>
                             <div class="align-self-center">
-                                <i class="icon-credit-card warning font-large-2 float-right"></i>
+                                <i class="icon-hourglass warning font-large-2 float-right"></i>
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
 
                     {{-- Card Header --}}
                     <div class="card-header">
-                        <h4 class="card-title">Booking Management</h4>
+                        <h4 class="card-title">Payment Management</h4>
                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -196,13 +196,13 @@
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Booking Code</th>
-                                            <th>Customer Info</th>
+                                            <th>Payment Code</th>
+                                            <th>Booking Info</th>
                                             <th>Tour Info</th>
-                                            <th>Booking Details</th>
-                                            <th>Total Amount</th>
-                                            <th>Booking Status</th>
-                                            <th>Payment Status</th>
+                                            <th>Amount</th>
+                                            <th>Payment Method</th>
+                                            <th>Status</th>
+                                            <th>Payment Date</th>
                                             <th>Created At</th>
                                             <th>Action</th>
                                         </tr>
@@ -218,39 +218,6 @@
         </div>
     </section>
 </div>
-
-<!-- Update Status Modal -->
-<div class="modal fade" id="updateStatusModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Update Booking Status</h4>
-                <button type="button" class="close" data-dismiss="modal">
-                    <span>&times;</span>
-                </button>
-            </div>
-            <form id="updateStatusForm" method="POST">
-                @csrf
-                @method('PUT')
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" class="form-control" required>
-                            <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="cancelled">Cancelled</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Update Status</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection
 
 @push('after-script')
@@ -263,7 +230,7 @@
             scrollX: true,
 
             ajax: {
-                url: "{{ route('backsite.booking.datatable') }}"
+                url: "{{ route('backsite.payment.datatable') }}"
             },
 
             columns: [
@@ -274,39 +241,38 @@
                     width: '5%'
                 },
                 {
-                    data: 'booking_code',
-                    name: 'booking_code',
+                    data: 'payment_code',
+                    name: 'payment_code',
                     width: '10%'
                 },
                 {
-                    data: 'customer_info',
-                    name: 'name',
+                    data: 'booking_info',
+                    name: 'booking.booking_code',
                     width: '15%'
                 },
                 {
                     data: 'tour_info',
-                    name: 'tour.title',
+                    name: 'booking.tour.title',
                     width: '15%'
                 },
                 {
-                    data: 'booking_details',
-                    name: 'travelers',
-                    width: '12%'
-                },
-                {
-                    data: 'total_amount',
-                    name: 'total_price',
+                    data: 'amount',
+                    name: 'amount',
                     width: '10%'
                 },
                 {
-                    data: 'booking_status',
+                    data: 'payment_method',
+                    name: 'payment_method',
+                    width: '12%'
+                },
+                {
+                    data: 'status',
                     name: 'status',
                     width: '8%'
                 },
                 {
-                    data: 'payment_status',
-                    name: 'payment_status',
-                    orderable: false,
+                    data: 'payment_date',
+                    name: 'paid_at',
                     width: '10%'
                 },
                 {
@@ -323,11 +289,6 @@
             ]
         });
     });
-
-    function updateStatus(bookingId) {
-        $('#updateStatusForm').attr('action', '/backsite/booking/' + bookingId + '/status');
-        $('#updateStatusModal').modal('show');
-    }
 
     function refreshExchangeRate() {
         $.ajax({
@@ -357,11 +318,11 @@
 </script>
 
 <style>
-    .customer-info, .tour-info, .booking-details, .amount-info, .payment-info, .date-info {
+    .booking-info, .tour-info, .amount-info, .method-info, .date-info {
         line-height: 1.4;
     }
 
-    .customer-info strong, .tour-info strong, .booking-details strong, .amount-info strong, .date-info strong {
+    .booking-info strong, .tour-info strong, .amount-info strong, .method-info strong, .date-info strong {
         display: block;
         margin-bottom: 2px;
     }
