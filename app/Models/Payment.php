@@ -137,6 +137,32 @@ class Payment extends Model
     }
 
     /**
+     * Get formatted payment method
+     */
+    public function getFormattedPaymentMethodAttribute()
+    {
+        if (!$this->payment_method) {
+            return 'N/A';
+        }
+        
+        $method = match($this->payment_method) {
+            'virtual_account' => 'Virtual Account',
+            'ewallet' => 'E-Wallet',
+            'qr_code' => 'QR Code',
+            'credit_card' => 'Credit Card',
+            'bank_transfer' => 'Bank Transfer',
+            default => ucfirst(str_replace('_', ' ', $this->payment_method))
+        };
+        
+        if ($this->payment_channel) {
+            $channel = strtoupper($this->payment_channel);
+            return "{$method} ({$channel})";
+        }
+        
+        return $method;
+    }
+
+    /**
      * Get status badge class
      */
     public function getStatusBadgeClassAttribute()

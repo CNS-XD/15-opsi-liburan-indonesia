@@ -164,7 +164,7 @@ class BookingController extends Controller
                 
                 return '<div class="payment-info">
                     <span class="badge ' . $payment->status_badge_class . '">' . $payment->status_label . '</span><br>
-                    <small class="text-muted">' . ucfirst(str_replace('_', ' ', $payment->payment_method ?? 'N/A')) . '</small>
+                    <small class="text-muted">' . $payment->formatted_payment_method . '</small>
                 </div>';
             })
 

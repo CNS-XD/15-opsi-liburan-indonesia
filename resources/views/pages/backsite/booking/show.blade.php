@@ -208,14 +208,8 @@
                                     </tr>
                                     <tr>
                                         <td><strong>Method:</strong></td>
-                                        <td>{{ ucfirst(str_replace('_', ' ', $payment->payment_method ?? 'N/A')) }}</td>
+                                        <td>{{ $payment->formatted_payment_method }}</td>
                                     </tr>
-                                    @if($payment->payment_channel)
-                                    <tr>
-                                        <td><strong>Channel:</strong></td>
-                                        <td>{{ strtoupper($payment->payment_channel) }}</td>
-                                    </tr>
-                                    @endif
                                     @if($payment->paid_at)
                                     <tr>
                                         <td><strong>Paid At:</strong></td>

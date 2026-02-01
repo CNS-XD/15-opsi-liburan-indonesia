@@ -113,15 +113,41 @@ class PaymentController extends Controller
     {
         $payment = Payment::with('booking.tour')->where('payment_code', $paymentCode)->firstOrFail();
         
-        // Update payment status if needed
+        // For test environment, manually mark as paid if coming from success URL
+        if ($payment->status === Payment::STATUS_PENDING) {
+            Log::info('Payment success page accessed, marking as paid', [
+                'payment_code' => $paymentCode,
+                'payment_id' => $payment->id
+            ]);
+            
+            $payment->markAsPaid();
+            $payment->booking->markAsConfirmed();
+        }
+        
+        // Also try to get latest status from Xendit
         if ($payment->xendit_invoice_id) {
             $statusResult = $this->xenditService->getPaymentStatus($payment->xendit_invoice_id);
             if ($statusResult['success']) {
                 $invoice = $statusResult['invoice'];
+                Log::info('Xendit status check', [
+                    'payment_code' => $paymentCode,
+                    'xendit_status' => $invoice['status'] ?? 'unknown'
+                ]);
+                
+                // Update payment method and channel from Xendit response
+                if (isset($invoice['payment_method']) && !$payment->payment_method) {
+                    $payment->payment_method = $invoice['payment_method'];
+                }
+                if (isset($invoice['payment_channel']) && !$payment->payment_channel) {
+                    $payment->payment_channel = $invoice['payment_channel'];
+                }
+                
                 if (strtoupper($invoice['status']) === 'PAID' && $payment->status !== Payment::STATUS_PAID) {
                     $payment->markAsPaid();
-                    $payment->booking->update(['status' => 'confirmed']);
+                    $payment->booking->markAsConfirmed();
                 }
+                
+                $payment->save();
             }
         }
 
@@ -202,7 +228,7 @@ class PaymentController extends Controller
                 
                 if ($xenditStatus === 'PAID' && $payment->status !== Payment::STATUS_PAID) {
                     $payment->markAsPaid();
-                    $payment->booking->update(['status' => 'confirmed']);
+                    $payment->booking->markAsConfirmed();
                 } elseif ($xenditStatus === 'EXPIRED' && $payment->status === Payment::STATUS_PENDING) {
                     $payment->markAsExpired();
                 }

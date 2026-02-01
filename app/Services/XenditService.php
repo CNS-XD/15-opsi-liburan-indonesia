@@ -255,6 +255,14 @@ class XenditService
             // Update payment status based on Xendit status
             $payment->xendit_status = $status;
             $payment->xendit_response = $payload;
+            
+            // Extract payment method and channel from Xendit response
+            if (isset($payload['payment_method'])) {
+                $payment->payment_method = $payload['payment_method'];
+            }
+            if (isset($payload['payment_channel'])) {
+                $payment->payment_channel = $payload['payment_channel'];
+            }
 
             switch (strtoupper($status)) {
                 case 'PAID':
@@ -301,31 +309,20 @@ class XenditService
     public function getPaymentStatus($invoiceId)
     {
         try {
-            // Try using the SDK method first
-            try {
-                $invoice = $this->invoiceApi->getInvoice($invoiceId);
+            // Use direct API call as primary method since SDK methods are inconsistent
+            $response = Http::withHeaders([
+                'Authorization' => 'Basic ' . base64_encode($this->secretKey . ':'),
+                'Content-Type' => 'application/json',
+            ])->get("https://api.xendit.co/v2/invoices/{$invoiceId}");
+            
+            if ($response->successful()) {
+                $invoice = $response->json();
                 return [
                     'success' => true,
                     'invoice' => $invoice
                 ];
-            } catch (Exception $sdkException) {
-                Log::warning('SDK method failed, trying direct API call: ' . $sdkException->getMessage());
-                
-                // Fallback to direct API call
-                $response = Http::withHeaders([
-                    'Authorization' => 'Basic ' . base64_encode($this->secretKey . ':'),
-                    'Content-Type' => 'application/json',
-                ])->get("https://api.xendit.co/v2/invoices/{$invoiceId}");
-                
-                if ($response->successful()) {
-                    $invoice = $response->json();
-                    return [
-                        'success' => true,
-                        'invoice' => $invoice
-                    ];
-                } else {
-                    throw new Exception('API call failed: ' . $response->body());
-                }
+            } else {
+                throw new Exception('API call failed: ' . $response->body());
             }
         } catch (Exception $e) {
             Log::error('Failed to get payment status: ' . $e->getMessage());
@@ -352,9 +349,14 @@ class XenditService
                 ];
             }
 
-            // Try using the SDK method first
-            try {
-                $invoice = $this->invoiceApi->expireInvoice($invoiceId);
+            // Use direct API call as primary method since SDK methods are inconsistent
+            $response = Http::withHeaders([
+                'Authorization' => 'Basic ' . base64_encode($this->secretKey . ':'),
+                'Content-Type' => 'application/json',
+            ])->post("https://api.xendit.co/v2/invoices/{$invoiceId}/expire");
+            
+            if ($response->successful()) {
+                $invoice = $response->json();
                 
                 // Mark payment as cancelled
                 $payment->markAsCancelled('Payment cancelled by user');
@@ -364,29 +366,8 @@ class XenditService
                     'invoice' => $invoice,
                     'payment' => $payment
                 ];
-            } catch (Exception $sdkException) {
-                Log::warning('SDK method failed, trying direct API call: ' . $sdkException->getMessage());
-                
-                // Fallback to direct API call
-                $response = Http::withHeaders([
-                    'Authorization' => 'Basic ' . base64_encode($this->secretKey . ':'),
-                    'Content-Type' => 'application/json',
-                ])->post("https://api.xendit.co/v2/invoices/{$invoiceId}/expire");
-                
-                if ($response->successful()) {
-                    $invoice = $response->json();
-                    
-                    // Mark payment as cancelled
-                    $payment->markAsCancelled('Payment cancelled by user');
-                    
-                    return [
-                        'success' => true,
-                        'invoice' => $invoice,
-                        'payment' => $payment
-                    ];
-                } else {
-                    throw new Exception('API call failed: ' . $response->body());
-                }
+            } else {
+                throw new Exception('API call failed: ' . $response->body());
             }
         } catch (Exception $e) {
             Log::error('Failed to cancel payment: ' . $e->getMessage());
