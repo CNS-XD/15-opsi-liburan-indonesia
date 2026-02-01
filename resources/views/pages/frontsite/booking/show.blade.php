@@ -15,13 +15,9 @@
                         
                         <!-- Status Badge -->
                         <div class="status-badge mt-20">
-                            @if($booking->status == 'pending')
-                                <span class="badge bg-warning text-dark px-3 py-2">Pending Confirmation</span>
-                            @elseif($booking->status == 'confirmed')
-                                <span class="badge bg-success px-3 py-2">Confirmed</span>
-                            @else
-                                <span class="badge bg-danger px-3 py-2">Cancelled</span>
-                            @endif
+                            <span class="badge {{ str_replace('badge-', 'bg-', $booking->status_badge_class) }} px-3 py-2">
+                                {{ $booking->status_label }}
+                            </span>
                         </div>
                     </div>
 
@@ -122,20 +118,45 @@
                     <!-- Status Information -->
                     <div class="status-info mb-40 p-20" style="border: 1px solid #dee2e6; border-radius: 10px;">
                         <h4 class="mb-20">Booking Status</h4>
-                        @if($booking->status == 'pending')
+                        @if($booking->status == \App\Models\Booking::STATUS_PENDING)
                             <div class="alert alert-warning">
-                                <h6 class="alert-heading">Pending Confirmation</h6>
+                                <h6 class="alert-heading">{{ $booking->status_label }}</h6>
                                 <p class="mb-0">Your booking is currently being processed. Our team will contact you within 24 hours to confirm the details and arrange payment.</p>
                             </div>
-                        @elseif($booking->status == 'confirmed')
+                        @elseif($booking->status == \App\Models\Booking::STATUS_CONFIRMED)
                             <div class="alert alert-success">
-                                <h6 class="alert-heading">Booking Confirmed</h6>
+                                <h6 class="alert-heading">{{ $booking->status_label }}</h6>
                                 <p class="mb-0">Great! Your booking has been confirmed. You will receive detailed itinerary and preparation instructions via email.</p>
                             </div>
-                        @else
+                        @elseif($booking->status == \App\Models\Booking::STATUS_CANCELLED)
                             <div class="alert alert-danger">
-                                <h6 class="alert-heading">Booking Cancelled</h6>
+                                <h6 class="alert-heading">{{ $booking->status_label }}</h6>
                                 <p class="mb-0">This booking has been cancelled. If you have any questions, please contact our support team.</p>
+                                @if($booking->cancellation_reason)
+                                    <hr>
+                                    <small><strong>Reason:</strong> {{ $booking->cancellation_reason }}</small>
+                                @endif
+                            </div>
+                        @elseif($booking->status == \App\Models\Booking::STATUS_COMPLETED)
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">{{ $booking->status_label }}</h6>
+                                <p class="mb-0">Your tour has been completed. We hope you had a wonderful experience! Please consider leaving a review.</p>
+                            </div>
+                        @endif
+                        
+                        <!-- Payment Status -->
+                        @if($booking->latestPayment)
+                            <div class="payment-status mt-20 p-15" style="background: #f8f9fa; border-radius: 8px;">
+                                <h6 class="mb-10">Payment Status</h6>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span>{{ $booking->latestPayment->payment_code }}</span>
+                                    <span class="badge {{ str_replace('badge-', 'bg-', $booking->latestPayment->status_badge_class) }}">
+                                        {{ $booking->latestPayment->status_label }}
+                                    </span>
+                                </div>
+                                @if($booking->latestPayment->failure_reason)
+                                    <small class="text-danger mt-5 d-block">{{ $booking->latestPayment->failure_reason }}</small>
+                                @endif
                             </div>
                         @endif
                     </div>

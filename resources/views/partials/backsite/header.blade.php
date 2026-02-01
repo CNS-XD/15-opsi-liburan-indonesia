@@ -53,7 +53,7 @@
                                         alt="Profile Photo Not Uploaded Yet">
                                 @else
                                     <img src="/storage/{{ \Auth::user()->photo }}"
-                                        onerror="this.src='backsite-assets/images/image-broken.jpg';"
+                                        onerror="this.src='/backsite-assets/images/image-broken.jpg';"
                                         alt="Profile picture">
                                 @endif
                             </span>

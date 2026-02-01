@@ -98,6 +98,20 @@ class Payment extends Model
     }
 
     /**
+     * Mark payment as cancelled
+     */
+    public function markAsCancelled($reason = null)
+    {
+        $this->update([
+            'status' => self::STATUS_CANCELLED,
+            'failure_reason' => $reason,
+        ]);
+        
+        // Also mark the booking as cancelled
+        $this->booking->markAsCancelled('Payment cancelled');
+    }
+
+    /**
      * Get formatted amount
      */
     public function getFormattedAmountAttribute()

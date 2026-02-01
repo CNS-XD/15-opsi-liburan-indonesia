@@ -41,9 +41,10 @@ class BookingController extends Controller
         // Get booking statistics
         $data['stats'] = [
             'total_bookings' => Booking::count(),
-            'pending_bookings' => Booking::where('status', 'pending')->count(),
-            'confirmed_bookings' => Booking::where('status', 'confirmed')->count(),
-            'cancelled_bookings' => Booking::where('status', 'cancelled')->count(),
+            'pending_bookings' => Booking::where('status', Booking::STATUS_PENDING)->count(),
+            'confirmed_bookings' => Booking::where('status', Booking::STATUS_CONFIRMED)->count(),
+            'cancelled_bookings' => Booking::where('status', Booking::STATUS_CANCELLED)->count(),
+            'completed_bookings' => Booking::where('status', Booking::STATUS_COMPLETED)->count(),
             'total_revenue' => Payment::where('status', Payment::STATUS_PAID)->sum('amount'),
             'pending_payments' => Payment::where('status', Payment::STATUS_PENDING)->count(),
         ];
@@ -152,15 +153,7 @@ class BookingController extends Controller
             })
 
             ->addColumn('booking_status', function ($row) {
-                $badgeClass = match($row->status) {
-                    'pending' => 'badge-warning',
-                    'confirmed' => 'badge-success',
-                    'cancelled' => 'badge-danger',
-                    'completed' => 'badge-info',
-                    default => 'badge-secondary'
-                };
-                
-                return '<span class="badge ' . $badgeClass . '">' . ucfirst($row->status) . '</span>';
+                return '<span class="badge ' . $row->status_badge_class . '">' . $row->status_label . '</span>';
             })
 
             ->addColumn('payment_status', function ($row) {

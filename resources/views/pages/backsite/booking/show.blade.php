@@ -25,8 +25,8 @@
                 <div class="card-header">
                     <h4 class="card-title">
                         <i class="fa fa-info-circle"></i> Booking Information
-                        <span class="badge badge-{{ $booking->status == 'confirmed' ? 'success' : ($booking->status == 'pending' ? 'warning' : 'danger') }} ml-2">
-                            {{ ucfirst($booking->status) }}
+                        <span class="badge {{ $booking->status_badge_class }} ml-2">
+                            {{ $booking->status_label }}
                         </span>
                     </h4>
                 </div>
@@ -172,10 +172,10 @@
                             <div class="form-group">
                                 <label>Booking Status</label>
                                 <select name="status" class="form-control" required>
-                                    <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
-                                    <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                    <option value="completed" {{ $booking->status == 'completed' ? 'selected' : '' }}>Completed</option>
+                                    <option value="{{ \App\Models\Booking::STATUS_PENDING }}" {{ $booking->status == \App\Models\Booking::STATUS_PENDING ? 'selected' : '' }}>{{ \App\Models\Booking::STATUS_PENDING == 'pending' ? 'Menunggu Konfirmasi' : ucfirst(\App\Models\Booking::STATUS_PENDING) }}</option>
+                                    <option value="{{ \App\Models\Booking::STATUS_CONFIRMED }}" {{ $booking->status == \App\Models\Booking::STATUS_CONFIRMED ? 'selected' : '' }}>{{ \App\Models\Booking::STATUS_CONFIRMED == 'confirmed' ? 'Dikonfirmasi' : ucfirst(\App\Models\Booking::STATUS_CONFIRMED) }}</option>
+                                    <option value="{{ \App\Models\Booking::STATUS_CANCELLED }}" {{ $booking->status == \App\Models\Booking::STATUS_CANCELLED ? 'selected' : '' }}>{{ \App\Models\Booking::STATUS_CANCELLED == 'cancelled' ? 'Dibatalkan' : ucfirst(\App\Models\Booking::STATUS_CANCELLED) }}</option>
+                                    <option value="{{ \App\Models\Booking::STATUS_COMPLETED }}" {{ $booking->status == \App\Models\Booking::STATUS_COMPLETED ? 'selected' : '' }}>{{ \App\Models\Booking::STATUS_COMPLETED == 'completed' ? 'Selesai' : ucfirst(\App\Models\Booking::STATUS_COMPLETED) }}</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-primary btn-block">

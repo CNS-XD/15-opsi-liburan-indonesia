@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('special_requests')->nullable()->after('preferred_date');
             $table->decimal('total_price', 10, 2)->after('special_requests');
             $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending')->after('total_price');
+            $table->string('cancellation_reason')->nullable()->after('status');
             
             // Make id_tour_price nullable since we might not always have specific price tiers
             $table->unsignedBigInteger('id_tour_price')->nullable()->change();
@@ -43,7 +44,8 @@ return new class extends Migration
                 'preferred_date',
                 'special_requests',
                 'total_price',
-                'status'
+                'status',
+                'cancellation_reason'
             ]);
             
             // Revert id_tour_price to not nullable

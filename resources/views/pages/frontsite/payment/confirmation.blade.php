@@ -33,7 +33,7 @@
                                         <div class="row">
                                             @if($booking->tour->tour_photos->count() > 0)
                                             <div class="col-md-4 mb-20">
-                                                <img src="{{ Storage::url($booking->tour->tour_photos->first()->photo) }}" 
+                                                <img src="{{ Storage::url($booking->tour->tour_photos->first()->image) }}" 
                                                      alt="{{ $booking->tour->title }}" 
                                                      class="img-fluid rounded"
                                                      style="width: 100%; height: 150px; object-fit: cover;">

@@ -150,13 +150,23 @@ class PaymentController extends Controller
         $payment = Payment::with('booking.tour')->where('payment_code', $paymentCode)->firstOrFail();
         
         if ($payment->status === Payment::STATUS_PENDING && $payment->xendit_invoice_id) {
-            $this->xenditService->cancelPayment($payment->xendit_invoice_id);
+            $result = $this->xenditService->cancelPayment($payment->xendit_invoice_id);
+            
+            if ($result['success']) {
+                // Payment and booking status will be updated by XenditService
+                return redirect()->route('frontsite.booking.show', $payment->booking->booking_code)
+                    ->with('success', 'Pembayaran berhasil dibatalkan.');
+            } else {
+                return redirect()->back()
+                    ->with('error', 'Gagal membatalkan pembayaran: ' . $result['error']);
+            }
+        } else {
+            // Manually cancel if no Xendit invoice ID
+            $payment->markAsCancelled('Cancelled by user');
+            
+            return redirect()->route('frontsite.booking.show', $payment->booking->booking_code)
+                ->with('info', 'Pembayaran telah dibatalkan.');
         }
-        
-        $payment->update(['status' => Payment::STATUS_CANCELLED]);
-
-        return redirect()->route('frontsite.booking.show', $payment->booking->booking_code)
-            ->with('info', 'Pembayaran telah dibatalkan.');
     }
 
     /**

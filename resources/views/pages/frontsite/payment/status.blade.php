@@ -231,6 +231,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Auto refresh for pending payments
     if (currentStatus === 'pending') {
         let countdown = 30;
+        let maxRetries = 10; // Maksimum 10 kali retry (5 menit)
+        let retryCount = 0;
         const countdownElement = document.getElementById('countdown');
         
         const countdownInterval = setInterval(() => {
@@ -247,13 +249,24 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Check payment status
         function checkPaymentStatus() {
+            // Stop polling if max retries reached
+            if (retryCount >= maxRetries) {
+                console.log('Max retries reached, stopping payment status check');
+                if (countdownElement) {
+                    countdownElement.textContent = 'Stopped checking';
+                }
+                return;
+            }
+            
+            retryCount++;
+            
             fetch(`{{ route('frontsite.payment.check-status', $payment->payment_code) }}`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== currentStatus) {
                         // Status changed, reload page
                         window.location.reload();
-                    } else if (data.status === 'pending' && !data.is_expired) {
+                    } else if (data.status === 'pending' && !data.is_expired && retryCount < maxRetries) {
                         // Still pending, restart countdown
                         countdown = 30;
                         setTimeout(checkPaymentStatus, 30000);
@@ -261,8 +274,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .catch(error => {
                     console.error('Error checking payment status:', error);
-                    // Retry after 30 seconds
-                    setTimeout(checkPaymentStatus, 30000);
+                    // Retry after 30 seconds only if under max retries
+                    if (retryCount < maxRetries) {
+                        setTimeout(checkPaymentStatus, 30000);
+                    }
                 });
         }
     }
