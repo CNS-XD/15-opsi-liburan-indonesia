@@ -3,178 +3,221 @@
 @section('title', 'Status Pembayaran | Opsi Liburan Indonesia')
 
 @section('content')
-<div class="payment-status-section pt-100 pb-100">
+<div class="payment-status-section py-5">
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <div class="payment-status-card p-40" style="border: 1px solid #eee; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+            <div class="col-lg-10">
+                <div class="status-card">
                     
-                    <!-- Header -->
-                    <div class="payment-header text-center mb-40">
-                        <h1 class="mb-10">Status Pembayaran</h1>
-                        <p class="text-muted">Payment Code: <strong class="text-primary">{{ $payment->payment_code }}</strong></p>
+                    <!-- Header with Status -->
+                    <div class="status-header text-center mb-4">
+                        <!-- Status Icon -->
+                        <div class="status-icon mb-3">
+                            @if($payment->status === 'paid')
+                                <i class="fas fa-check-circle text-success"></i>
+                            @elseif($payment->status === 'pending')
+                                <i class="fas fa-clock text-warning"></i>
+                            @elseif($payment->status === 'expired')
+                                <i class="fas fa-times-circle text-secondary"></i>
+                            @else
+                                <i class="fas fa-exclamation-triangle text-danger"></i>
+                            @endif
+                        </div>
+                        
+                        <h1 class="mb-2">Status Pembayaran</h1>
+                        <p class="text-muted mb-3">Kode Pembayaran: <strong class="text-primary">{{ $payment->payment_code }}</strong></p>
                         
                         <!-- Status Badge -->
-                        <div class="status-badge mt-20">
-                            <span class="badge bg-{{ $payment->status === 'paid' ? 'success' : ($payment->status === 'expired' ? 'secondary' : 'warning') }} px-3 py-2" id="statusBadge">
+                        <div class="status-badge-wrapper">
+                            <span class="status-badge status-{{ $payment->status }}" id="statusBadge">
                                 {{ $payment->status_label }}
                             </span>
                         </div>
                     </div>
 
+                    <!-- Alert Messages -->
+                    <div id="paymentStatusContent" class="mb-4">
+                        @if($payment->status === 'pending')
+                            <div class="alert-card alert-warning">
+                                <div class="alert-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5 class="alert-title">Menunggu Pembayaran</h5>
+                                    <p class="alert-text">Silakan selesaikan pembayaran Anda. Halaman ini akan otomatis diperbarui ketika pembayaran berhasil.</p>
+                                </div>
+                            </div>
+                            
+                            @if($payment->payment_details && isset($payment->payment_details['invoice_url']))
+                            <div class="payment-action text-center mb-4">
+                                <a href="{{ $payment->payment_details['invoice_url'] }}" class="btn btn-primary btn-lg mb-2" target="_blank">
+                                    <i class="fas fa-external-link-alt me-2"></i>Lanjutkan Pembayaran di Xendit
+                                </a>
+                                <p class="text-muted mb-0">
+                                    <small><i class="fas fa-info-circle me-1"></i>Anda akan diarahkan ke halaman pembayaran Xendit yang aman</small>
+                                </p>
+                            </div>
+                            @elseif($payment->xendit_response && isset($payment->xendit_response['invoice_url']))
+                            <div class="payment-action text-center mb-4">
+                                <a href="{{ $payment->xendit_response['invoice_url'] }}" class="btn btn-primary btn-lg mb-2" target="_blank">
+                                    <i class="fas fa-external-link-alt me-2"></i>Lanjutkan Pembayaran di Xendit
+                                </a>
+                                <p class="text-muted mb-0">
+                                    <small><i class="fas fa-info-circle me-1"></i>Anda akan diarahkan ke halaman pembayaran Xendit yang aman</small>
+                                </p>
+                            </div>
+                            @endif
+
+                            <!-- Auto refresh countdown -->
+                            <div class="auto-refresh-card">
+                                <i class="fas fa-sync-alt me-2"></i>
+                                <span>Halaman akan diperbarui otomatis dalam <strong id="countdown">30</strong> detik</span>
+                            </div>
+                        @elseif($payment->status === 'paid')
+                            <div class="alert-card alert-success">
+                                <div class="alert-icon">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5 class="alert-title">Pembayaran Berhasil!</h5>
+                                    <p class="alert-text">Terima kasih! Pembayaran Anda telah berhasil diproses pada {{ $payment->paid_at ? $payment->paid_at->format('d M Y H:i') : 'N/A' }}.</p>
+                                </div>
+                            </div>
+                        @elseif($payment->status === 'expired')
+                            <div class="alert-card alert-secondary">
+                                <div class="alert-icon">
+                                    <i class="fas fa-times-circle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5 class="alert-title">Pembayaran Kadaluarsa</h5>
+                                    <p class="alert-text">Waktu pembayaran telah habis. Silakan buat pesanan baru atau hubungi customer service.</p>
+                                </div>
+                            </div>
+                        @elseif($payment->status === 'failed')
+                            <div class="alert-card alert-danger">
+                                <div class="alert-icon">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5 class="alert-title">Pembayaran Gagal</h5>
+                                    <p class="alert-text">{{ $payment->failure_reason ?? 'Pembayaran tidak dapat diproses. Silakan coba lagi atau hubungi customer service.' }}</p>
+                                </div>
+                            </div>
+                        @endif
+                    </div>
+
                     <!-- Payment Information -->
-                    <div class="payment-info mb-40">
-                        <div class="row">
-                            <!-- Booking Details -->
-                            <div class="col-md-6 mb-30">
-                                <div class="info-section p-20" style="background: #f8f9fa; border-radius: 10px; height: 100%;">
-                                    <h4 class="mb-20">Detail Pesanan</h4>
-                                    <div class="info-item mb-15">
-                                        <strong>Tour:</strong>
-                                        <p class="mb-0">{{ $payment->booking->tour->title }}</p>
+                    <div class="row g-4 mb-4">
+                        <!-- Booking Details -->
+                        <div class="col-md-6">
+                            <div class="detail-card">
+                                <div class="card-header header-primary">
+                                    <i class="fas fa-ticket-alt me-2"></i>
+                                    <h3>Detail Pesanan</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-group mb-3">
+                                        <label>Nama Tour</label>
+                                        <p>{{ $payment->booking->tour->title }}</p>
                                     </div>
-                                    <div class="info-item mb-15">
-                                        <strong>Booking Code:</strong>
-                                        <p class="mb-0">{{ $payment->booking->booking_code }}</p>
+                                    <div class="info-group mb-3">
+                                        <label>Kode Booking</label>
+                                        <p class="code-text">{{ $payment->booking->booking_code }}</p>
                                     </div>
-                                    <div class="info-item mb-15">
-                                        <strong>Nama:</strong>
-                                        <p class="mb-0">{{ $payment->booking->name }}</p>
+                                    <div class="info-group mb-3">
+                                        <label>Nama Pemesan</label>
+                                        <p>{{ $payment->booking->name }}</p>
                                     </div>
-                                    <div class="info-item">
-                                        <strong>Jumlah Peserta:</strong>
-                                        <p class="mb-0">{{ $payment->booking->travelers }} orang</p>
+                                    <div class="info-group mb-0">
+                                        <label>Jumlah Peserta</label>
+                                        <p><span class="badge bg-info">{{ $payment->booking->travelers }} orang</span></p>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Payment Details -->
-                            <div class="col-md-6 mb-30">
-                                <div class="info-section p-20" style="background: #f8f9fa; border-radius: 10px; height: 100%;">
-                                    <h4 class="mb-20">Detail Pembayaran</h4>
-                                    <div class="info-item mb-15">
-                                        <strong>Jumlah:</strong>
-                                        <p class="mb-0 text-primary fw-bold">{{ $payment->formatted_amount }}</p>
+                        <!-- Payment Details -->
+                        <div class="col-md-6">
+                            <div class="detail-card">
+                                <div class="card-header header-success">
+                                    <i class="fas fa-money-bill-wave me-2"></i>
+                                    <h3>Detail Pembayaran</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-group mb-3">
+                                        <label>Total Pembayaran</label>
+                                        <p class="amount-text">{{ $payment->formatted_amount }}</p>
                                     </div>
-                                    <div class="info-item mb-15">
-                                        <strong>Status:</strong>
-                                        <p class="mb-0">{{ $payment->status_label }}</p>
+                                    <div class="info-group mb-3">
+                                        <label>Status Pembayaran</label>
+                                        <p>
+                                            <span class="badge status-badge-sm status-{{ $payment->status }}">
+                                                {{ $payment->status_label }}
+                                            </span>
+                                        </p>
                                     </div>
-                                    <div class="info-item">
-                                        <strong>Berlaku Hingga:</strong>
-                                        <p class="mb-0">{{ $payment->expired_at ? $payment->expired_at->format('d M Y H:i') : 'N/A' }}</p>
+                                    <div class="info-group mb-3">
+                                        <label>Berlaku Hingga</label>
+                                        <p>{{ $payment->expired_at ? $payment->expired_at->format('d M Y H:i') : 'N/A' }}</p>
                                     </div>
+                                    @if($payment->paid_at)
+                                    <div class="info-group mb-0">
+                                        <label>Dibayar Pada</label>
+                                        <p class="text-success fw-bold">{{ $payment->paid_at->format('d M Y H:i') }}</p>
+                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Payment Status Content -->
-                    <div id="paymentStatusContent">
-                        @if($payment->status === 'pending')
-                            <div class="pending-payment mb-40">
-                                <div class="alert alert-warning">
-                                    <h5 class="alert-heading"><i class="fas fa-clock me-10"></i>Menunggu Pembayaran</h5>
-                                    <p class="mb-0">Silakan selesaikan pembayaran Anda. Halaman ini akan otomatis diperbarui ketika pembayaran berhasil.</p>
-                                </div>
-                                
-                                @if($payment->payment_details && isset($payment->payment_details['invoice_url']))
-                                <div class="payment-action text-center mb-30">
-                                    <a href="{{ $payment->payment_details['invoice_url'] }}" class="btn btn-primary btn-lg" target="_blank">
-                                        <i class="fas fa-external-link-alt me-10"></i>Lanjutkan Pembayaran di Xendit
-                                    </a>
-                                    <p class="mt-15 text-muted">
-                                        <small>Anda akan diarahkan ke halaman pembayaran Xendit yang aman</small>
-                                    </p>
-                                </div>
-                                @elseif($payment->xendit_response && isset($payment->xendit_response['invoice_url']))
-                                <div class="payment-action text-center mb-30">
-                                    <a href="{{ $payment->xendit_response['invoice_url'] }}" class="btn btn-primary btn-lg" target="_blank">
-                                        <i class="fas fa-external-link-alt me-10"></i>Lanjutkan Pembayaran di Xendit
-                                    </a>
-                                    <p class="mt-15 text-muted">
-                                        <small>Anda akan diarahkan ke halaman pembayaran Xendit yang aman</small>
-                                    </p>
-                                </div>
-                                @endif
-
-                                <!-- Auto refresh countdown -->
-                                <div class="auto-refresh text-center">
-                                    <small class="text-muted">
-                                        <i class="fas fa-sync-alt me-5"></i>
-                                        Halaman akan diperbarui otomatis dalam <span id="countdown">30</span> detik
-                                    </small>
-                                </div>
-                            </div>
-                        @elseif($payment->status === 'paid')
-                            <div class="paid-payment mb-40">
-                                <div class="alert alert-success">
-                                    <h5 class="alert-heading"><i class="fas fa-check-circle me-10"></i>Pembayaran Berhasil!</h5>
-                                    <p class="mb-0">Terima kasih! Pembayaran Anda telah berhasil diproses pada {{ $payment->paid_at ? $payment->paid_at->format('d M Y H:i') : 'N/A' }}.</p>
-                                </div>
-                            </div>
-                        @elseif($payment->status === 'expired')
-                            <div class="expired-payment mb-40">
-                                <div class="alert alert-secondary">
-                                    <h5 class="alert-heading"><i class="fas fa-times-circle me-10"></i>Pembayaran Kadaluarsa</h5>
-                                    <p class="mb-0">Waktu pembayaran telah habis. Silakan buat pesanan baru atau hubungi customer service.</p>
-                                </div>
-                            </div>
-                        @elseif($payment->status === 'failed')
-                            <div class="failed-payment mb-40">
-                                <div class="alert alert-danger">
-                                    <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-10"></i>Pembayaran Gagal</h5>
-                                    <p class="mb-0">{{ $payment->failure_reason ?? 'Pembayaran tidak dapat diproses. Silakan coba lagi atau hubungi customer service.' }}</p>
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-
                     <!-- Action Buttons -->
-                    <div class="action-buttons text-center mb-30">
-                        @if($payment->status === 'pending')
-                            <form action="{{ route('frontsite.payment.cancel', $payment->payment_code) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pembayaran ini?')">
-                                @csrf
-                                <button type="submit" class="btn btn-outline-danger me-15">
-                                    <i class="fas fa-times me-5"></i>Batalkan Pembayaran
-                                </button>
-                            </form>
-                        @endif
-                        
-                        @if($payment->status === 'paid')
-                            <a href="{{ route('frontsite.booking.show', $payment->booking->booking_code) }}" class="btn btn-success me-15">
-                                <i class="fas fa-eye me-5"></i>Lihat Detail Booking
+                    <div class="action-buttons-wrapper">
+                        <div class="action-buttons">
+                            @if($payment->status === 'pending')
+                                <form action="{{ route('frontsite.payment.cancel', $payment->payment_code) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pembayaran ini?')">
+                                    @csrf
+                                    <button type="submit" class="btn btn-outline-danger">
+                                        <i class="fas fa-times me-2"></i>Batalkan Pembayaran
+                                    </button>
+                                </form>
+                            @endif
+                            
+                            @if($payment->status === 'paid')
+                                <a href="{{ route('frontsite.booking.show', $payment->booking->booking_code) }}" class="btn btn-success">
+                                    <i class="fas fa-eye me-2"></i>Lihat Detail Booking
+                                </a>
+                            @endif
+                            
+                            @if(in_array($payment->status, ['expired', 'failed']))
+                                <a href="{{ route('frontsite.payment.show', $payment->booking->booking_code) }}" class="btn btn-primary">
+                                    <i class="fas fa-redo me-2"></i>Coba Lagi
+                                </a>
+                            @endif
+                            
+                            <a href="{{ route('index') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-home me-2"></i>Kembali ke Beranda
                             </a>
-                        @endif
-                        
-                        @if(in_array($payment->status, ['expired', 'failed']))
-                            <a href="{{ route('frontsite.payment.show', $payment->booking->booking_code) }}" class="btn btn-primary me-15">
-                                <i class="fas fa-redo me-5"></i>Coba Lagi
-                            </a>
-                        @endif
-                        
-                        <a href="{{ route('index') }}" class="btn btn-outline-primary">
-                            <i class="fas fa-home me-5"></i>Kembali ke Beranda
-                        </a>
+                        </div>
                     </div>
 
                     <!-- Contact Support -->
-                    <div class="contact-support pt-30 text-center" style="border-top: 1px solid #eee;">
-                        <h5 class="mb-20">Butuh Bantuan?</h5>
-                        <p class="mb-20">Jika Anda mengalami masalah dengan pembayaran, jangan ragu untuk menghubungi kami.</p>
-                        <div class="contact-items d-flex justify-content-center gap-30 flex-wrap">
-                            <div class="contact-item">
-                                <i class="fas fa-phone text-primary me-5"></i>
+                    <div class="contact-support text-center mt-5">
+                        <h5 class="mb-3">Butuh Bantuan?</h5>
+                        <p class="text-muted mb-3">Jika Anda mengalami masalah dengan pembayaran, jangan ragu untuk menghubungi kami.</p>
+                        <div class="contact-items">
+                            <a href="tel:+62123456789" class="contact-item">
+                                <i class="fas fa-phone"></i>
                                 <span>+62 123 456 789</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fas fa-envelope text-primary me-5"></i>
+                            </a>
+                            <a href="mailto:support@opsiliburan.com" class="contact-item">
+                                <i class="fas fa-envelope"></i>
                                 <span>support@opsiliburan.com</span>
-                            </div>
-                            <div class="contact-item">
-                                <i class="fab fa-whatsapp text-success me-5"></i>
+                            </a>
+                            <a href="https://wa.me/62123456789" class="contact-item" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
                                 <span>WhatsApp Support</span>
-                            </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -186,7 +229,35 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-.payment-status-card {
+/* Variables */
+:root {
+    --primary-color: #007bff;
+    --success-color: #28a745;
+    --info-color: #17a2b8;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --secondary-color: #6c757d;
+    --light-bg: #f8f9fa;
+    --border-color: #dee2e6;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+/* Main Container */
+.payment-status-section {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 60px 0;
+}
+
+.status-card {
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 40px;
+    box-shadow: var(--shadow-lg);
     animation: fadeInUp 0.6s ease-out;
 }
 
@@ -201,23 +272,467 @@
     }
 }
 
-.info-section {
-    transition: transform 0.3s ease;
+/* Header */
+.status-header .status-icon {
+    font-size: 80px;
+    animation: scaleIn 0.5s ease-out;
 }
 
-.info-section:hover {
+@keyframes scaleIn {
+    from {
+        transform: scale(0);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+.status-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+/* Status Badge */
+.status-badge-wrapper {
+    display: inline-block;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 12px 32px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: var(--shadow-md);
+    animation: pulse 2s infinite;
+}
+
+.status-badge.status-paid {
+    background: linear-gradient(135deg, var(--success-color), #1e7e34);
+    color: white;
+}
+
+.status-badge.status-pending {
+    background: linear-gradient(135deg, var(--warning-color), #e0a800);
+    color: #856404;
+}
+
+.status-badge.status-expired {
+    background: linear-gradient(135deg, var(--secondary-color), #545b62);
+    color: white;
+}
+
+.status-badge.status-failed {
+    background: linear-gradient(135deg, var(--danger-color), #c82333);
+    color: white;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+/* Alert Cards */
+.alert-card {
+    display: flex;
+    gap: 20px;
+    padding: 24px;
+    border-radius: var(--border-radius);
+    margin-bottom: 24px;
+    animation: slideInDown 0.5s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.alert-card.alert-warning {
+    background: linear-gradient(135deg, #fff3cd 0%, #fff9e6 100%);
+    border-left: 4px solid var(--warning-color);
+}
+
+.alert-card.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #e8f5e9 100%);
+    border-left: 4px solid var(--success-color);
+}
+
+.alert-card.alert-secondary {
+    background: linear-gradient(135deg, #e2e3e5 0%, #f0f0f0 100%);
+    border-left: 4px solid var(--secondary-color);
+}
+
+.alert-card.alert-danger {
+    background: linear-gradient(135deg, #f8d7da 0%, #ffe0e0 100%);
+    border-left: 4px solid var(--danger-color);
+}
+
+.alert-icon {
+    font-size: 48px;
+    flex-shrink: 0;
+}
+
+.alert-card.alert-warning .alert-icon {
+    color: var(--warning-color);
+}
+
+.alert-card.alert-success .alert-icon {
+    color: var(--success-color);
+}
+
+.alert-card.alert-secondary .alert-icon {
+    color: var(--secondary-color);
+}
+
+.alert-card.alert-danger .alert-icon {
+    color: var(--danger-color);
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #2c3e50;
+}
+
+.alert-text {
+    margin: 0;
+    color: #495057;
+    line-height: 1.6;
+}
+
+/* Auto Refresh Card */
+.auto-refresh-card {
+    text-align: center;
+    padding: 16px;
+    background: var(--light-bg);
+    border-radius: 8px;
+    border: 1px dashed var(--border-color);
+    color: #6c757d;
+}
+
+.auto-refresh-card i {
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Detail Cards */
+.detail-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: var(--transition);
+    height: 100%;
+}
+
+.detail-card:hover {
+    box-shadow: var(--shadow-md);
     transform: translateY(-2px);
 }
 
+.card-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    border: none;
+    color: white;
+}
+
+.card-header.header-primary {
+    background: linear-gradient(135deg, var(--primary-color), #0056b3);
+}
+
+.card-header.header-success {
+    background: linear-gradient(135deg, var(--success-color), #1e7e34);
+}
+
+.card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-body {
+    padding: 24px;
+}
+
+/* Info Groups */
+.info-group {
+    margin-bottom: 0;
+}
+
+.info-group label {
+    display: block;
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+}
+
+.info-group p {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+.code-text {
+    font-family: 'Courier New', monospace;
+    background: var(--light-bg);
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.amount-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--success-color);
+}
+
+.status-badge-sm {
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #0056b3);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0056b3, #004085);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 123, 255, 0.3);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color), #1e7e34);
+    color: white;
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #1e7e34, #145523);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+}
+
+.btn-outline-danger {
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+    background: white;
+}
+
+.btn-outline-danger:hover {
+    background: var(--danger-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    border: 2px solid var(--border-color);
+    color: var(--secondary-color);
+    background: white;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--light-bg);
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+}
+
+/* Action Buttons */
+.action-buttons-wrapper {
+    border-top: 1px solid var(--border-color);
+    padding-top: 24px;
+    margin-bottom: 24px;
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* Contact Support */
+.contact-support h5 {
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.contact-items {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--light-bg);
+    border-radius: 50px;
+    text-decoration: none;
+    color: #2c3e50;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.contact-item:hover {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.contact-item i {
+    font-size: 18px;
+}
+
+/* Payment Action */
+.payment-action {
+    padding: 24px;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f0f9ff 100%);
+    border-radius: var(--border-radius);
+    border: 2px dashed var(--primary-color);
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-    .payment-status-card {
-        padding: 20px;
+    .status-card {
+        padding: 24px;
+    }
+    
+    .status-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .status-header .status-icon {
+        font-size: 60px;
+    }
+    
+    .status-badge {
+        font-size: 1rem;
+        padding: 10px 24px;
+    }
+    
+    .alert-card {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .alert-icon {
+        font-size: 36px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .action-buttons .btn {
+        width: 100%;
     }
     
     .contact-items {
         flex-direction: column;
-        gap: 15px !important;
+        align-items: stretch;
     }
+    
+    .contact-item {
+        justify-content: center;
+    }
+    
+    .amount-text {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .status-card {
+        padding: 20px;
+    }
+    
+    .payment-status-section {
+        padding: 40px 0;
+    }
+}
+
+/* Loading States */
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Smooth Transitions */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+
+button, a {
+    transition: all 0.3s ease;
 }
 </style>
 @endpush
@@ -253,7 +768,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (retryCount >= maxRetries) {
                 console.log('Max retries reached, stopping payment status check');
                 if (countdownElement) {
-                    countdownElement.textContent = 'Stopped checking';
+                    countdownElement.parentElement.innerHTML = '<i class="fas fa-info-circle me-2"></i><span>Refresh halaman untuk memeriksa status terbaru</span>';
                 }
                 return;
             }
@@ -264,23 +779,87 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => response.json())
                 .then(data => {
                     if (data.status !== currentStatus) {
-                        // Status changed, reload page
-                        window.location.reload();
+                        // Status changed, show loading and reload page
+                        showPageReloading();
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1000);
                     } else if (data.status === 'pending' && !data.is_expired && retryCount < maxRetries) {
                         // Still pending, restart countdown
                         countdown = 30;
-                        setTimeout(checkPaymentStatus, 30000);
+                        setTimeout(() => {
+                            const newInterval = setInterval(() => {
+                                countdown--;
+                                if (countdownElement) {
+                                    countdownElement.textContent = countdown;
+                                }
+                                
+                                if (countdown <= 0) {
+                                    clearInterval(newInterval);
+                                    checkPaymentStatus();
+                                }
+                            }, 1000);
+                        }, 100);
                     }
                 })
                 .catch(error => {
                     console.error('Error checking payment status:', error);
                     // Retry after 30 seconds only if under max retries
                     if (retryCount < maxRetries) {
+                        countdown = 30;
                         setTimeout(checkPaymentStatus, 30000);
                     }
                 });
         }
+        
+        function showPageReloading() {
+            const overlay = document.createElement('div');
+            overlay.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.7);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+            `;
+            overlay.innerHTML = `
+                <div style="text-align: center; color: white;">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 48px; margin-bottom: 16px;"></i>
+                    <p style="font-size: 18px; font-weight: 600;">Status pembayaran berubah, memuat ulang...</p>
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
     }
+    
+    // Add smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Add entrance animation to cards
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.detail-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = 'all 0.6s ease-out';
+        observer.observe(card);
+    });
 });
 </script>
 @endpush
