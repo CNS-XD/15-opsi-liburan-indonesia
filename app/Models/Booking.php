@@ -15,7 +15,8 @@ class Booking extends Model
     protected $table = 'bookings';
     protected $guarded = [];
 
-    public $timestamps = false;
+    // Enable timestamps since we have created_at and updated_at columns
+    public $timestamps = true;
 
     // Status constants
     const STATUS_PENDING = 'pending';
@@ -30,8 +31,6 @@ class Booking extends Model
         static::creating(function ($newData) {
             // For frontend bookings, use the customer's email as created_by
             $newData->created_by = $newData->email ?? (Auth::user()->email ?? null);
-            $newData->created_at = Carbon::now()->toDateTimeString();
-            $newData->updated_at = null;
             
             // Set default status if not provided
             if (!$newData->status) {
@@ -41,7 +40,6 @@ class Booking extends Model
 
         static::updating(function ($updateData) {
             $updateData->updated_by = Auth::user()->email ?? null;
-            $updateData->updated_at = Carbon::now()->toDateTimeString();
         });
     }
 
@@ -86,6 +84,14 @@ class Booking extends Model
     }
 
     /**
+     * Get customer name attribute
+     */
+    public function getCustomerNameAttribute()
+    {
+        return $this->name;
+    }
+
+    /**
      * Mark booking as cancelled
      */
     public function markAsCancelled($reason = null)
@@ -110,6 +116,11 @@ class Booking extends Model
     public function tour()
     {
         return $this->belongsTo(Tour::class, 'id_tour');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'created_by', 'email');
     }
 
     public function tourPrice()

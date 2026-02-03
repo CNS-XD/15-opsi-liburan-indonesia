@@ -14,8 +14,18 @@ return new class extends Migration
         Schema::create('bookings', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             $table->unsignedBigInteger('id_tour');
-            $table->unsignedBigInteger('id_tour_price');
+            $table->unsignedBigInteger('id_tour_price')->nullable();
             
+            $table->string('booking_code', 50)->unique();
+            $table->string('name', 255);
+            $table->string('email', 255);
+            $table->string('phone', 20);
+            $table->integer('travelers')->default(1);
+            $table->date('preferred_date');
+            $table->text('special_requests')->nullable();
+            $table->decimal('total_price', 10, 2);
+            $table->enum('status', ['pending', 'confirmed', 'cancelled'])->default('pending');
+            $table->string('cancellation_reason')->nullable();
             $table->date('order_date');
             
             $table->timestamp('created_at');
@@ -33,6 +43,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_tours');
+        Schema::dropIfExists('bookings');
     }
 };

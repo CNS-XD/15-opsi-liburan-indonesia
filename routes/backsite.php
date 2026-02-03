@@ -35,6 +35,7 @@ Route::name('backsite.')->middleware('auth')->group(function () {
     
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/statistics', [DashboardController::class, 'getStatistics'])->name('dashboard.statistics');
 
     // Departure
     Route::resource('departure', DepartureController::class)->except('destroy');
