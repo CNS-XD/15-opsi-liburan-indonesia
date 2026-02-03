@@ -21,7 +21,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:void(0);">
+                            <a href="{{ route('frontsite.guide-book.index') }}">
                                 Guide Book
                             </a>
                         </li>
@@ -171,3 +171,4 @@
         </div>
     </header>
     <!-- header Section End-->
+    

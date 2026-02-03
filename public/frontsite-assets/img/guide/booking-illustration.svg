@@ -1,0 +1,56 @@
+<svg width="400" height="300" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="400" height="300" fill="#f8f9fa"/>
+  
+  <!-- Mountains -->
+  <polygon points="0,200 100,120 200,160 300,100 400,140 400,300 0,300" fill="url(#gradient1)" opacity="0.8"/>
+  <polygon points="50,220 150,140 250,180 350,120 400,160 400,300 0,300" fill="url(#gradient2)" opacity="0.6"/>
+  
+  <!-- Sun -->
+  <circle cx="320" cy="80" r="30" fill="#ffd700" opacity="0.9"/>
+  <circle cx="320" cy="80" r="35" fill="#ffd700" opacity="0.3"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="100" cy="60" rx="25" ry="15" fill="white" opacity="0.8"/>
+  <ellipse cx="120" cy="55" rx="30" ry="18" fill="white" opacity="0.8"/>
+  <ellipse cx="140" cy="60" rx="20" ry="12" fill="white" opacity="0.8"/>
+  
+  <!-- Travel Icons -->
+  <g transform="translate(50, 50)">
+    <!-- Plane -->
+    <path d="M10 15 L25 10 L30 12 L20 17 L25 20 L23 22 L15 18 L10 22 L8 20 L12 17 L5 15 L7 13 Z" fill="white" opacity="0.9"/>
+  </g>
+  
+  <g transform="translate(200, 40)">
+    <!-- Camera -->
+    <rect x="0" y="5" width="20" height="15" rx="3" fill="white" opacity="0.9"/>
+    <circle cx="10" cy="12" r="4" fill="#667eea"/>
+    <rect x="15" y="2" width="3" height="3" fill="white" opacity="0.9"/>
+  </g>
+  
+  <g transform="translate(300, 200)">
+    <!-- Compass -->
+    <circle cx="15" cy="15" r="12" fill="white" opacity="0.9"/>
+    <circle cx="15" cy="15" r="8" fill="#667eea" opacity="0.8"/>
+    <polygon points="15,7 17,13 15,15 13,13" fill="white"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="200" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#333">
+    Your Adventure Awaits
+  </text>
+  <text x="200" y="275" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#666">
+    Book with confidence • Travel with joy
+  </text>
+</svg>

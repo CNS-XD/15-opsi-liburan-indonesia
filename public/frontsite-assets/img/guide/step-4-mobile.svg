@@ -1,0 +1,53 @@
+<svg width="240" height="480" viewBox="0 0 240 480" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Phone Screen Background -->
+  <rect width="240" height="480" rx="20" fill="#f8f9fa"/>
+  
+  <!-- Header -->
+  <rect x="20" y="20" width="200" height="40" rx="8" fill="#667eea"/>
+  <text x="120" y="45" text-anchor="middle" fill="white" font-size="16" font-weight="600">Payment Method</text>
+  
+  <!-- Order Summary -->
+  <text x="20" y="85" fill="#2c3e50" font-size="12" font-weight="600">Order Summary</text>
+  <rect x="20" y="90" width="200" height="60" rx="8" fill="white" stroke="#e9ecef" stroke-width="1"/>
+  <text x="25" y="110" fill="#2c3e50" font-size="11">Bromo Sunrise Tour 2D1N</text>
+  <text x="25" y="125" fill="#6c757d" font-size="10">2 participants × Rp 850,000</text>
+  <text x="195" y="140" text-anchor="end" fill="#28a745" font-size="12" font-weight="600">Rp 1,700,000</text>
+  
+  <!-- Payment Methods -->
+  <text x="20" y="175" fill="#2c3e50" font-size="12" font-weight="600">Choose Payment Method</text>
+  
+  <!-- Virtual Account -->
+  <rect x="20" y="185" width="200" height="40" rx="8" fill="#667eea" fill-opacity="0.1" stroke="#667eea" stroke-width="2"/>
+  <rect x="25" y="195" width="20" height="20" rx="4" fill="#007bff"/>
+  <text x="50" y="210" fill="#2c3e50" font-size="11" font-weight="600">Virtual Account (BCA)</text>
+  <circle cx="205" cy="205" r="6" fill="#667eea"/>
+  <circle cx="205" cy="205" r="3" fill="white"/>
+  
+  <!-- E-Wallet -->
+  <rect x="20" y="235" width="200" height="40" rx="8" fill="white" stroke="#e9ecef" stroke-width="1"/>
+  <rect x="25" y="245" width="20" height="20" rx="4" fill="#00d4aa"/>
+  <text x="50" y="260" fill="#2c3e50" font-size="11">E-Wallet (OVO)</text>
+  <circle cx="205" cy="255" r="6" fill="#e9ecef"/>
+  
+  <!-- Credit Card -->
+  <rect x="20" y="285" width="200" height="40" rx="8" fill="white" stroke="#e9ecef" stroke-width="1"/>
+  <rect x="25" y="295" width="20" height="20" rx="4" fill="#ff6b6b"/>
+  <text x="50" y="310" fill="#2c3e50" font-size="11">Credit Card</text>
+  <circle cx="205" cy="305" r="6" fill="#e9ecef"/>
+  
+  <!-- QR Code -->
+  <rect x="20" y="335" width="200" height="40" rx="8" fill="white" stroke="#e9ecef" stroke-width="1"/>
+  <rect x="25" y="345" width="20" height="20" rx="4" fill="#9c88ff"/>
+  <text x="50" y="360" fill="#2c3e50" font-size="11">QR Code (QRIS)</text>
+  <circle cx="205" cy="355" r="6" fill="#e9ecef"/>
+  
+  <!-- Security Info -->
+  <rect x="20" y="390" width="200" height="30" rx="8" fill="#f8f9fa"/>
+  <circle cx="35" cy="405" r="8" fill="#28a745"/>
+  <text x="32" y="409" text-anchor="middle" fill="white" font-size="10">✓</text>
+  <text x="50" y="409" fill="#6c757d" font-size="10">Secure payment powered by Xendit</text>
+  
+  <!-- Pay Button -->
+  <rect x="20" y="435" width="200" height="40" rx="20" fill="#28a745"/>
+  <text x="120" y="460" text-anchor="middle" fill="white" font-size="14" font-weight="600">Pay Now - Rp 1,700,000</text>
+</svg>

@@ -23,6 +23,7 @@ use App\Http\Controllers\Frontsite\ReviewController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Frontsite\ContactController;
 use App\Http\Controllers\Frontsite\NewsController;
+use App\Http\Controllers\Frontsite\GuideBookController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -59,6 +60,9 @@ Route::name('frontsite.')->middleware('pbh')->group(function () {
     
     // Reviews
     Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    
+    // Guide Book
+    Route::get('guide-book', [GuideBookController::class, 'index'])->name('guide-book.index');
     
     // About Us
     Route::get('about-us', [AboutUsController::class, 'index'])->name('about-us.index');

@@ -3,6 +3,11 @@
 <head>
     {{-- Meta --}}
     @include('partials.frontsite.meta')
+    
+    {{-- Dynamic Meta Description --}}
+    @hasSection('meta_description')
+    <meta name="description" content="@yield('meta_description')">
+    @endif
 		
     {{-- Title --}}
     <title>@yield('title')</title>
