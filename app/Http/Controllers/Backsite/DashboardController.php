@@ -8,10 +8,7 @@ use App\Models\Payment;
 use App\Models\Tour;
 use App\Models\TourReview;
 use App\Models\User;
-use App\Models\Blog;
-use App\Models\Testimony;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class DashboardController extends Controller
@@ -35,7 +32,10 @@ class DashboardController extends Controller
                     'today' => Booking::whereDate('created_at', Carbon::today())->count(),
                     'this_week' => Booking::where('created_at', '>=', Carbon::now()->startOfWeek())->count(),
                     'this_month' => Booking::where('created_at', '>=', Carbon::now()->startOfMonth())->count(),
-                    'growth_percentage' => 15.5
+                    'growth_percentage' => $this->calculateBookingGrowth()
+                ],
+                'revenue' => [
+                    'growth_percentage' => $this->calculateRevenueGrowth()
                 ],
                 'tours' => [
                     'average_rating' => TourReview::avg('rating') ?? 0
@@ -66,6 +66,9 @@ class DashboardController extends Controller
                     'this_month' => 0,
                     'growth_percentage' => 0
                 ],
+                'revenue' => [
+                    'growth_percentage' => 0
+                ],
                 'tours' => [
                     'average_rating' => 0
                 ],
@@ -89,83 +92,48 @@ class DashboardController extends Controller
     public function getStatistics(Request $request)
     {
         try {
-            // Simple test data for AJAX requests
+            // Get real data from database for AJAX requests
             $stats = [
                 'overview' => [
-                    'total_bookings' => 150,
-                    'total_revenue' => 75000000,
-                    'total_tours' => 25,
-                    'total_users' => 500,
-                    'pending_bookings' => 10,
-                    'confirmed_bookings' => 120,
-                    'cancelled_bookings' => 20,
-                    'active_tours' => 20
+                    'total_bookings' => Booking::count(),
+                    'total_revenue' => Payment::where('status', 'paid')->sum('amount') ?? 0,
+                    'total_tours' => Tour::count(),
+                    'total_users' => User::count(),
+                    'pending_bookings' => Booking::where('status', 'pending')->count(),
+                    'confirmed_bookings' => Booking::where('status', 'confirmed')->count(),
+                    'cancelled_bookings' => Booking::where('status', 'cancelled')->count(),
+                    'active_tours' => Tour::where('show', 1)->count()
                 ],
                 'bookings' => [
-                    'today' => 5,
-                    'this_week' => 25,
-                    'this_month' => 80,
-                    'growth_percentage' => 15.5
+                    'today' => Booking::whereDate('created_at', Carbon::today())->count(),
+                    'this_week' => Booking::where('created_at', '>=', Carbon::now()->startOfWeek())->count(),
+                    'this_month' => Booking::where('created_at', '>=', Carbon::now()->startOfMonth())->count(),
+                    'growth_percentage' => $this->calculateBookingGrowth()
                 ],
                 'revenue' => [
-                    'current_month' => 25000000,
-                    'last_month' => 20000000,
-                    'growth_percentage' => 25.0,
-                    'average_booking_value' => 500000
+                    'current_month' => Payment::where('status', 'paid')
+                        ->where('created_at', '>=', Carbon::now()->startOfMonth())
+                        ->sum('amount') ?? 0,
+                    'last_month' => Payment::where('status', 'paid')
+                        ->whereBetween('created_at', [
+                            Carbon::now()->subMonth()->startOfMonth(),
+                            Carbon::now()->subMonth()->endOfMonth()
+                        ])
+                        ->sum('amount') ?? 0,
+                    'growth_percentage' => $this->calculateRevenueGrowth(),
+                    'average_booking_value' => $this->getAverageBookingValue()
                 ],
                 'tours' => [
-                    'total_tours' => 25,
-                    'active_tours' => 20,
-                    'inactive_tours' => 5,
-                    'tours_with_reviews' => 15,
-                    'average_rating' => 4.5
+                    'total_tours' => Tour::count(),
+                    'active_tours' => Tour::where('show', 1)->count(),
+                    'inactive_tours' => Tour::where('show', 0)->count(),
+                    'tours_with_reviews' => Tour::has('tour_reviews')->count(),
+                    'average_rating' => TourReview::avg('rating') ?? 0
                 ],
-                'recent_activities' => [
-                    [
-                        'type' => 'booking',
-                        'message' => 'New booking for Bromo Sunrise Tour',
-                        'user' => 'John Doe',
-                        'time' => '2 minutes ago',
-                        'status' => 'pending',
-                        'icon' => 'calendar',
-                        'color' => 'warning'
-                    ],
-                    [
-                        'type' => 'payment',
-                        'message' => 'Payment received for Ijen Blue Fire Tour',
-                        'user' => 'Jane Smith',
-                        'time' => '5 minutes ago',
-                        'amount' => 850000,
-                        'status' => 'paid',
-                        'icon' => 'credit-card',
-                        'color' => 'success'
-                    ]
-                ],
-                'monthly_revenue' => [
-                    'labels' => ['Jan 2024', 'Feb 2024', 'Mar 2024', 'Apr 2024', 'May 2024', 'Jun 2024'],
-                    'data' => [15000000, 18000000, 22000000, 20000000, 25000000, 28000000]
-                ],
-                'booking_status_chart' => [
-                    'labels' => ['Pending', 'Confirmed', 'Cancelled', 'Completed'],
-                    'data' => [10, 120, 20, 80],
-                    'colors' => ['#ffc107', '#28a745', '#dc3545', '#007bff']
-                ],
-                'popular_tours' => [
-                    [
-                        'name' => 'Bromo Sunrise Tour 2D1N',
-                        'bookings_count' => 45,
-                        'price' => 850000,
-                        'rating' => 4.8,
-                        'slug' => 'bromo-sunrise-tour-2d1n'
-                    ],
-                    [
-                        'name' => 'Ijen Blue Fire Tour 2D1N',
-                        'bookings_count' => 38,
-                        'price' => 950000,
-                        'rating' => 4.7,
-                        'slug' => 'ijen-blue-fire-tour-2d1n'
-                    ]
-                ]
+                'recent_activities' => $this->getRecentActivities(),
+                'monthly_revenue' => $this->getMonthlyRevenue(),
+                'booking_status_chart' => $this->getBookingStatusChart(),
+                'popular_tours' => $this->getPopularTours()
             ];
 
             return response()->json([
@@ -180,135 +148,79 @@ class DashboardController extends Controller
         }
     }
 
-    private function getOverviewStats()
-    {
-        $totalBookings = Booking::count();
-        $totalRevenue = Payment::where('status', 'paid')->sum('amount') ?? 0;
-        $totalTours = Tour::count();
-        $totalUsers = User::count();
-        $pendingBookings = Booking::where('status', 'pending')->count();
-        $confirmedBookings = Booking::where('status', 'confirmed')->count();
-        $cancelledBookings = Booking::where('status', 'cancelled')->count();
-        $activeTours = Tour::where('show', 1)->count(); // Using 'show' column
-
-        return [
-            'total_bookings' => $totalBookings,
-            'total_revenue' => $totalRevenue,
-            'total_tours' => $totalTours,
-            'total_users' => $totalUsers,
-            'pending_bookings' => $pendingBookings,
-            'confirmed_bookings' => $confirmedBookings,
-            'cancelled_bookings' => $cancelledBookings,
-            'active_tours' => $activeTours
-        ];
-    }
-
-    private function getBookingStats()
-    {
-        $today = Carbon::today();
-        $thisWeek = Carbon::now()->startOfWeek();
-        $thisMonth = Carbon::now()->startOfMonth();
-
-        return [
-            'today' => Booking::whereDate('created_at', $today)->count(),
-            'this_week' => Booking::where('created_at', '>=', $thisWeek)->count(),
-            'this_month' => Booking::where('created_at', '>=', $thisMonth)->count(),
-            'growth_percentage' => $this->calculateBookingGrowth()
-        ];
-    }
-
-    private function getRevenueStats()
-    {
-        $thisMonth = Carbon::now()->startOfMonth();
-        $lastMonth = Carbon::now()->subMonth()->startOfMonth();
-        $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
-
-        $currentRevenue = Payment::where('status', 'paid')
-            ->where('created_at', '>=', $thisMonth)
-            ->sum('amount');
-
-        $lastMonthRevenue = Payment::where('status', 'paid')
-            ->whereBetween('created_at', [$lastMonth, $lastMonthEnd])
-            ->sum('amount');
-
-        $growth = $lastMonthRevenue > 0 
-            ? (($currentRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100 
-            : 0;
-
-        return [
-            'current_month' => $currentRevenue,
-            'last_month' => $lastMonthRevenue,
-            'growth_percentage' => round($growth, 2),
-            'average_booking_value' => $this->getAverageBookingValue()
-        ];
-    }
-
-    private function getTourStats()
-    {
-        $totalTours = Tour::count();
-        $activeTours = Tour::where('show', 1)->count(); // Using 'show' column
-        $toursWithReviews = Tour::has('tour_reviews')->count();
-        $averageRating = TourReview::avg('rating') ?? 0;
-
-        return [
-            'total_tours' => $totalTours,
-            'active_tours' => $activeTours,
-            'inactive_tours' => $totalTours - $activeTours,
-            'tours_with_reviews' => $toursWithReviews,
-            'average_rating' => round($averageRating, 1)
-        ];
-    }
-
     private function getRecentActivities()
     {
         try {
             $activities = [];
 
-            // Recent bookings
-            $recentBookings = Booking::with(['tour'])
+            // Recent bookings - use selectRaw to get raw created_at
+            $recentBookings = Booking::selectRaw('*, created_at as raw_created_at')
+                ->with(['tour'])
                 ->latest('created_at')
-                ->limit(5)
+                ->limit(3)
                 ->get();
 
             foreach ($recentBookings as $booking) {
+                try {
+                    $timeAgo = Carbon::parse($booking->raw_created_at)->diffForHumans();
+                } catch (\Exception $e) {
+                    $timeAgo = 'Recently';
+                }
+                
                 $activities[] = [
                     'type' => 'booking',
                     'message' => "New booking for " . ($booking->tour->title ?? 'Unknown Tour'),
-                    'user' => $booking->customer_name ?? 'Unknown User',
-                    'time' => Carbon::parse($booking->getRawOriginal('created_at'))->diffForHumans(),
+                    'user' => $booking->name ?? 'Unknown User',
+                    'time' => $timeAgo,
                     'status' => $booking->status ?? 'unknown',
                     'icon' => 'calendar',
-                    'color' => $this->getStatusColor($booking->status ?? 'unknown')
+                    'color' => $this->getStatusColor($booking->status ?? 'unknown'),
+                    'created_timestamp' => $booking->raw_created_at
                 ];
             }
 
             // Recent payments
             $recentPayments = Payment::with(['booking.tour'])
-                ->latest()
-                ->limit(5)
+                ->latest('created_at')
+                ->limit(3)
                 ->get();
 
             foreach ($recentPayments as $payment) {
                 if ($payment->booking && $payment->booking->tour) {
+                    try {
+                        $timeAgo = $payment->created_at->diffForHumans();
+                    } catch (\Exception $e) {
+                        $timeAgo = 'Recently';
+                    }
+                    
                     $activities[] = [
                         'type' => 'payment',
                         'message' => "Payment received for " . $payment->booking->tour->title,
-                        'user' => $payment->booking->customer_name ?? 'Unknown User',
-                        'time' => $payment->created_at->diffForHumans(),
+                        'user' => $payment->booking->name ?? 'Unknown User',
+                        'time' => $timeAgo,
                         'amount' => $payment->amount ?? 0,
                         'status' => $payment->status ?? 'unknown',
                         'icon' => 'credit-card',
-                        'color' => $this->getStatusColor($payment->status ?? 'unknown')
+                        'color' => $this->getStatusColor($payment->status ?? 'unknown'),
+                        'created_timestamp' => $payment->created_at
                     ];
                 }
             }
 
-            // Sort by created_at and limit to 10
+            // Sort by timestamp (newest first) and limit to 6
             usort($activities, function($a, $b) {
-                return strcmp($b['time'], $a['time']);
+                $timeA = isset($a['created_timestamp']) ? strtotime($a['created_timestamp']) : 0;
+                $timeB = isset($b['created_timestamp']) ? strtotime($b['created_timestamp']) : 0;
+                return $timeB - $timeA;
             });
 
-            return array_slice($activities, 0, 10);
+            // Remove timestamp from final result
+            $activities = array_map(function($activity) {
+                unset($activity['created_timestamp']);
+                return $activity;
+            }, $activities);
+
+            return array_slice($activities, 0, 6);
         } catch (\Exception $e) {
             return [];
         }
@@ -373,25 +285,60 @@ class DashboardController extends Controller
                     'rating' => $avgRating ? round($avgRating, 1) : 0,
                     'slug' => $tour->slug ?? ''
                 ];
-            });
+            })->toArray();
         } catch (\Exception $e) {
-            return collect([]);
+            return [];
         }
     }
 
     private function calculateBookingGrowth()
     {
-        $thisMonth = Booking::whereMonth('created_at', Carbon::now()->month)->count();
-        $lastMonth = Booking::whereMonth('created_at', Carbon::now()->subMonth()->month)->count();
-        
-        if ($lastMonth == 0) return 0;
-        
-        return round((($thisMonth - $lastMonth) / $lastMonth) * 100, 2);
+        try {
+            $thisMonth = Booking::whereMonth('created_at', Carbon::now()->month)
+                ->whereYear('created_at', Carbon::now()->year)
+                ->count();
+            $lastMonth = Booking::whereMonth('created_at', Carbon::now()->subMonth()->month)
+                ->whereYear('created_at', Carbon::now()->subMonth()->year)
+                ->count();
+            
+            if ($lastMonth == 0) return $thisMonth > 0 ? 100 : 0;
+            
+            return round((($thisMonth - $lastMonth) / $lastMonth) * 100, 2);
+        } catch (\Exception $e) {
+            return 0;
+        }
+    }
+
+    private function calculateRevenueGrowth()
+    {
+        try {
+            $thisMonth = Carbon::now()->startOfMonth();
+            $lastMonth = Carbon::now()->subMonth()->startOfMonth();
+            $lastMonthEnd = Carbon::now()->subMonth()->endOfMonth();
+
+            $currentRevenue = Payment::where('status', 'paid')
+                ->where('created_at', '>=', $thisMonth)
+                ->sum('amount') ?? 0;
+
+            $lastMonthRevenue = Payment::where('status', 'paid')
+                ->whereBetween('created_at', [$lastMonth, $lastMonthEnd])
+                ->sum('amount') ?? 0;
+
+            if ($lastMonthRevenue == 0) return $currentRevenue > 0 ? 100 : 0;
+            
+            return round((($currentRevenue - $lastMonthRevenue) / $lastMonthRevenue) * 100, 2);
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 
     private function getAverageBookingValue()
     {
-        return Payment::where('status', 'paid')->avg('amount') ?? 0;
+        try {
+            return Payment::where('status', 'paid')->avg('amount') ?? 0;
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 
     private function getStatusColor($status)

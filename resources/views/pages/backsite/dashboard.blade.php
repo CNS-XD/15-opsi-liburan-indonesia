@@ -145,7 +145,13 @@
                         <p class="text-white mb-0">
                             <span id="bookingGrowth" class="badge badge-light">
                                 @if(isset($stats))
-                                    <span class="badge badge-success">↑ {{ $stats['bookings']['growth_percentage'] }}%</span>
+                                    @php
+                                        $bookingGrowth = $stats['bookings']['growth_percentage'];
+                                        $isPositive = $bookingGrowth >= 0;
+                                        $badgeClass = $isPositive ? 'badge-success' : 'badge-danger';
+                                        $arrow = $isPositive ? '↑' : '↓';
+                                    @endphp
+                                    <span class="badge {{ $badgeClass }}">{{ $arrow }} {{ abs($bookingGrowth) }}%</span>
                                 @else
                                     <div class="spinner-border spinner-border-sm" role="status">
                                         <span class="sr-only">Loading...</span>
@@ -176,7 +182,13 @@
                         <p class="text-white mb-0">
                             <span id="revenueGrowth" class="badge badge-light">
                                 @if(isset($stats))
-                                    <span class="badge badge-success">↑ 25%</span>
+                                    @php
+                                        $revenueGrowth = $stats['revenue']['growth_percentage'];
+                                        $isPositive = $revenueGrowth >= 0;
+                                        $badgeClass = $isPositive ? 'badge-success' : 'badge-danger';
+                                        $arrow = $isPositive ? '↑' : '↓';
+                                    @endphp
+                                    <span class="badge {{ $badgeClass }}">{{ $arrow }} {{ abs($revenueGrowth) }}%</span>
                                 @else
                                     <div class="spinner-border spinner-border-sm" role="status">
                                         <span class="sr-only">Loading...</span>
