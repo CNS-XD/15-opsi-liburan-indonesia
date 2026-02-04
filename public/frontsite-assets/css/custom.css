@@ -1,0 +1,102 @@
+/* Guide Book Style */
+.guide-button { 
+    display: inline-block; 
+    background: #90b336; 
+    color: white; 
+    padding: 15px 40px; 
+    border-radius: 50px; 
+    font-weight: 600; 
+    text-decoration: none;
+    transition: all 0.2s;
+    text-align: center;
+}
+.guide-button:hover { background: #688b0f; text-decoration: none; color: white; }
+.main-guide-book {
+    padding-bottom: 75px;
+    background-color: #fafafa;
+    overflow-x: hidden;
+}
+.guide-book .body .items {
+    padding-top: 50px;
+}
+.guide-book .body .items .item .guide-step {
+    border: 2.5px dashed #E9448B;
+    border-radius: 0px 20px 20px 0px;
+    border-left: none;
+    position: relative;
+    margin-left: 15px;
+}
+.guide-book .body .items .item .title {
+    font-size: 60px;
+    position: absolute;
+    top: -20px;
+    font-weight: bold;
+    background-color: #fff;
+    left: 0px;
+    padding-left: 10px;
+}
+.guide-book .body .items .item .description {
+    padding: 50px 30px;
+}
+.guide-step img {
+    height: 50px;
+    position: absolute;
+    top: 40%;
+    right: -26px;
+}
+.guide-book .body .items .item .guide-image {
+    position: relative;
+    height: 350px;
+}
+.guide-book .body .items .item .guide-image .guide-border {
+    width: 25%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+    border: 2.5px dashed #E9448B;
+    border-right: none;
+    border-radius: 20px 0px 0px 20px;
+    margin-top: -3px;
+    background-color: #FAFAFA;
+}
+.guide-book .body .items .item .guide-image div {
+    position: absolute;
+}
+.guide-book .body .items .item .guide-image .guide-border img {
+    height: 50px;
+    position: absolute;
+    top: 40%;
+    left: -26px;
+}
+.guide-book .body .items .item .guide-image div.image-step {
+    top: -20px;
+    width: 100%;
+    text-align: center;
+}
+.guide-book .body .items .item .guide-image div.image-step img {
+    width: 300px;
+    height: auto;
+    max-height: 335px;
+    border-radius: 35px;
+}
+.guide-book .body .items .item .guide-image .guide-border-last {
+    margin-top: -10px !important;
+    border: none !important;
+    border-radius: 0px !important;
+}
+@media (min-width: 767px) {
+    .guide-book .body .items {
+        padding-top: 100px;
+    }
+    .guide-book .body .items .item .title {
+        font-size: 44px;
+        top: -20px;
+    }
+    .guide-book .body .items .item .guide-image .guide-border {
+        width: 150px;
+    }
+    .guide-book .body .items .item .guide-image .guide-border-last {
+        width: 50% !important;
+    }
+}
+/* End Guide Book Style */

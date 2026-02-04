@@ -1,6 +1,7 @@
 @extends('layouts.frontsite')
 
 @section('title', 'Opsi Liburan Indonesia | Best Travel & Tour Packages to Bromo, Ijen, Bali, Jogja & More')
+@section('activeMenuHome', 'active')
 
 @section('content')
 <!-- home2 Banner Section Start-->

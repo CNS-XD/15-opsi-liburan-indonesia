@@ -15,12 +15,12 @@
                         </div>
                     </div>
                     <ul class="menu-list">
-                        <li class="active">
+                        <li class="@yield('activeMenuHome')">
                             <a href="{{ url('/') }}">
                                 Home
                             </a>
                         </li>
-                        <li>
+                        <li class="@yield('activeMenuGuideBook')">
                             <a href="{{ route('frontsite.guide-book.index') }}">
                                 Guide Book
                             </a>

@@ -35742,4 +35742,8 @@ header.style-3.two .main-menu > ul > li.active > a i {
   color: var(--white-color);
   line-height: 1;
   margin-left: 2px;
-}/*# sourceMappingURL=style.css.map */
+}
+
+.z-index-9 {
+  z-index: 999 !important;
+}
