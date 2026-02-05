@@ -53,7 +53,7 @@ class TourPriceController extends Controller
             })
 
             ->addColumn('price', function ($row) {
-                return 'Rp ' . number_format($row->price, 0, ',', '.');
+                return '$ ' . $row->price;
             })
 
             ->addColumn('action', function ($row) {
