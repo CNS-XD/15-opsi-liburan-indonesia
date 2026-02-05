@@ -229,7 +229,7 @@
                                 </a>
                             @endif
                             
-                            <a href="{{ route('index') }}" class="btn btn-outline-secondary">
+                            <a href="{{ route('frontsite.home.index') }}" class="btn btn-outline-secondary">
                                 <i class="fas fa-home me-2"></i>Kembali ke Beranda
                             </a>
                         </div>

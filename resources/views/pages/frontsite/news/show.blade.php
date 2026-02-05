@@ -4,7 +4,7 @@
 
 @section('title', $blog->title . ' - Travel News')
 
-@section('meta_description', Str::limit(strip_tags($blog->content), 160))
+@section('meta_description', Str::limit(strip_tags($blog->description), 160))
 
 @section('content')
 <!-- Breadcrumb Section -->
@@ -53,7 +53,7 @@
                         </div>
                         <h2>{{ $blog->title }}</h2>
                         <div class="blog-content">
-                            {!! $blog->content !!}
+                            {!! $blog->description !!}
                         </div>
                     </div>
                 </div>

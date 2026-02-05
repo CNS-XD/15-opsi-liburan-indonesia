@@ -8,6 +8,8 @@ use App\Models\Slider;
 use App\Models\Destination;
 use App\Models\Advantage;
 use App\Models\Blog;
+use App\Models\Testimony;
+use App\Models\Partner;
 
 class HomeController extends Controller
 {
@@ -96,6 +98,16 @@ class HomeController extends Controller
             ->limit(3)
             ->get();
 
-        return view('pages.frontsite.home.index', compact('sliders', 'destinations', 'popularTours', 'advantages', 'oneDayTours', 'blogs'));
+        // Get testimonials (show = 1) for Hear It from Travelers section
+        $testimonials = Testimony::where('show', Testimony::SHOW['publish'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Get partners (show = 1) for Our Partner section
+        $partners = Partner::where('show', Partner::SHOW['publish'])
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('pages.frontsite.home.index', compact('sliders', 'destinations', 'popularTours', 'advantages', 'oneDayTours', 'blogs', 'testimonials', 'partners'));
     }
 }

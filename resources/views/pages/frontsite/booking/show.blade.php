@@ -246,7 +246,7 @@
                             <a href="{{ route('frontsite.tours.show', $booking->tour->slug) }}" class="btn btn-outline-primary btn-lg">
                                 <i class="fas fa-eye me-2"></i>View Tour Details
                             </a>
-                            <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-lg">
+                            <a href="{{ route('frontsite.home.index') }}" class="btn btn-outline-secondary btn-lg">
                                 <i class="fas fa-home me-2"></i>Back to Home
                             </a>
                         </div>

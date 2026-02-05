@@ -1512,20 +1512,40 @@ use Illuminate\Support\Str;
         <div class="partner-wrap">
             <div class="marquee">
                 <div class="marquee__group">
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                    @forelse($partners as $partner)
+                        <a href="{{ $partner->link ?? 'javascript:void(0);' }}" {{ $partner->link ? 'target="_blank"' : '' }}>
+                            @if($partner->image && file_exists(public_path('storage/' . $partner->image)))
+                                <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}">
+                            @else
+                                <img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt="{{ $partner->name ?? 'Partner' }}">
+                            @endif
+                        </a>
+                    @empty
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                    @endforelse
                 </div>
                 <div aria-hidden="true" class="marquee__group">
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
-                    <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                    @forelse($partners as $partner)
+                        <a href="{{ $partner->link ?? 'javascript:void(0);' }}" {{ $partner->link ? 'target="_blank"' : '' }}>
+                            @if($partner->image && file_exists(public_path('storage/' . $partner->image)))
+                                <img src="{{ asset('storage/' . $partner->image) }}" alt="{{ $partner->name }}">
+                            @else
+                                <img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt="{{ $partner->name ?? 'Partner' }}">
+                            @endif
+                        </a>
+                    @empty
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                        <a href="javascript:void(0);"><img src="/frontsite-assets/img/partners/wonderful-indonesia.png" alt=""></a>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -1571,7 +1591,7 @@ use Illuminate\Support\Str;
                                 <path
                                     d="M6.81277 9.76647C8.6713 9.76647 10.1779 8.25983 10.1779 6.4013C10.1779 4.54277 8.6713 3.03613 6.81277 3.03613C4.95424 3.03613 3.4476 4.54277 3.4476 6.4013C3.4476 8.25983 4.95424 9.76647 6.81277 9.76647Z"/>
                             </svg>
-                            {{ isset($blogs[0]) && $blogs[0]->category ? $blogs[0]->category : 'Inspiration' }}
+                            {{ isset($blogs[0]) && $blogs[0]->type ? $blogs[0]->type : 'Inspiration' }}
                         </a>
                         <h4><a href="{{ isset($blogs[0]) ? route('frontsite.news.show', $blogs[0]->id) : 'javascript:void(0);' }}">{{ isset($blogs[0]) ? Str::limit($blogs[0]->title, 60) : 'Top 10 Skills That Make a Tour Guide Truly Exceptional' }}</a></h4>
                     </div>
@@ -1603,7 +1623,7 @@ use Illuminate\Support\Str;
                                 <path
                                     d="M6.81277 9.76647C8.6713 9.76647 10.1779 8.25983 10.1779 6.4013C10.1779 4.54277 8.6713 3.03613 6.81277 3.03613C4.95424 3.03613 3.4476 4.54277 3.4476 6.4013C3.4476 8.25983 4.95424 9.76647 6.81277 9.76647Z"/>
                             </svg>
-                            {{ isset($blogs[1]) && $blogs[1]->category ? $blogs[1]->category : 'Lifestyle' }}
+                            {{ isset($blogs[1]) && $blogs[1]->type ? $blogs[1]->type : 'Lifestyle' }}
                         </a>
                         <h4><a href="{{ isset($blogs[1]) ? route('frontsite.news.show', $blogs[1]->id) : 'javascript:void(0);' }}">{{ isset($blogs[1]) ? Str::limit($blogs[1]->title, 60) : 'How to Do Prewedding Photoshoot in Bromo, A Guide for Brides' }}</a></h4>
                     </div>
@@ -1635,7 +1655,7 @@ use Illuminate\Support\Str;
                                 <path
                                     d="M6.81277 9.76647C8.6713 9.76647 10.1779 8.25983 10.1779 6.4013C10.1779 4.54277 8.6713 3.03613 6.81277 3.03613C4.95424 3.03613 3.4476 4.54277 3.4476 6.4013C3.4476 8.25983 4.95424 9.76647 6.81277 9.76647Z"/>
                             </svg>
-                            {{ isset($blogs[2]) && $blogs[2]->category ? $blogs[2]->category : 'Tips' }}
+                            {{ isset($blogs[2]) && $blogs[2]->type ? $blogs[2]->type : 'Tips' }}
                         </a>
                         <h4><a href="{{ isset($blogs[2]) ? route('frontsite.news.show', $blogs[2]->id) : 'javascript:void(0);' }}">{{ isset($blogs[2]) ? Str::limit($blogs[2]->title, 60) : '10 Best Things to Do in Surabaya: Your Friendly Guide to Unforgettable Experiences!' }}</a></h4>
                     </div>
@@ -1681,39 +1701,48 @@ use Illuminate\Support\Str;
             <div class="col-lg-12">
                 <div class="swiper home1-testimonial-slider">
                     <div class="swiper-wrapper">
+                        @if($testimonials->count() > 0)
+                            @foreach($testimonials as $testimony)
+                            <div class="swiper-slide">
+                                <div class="testimonial-card three">
+                                    <ul class="rating-area trustpilot">
+                                        @for($i = 1; $i <= 5; $i++)
+                                        <li>
+                                            <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
+                                            </svg>
+                                        </li>
+                                        @endfor
+                                    </ul>
+                                    <h5>{{ $testimony->title }}</h5>
+                                    <p>{!! $testimony->description !!}</p>
+                                    <div class="author-area">
+                                        <div class="author-img">
+                                            @if($testimony->image && file_exists(public_path('storage/' . $testimony->image)))
+                                                <img src="{{ asset('storage/' . $testimony->image) }}" alt="{{ $testimony->name }}">
+                                            @else
+                                                <img src="/frontsite-assets/img/home1/testimonial-author-img{{ ($loop->index % 5) + 1 }}.png" alt="{{ $testimony->name }}">
+                                            @endif
+                                        </div>
+                                        <div class="author-info">
+                                            <h5>{{ $testimony->name }}</h5>
+                                            <span>{{ $testimony->position ?? 'Opsi Liburan Traveler' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endforeach
+                        @else
                         <div class="swiper-slide">
                             <div class="testimonial-card three">
                                 <ul class="rating-area trustpilot">
+                                    @for($i = 1; $i <= 5; $i++)
                                     <li>
                                         <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
+                                            <path d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
                                         </svg>
                                     </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
+                                    @endfor
                                 </ul>
                                 <h5>Excellent Tourist Place!</h5>
                                 <p>
@@ -1730,202 +1759,7 @@ use Illuminate\Support\Str;
                                 </div>
                             </div>
                         </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-card three">
-                                <ul class="rating-area trustpilot">
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                </ul>
-                                <h5>Average Experience</h5>
-                                <p>
-                                    We joined a 4D3N East Java tour and everything was perfectly organized. The team was responsive, easy to communicate with, and made our volcano adventure unforgettable :)
-                                </p>
-                                <div class="author-area">
-                                    <div class="author-img">
-                                        <img src="/frontsite-assets/img/home1/testimonial-author-img3.png" alt="">
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Peggy Pei</h5>
-                                        <span>Opsi Liburan Traveler</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-card three">
-                                <ul class="rating-area trustpilot">
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                </ul>
-                                <h5>Great Experience!</h5>
-                                <p>
-                                    Our private Bromo tour was fantastic. No rush, flexible stops, and an excellent guide who also took great photos. Definitely worth it for a smooth and enjoyable experience.🙏
-                                </p>
-                                <div class="author-area">
-                                    <div class="author-img">
-                                        <img src="/frontsite-assets/img/home1/testimonial-author-img2.png" alt="">
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Carla J.</h5>
-                                        <span>Opsi Liburan Traveler</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-card three">
-                                <ul class="rating-area trustpilot">
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                </ul>
-                                <h5>Great Visitors Venue!</h5>
-                                <p>
-                                    I traveled solo with Opsi to Tumpak Sewu, Bromo, and Ijen. The team was reliable, well-organized, and very supportive. I felt safe and truly enjoyed every moment. 😊 Terima kasih Ersya, Mario & die anderen Guides für alles! 🙏🏽
-                                </p>
-                                <div class="author-area">
-                                    <div class="author-img">
-                                        <img src="/frontsite-assets/img/home1/testimonial-author-img4.png" alt="">
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Annika Roberts</h5>
-                                        <span>Opsi Liburan Traveler</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="swiper-slide">
-                            <div class="testimonial-card three">
-                                <ul class="rating-area trustpilot">
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                    <li>
-                                        <svg width="11" height="10" viewBox="0 0 11 10" xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M5.25 7.57409L7.53125 6.99627L8.48437 9.93221L5.25 7.57409ZM10.5 3.77924H6.48437L5.25 0L4.01562 3.77924H0L3.25 6.12174L2.01562 9.90097L5.26562 7.55847L7.26562 6.12174L10.5 3.77924Z"/>
-                                        </svg>
-                                    </li>
-                                </ul>
-                                <h5>Fantastic Service!</h5>
-                                <p>
-                                    Great organization and excellent value for a Bromo tour. Early start but totally worth it. Professional pickup, smooth service, and a very satisfying experience overall.
-                                </p>
-                                <div class="author-area">
-                                    <div class="author-img">
-                                        <img src="/frontsite-assets/img/home1/testimonial-author-img5.png" alt="">
-                                    </div>
-                                    <div class="author-info">
-                                        <h5>Greg Henderson</h5>
-                                        <span>Opsi Liburan Traveler</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -1974,7 +1808,7 @@ use Illuminate\Support\Str;
 </div>
 <!-- home2 testimonial Section End-->
 
-    <!-- home2 Counter Section Start-->
+<!-- home2 Counter Section Start-->
 <div class="counter-section two mb-100">
     <div class="container">
         <div class="row gy-md-5 gy-4">

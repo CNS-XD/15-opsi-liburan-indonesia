@@ -183,7 +183,7 @@
                             <a href="{{ route('frontsite.booking.show', $booking->booking_code) }}" class="btn btn-outline-primary btn-lg">
                                 <i class="fas fa-file-alt me-2"></i>View Booking Details
                             </a>
-                            <a href="{{ route('index') }}" class="btn btn-outline-secondary btn-lg">
+                            <a href="{{ route('frontsite.home.index') }}" class="btn btn-outline-secondary btn-lg">
                                 <i class="fas fa-home me-2"></i>Back to Home
                             </a>
                         </div>

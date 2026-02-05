@@ -244,7 +244,7 @@
                             <a href="{{ route('frontsite.booking.show', $payment->booking->booking_code) }}" class="btn btn-outline-secondary btn-lg">
                                 <i class="fas fa-eye me-2"></i>Lihat Detail Booking
                             </a>
-                            <a href="{{ route('index') }}" class="btn btn-outline-primary btn-lg">
+                            <a href="{{ route('frontsite.home.index') }}" class="btn btn-outline-primary btn-lg">
                                 <i class="fas fa-home me-2"></i>Kembali ke Beranda
                             </a>
                         </div>

@@ -273,7 +273,7 @@
                                                 </button>
                                             </form>
                                             
-                                            <a href="{{ route('index') }}" class="btn btn-outline-secondary w-100">
+                                            <a href="{{ route('frontsite.home.index') }}" class="btn btn-outline-secondary w-100">
                                                 <i class="fas fa-arrow-left me-2"></i>Kembali ke Beranda
                                             </a>
                                         </div>
