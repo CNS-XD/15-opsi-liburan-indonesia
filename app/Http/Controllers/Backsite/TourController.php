@@ -74,7 +74,7 @@ class TourController extends Controller
 
             // Price
             ->editColumn('price', function ($data) {
-                return 'Rp ' . number_format($data->price, 0, ',', '.');
+                return '$ ' . $data->price;
             })
 
             // Is Best

@@ -6,6 +6,8 @@ use Illuminate\Routing\Controller;
 use App\Models\Tour;
 use App\Models\Slider;
 use App\Models\Destination;
+use App\Models\Advantage;
+use App\Models\Blog;
 
 class HomeController extends Controller
 {
@@ -50,6 +52,50 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        return view('pages.frontsite.home.index', compact('sliders', 'destinations', 'popularTours'));
+        // Get advantages (show = 1) ordered by created_at
+        $advantages = Advantage::where('show', 1)
+            ->orderBy('created_at', 'asc')
+            ->limit(6)
+            ->get();
+
+        // Get one day tours (day_tour = 1 day) with related data
+        $oneDayTours = Tour::with([
+            'tour_photos' => function($q) {
+                $q->where('show', 1);
+            },
+            'tour_prices', 
+            'tour_departures'
+        ])
+            ->where('show', 1)
+            ->where('day_tour', 1) // Filter for 1-day tours
+            ->orderBy('is_best', 'desc') // Prioritize best tours
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        // Get last minute deals (tours with multiple prices for discount display)
+        // $lastMinuteDeals = Tour::with([
+        //     'tour_photos' => function($q) {
+        //         $q->where('show', 1);
+        //     },
+        //     'tour_prices', 
+        //     'tour_departures'
+        // ])
+        //     ->where('show', 1)
+        //     ->whereHas('tour_prices', function($q) {
+        //         $q->havingRaw('COUNT(*) > 1'); // Tours with multiple prices for discount
+        //     })
+        //     ->orderBy('is_best', 'desc')
+        //     ->orderBy('created_at', 'desc')
+        //     ->limit(3)
+        //     ->get();
+
+        // Get latest blogs (show = 1) for Travel Inspirations section
+        $blogs = Blog::where('show', Blog::SHOW['publish'])
+            ->orderBy('created_at', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('pages.frontsite.home.index', compact('sliders', 'destinations', 'popularTours', 'advantages', 'oneDayTours', 'blogs'));
     }
 }
