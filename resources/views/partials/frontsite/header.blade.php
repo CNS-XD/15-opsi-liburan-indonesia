@@ -16,7 +16,7 @@
                     </div>
                     <ul class="menu-list">
                         <li class="@yield('activeMenuHome')">
-                            <a href="{{ url('/') }}">
+                            <a href="{{ route('frontsite.home.index') }}">
                                 Home
                             </a>
                         </li>
@@ -25,23 +25,23 @@
                                 Guide Book
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0);">
+                        <li class="@yield('activeMenuDestinations')">
+                            <a href="{{ route('frontsite.destinations.index') }}">
                                 Destinations
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0);">
+                        <li class="@yield('activeMenuDepartures')">
+                            <a href="{{ route('frontsite.departures.index') }}">
                                 Departure City
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0);">
+                        <li class="@yield('activeMenuTours')">
+                            <a href="{{ route('frontsite.tours.index') }}">
                                 Package Tour
                             </a>
                         </li>
-                        <li>
-                            <a href="javascript:void(0);">
+                        <li class="@yield('activeMenuNews')">
+                            <a href="{{ route('frontsite.news.index') }}">
                                 Travel News
                             </a>
                         </li>
@@ -67,7 +67,7 @@
                             </a>
                         </div>
                     </div> --}}
-                    <a href="javascript:void(0);" class="primary-btn1 black-bg d-xl-none d-flex">
+                    <a href="{{ route('frontsite.contact.index') }}" class="primary-btn1 black-bg d-xl-none d-flex">
                         <span>
                             <svg width="15" height="15" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
                                 <g>
@@ -140,7 +140,7 @@
                         </div>
                     </div>
                 </div> --}}
-                <a href="javascript:void(0);" class="primary-btn1 black-bg d-xl-flex d-none">
+                <a href="{{ route('frontsite.contact.index') }}" class="primary-btn1 black-bg d-xl-flex d-none">
                     <span>
                         <svg width="15" height="15" viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg">
                             <g>

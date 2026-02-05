@@ -11,10 +11,27 @@ class TourController extends Controller
 {
     public function index()
     {
-        $tours = Tour::with(['tour_photos', 'tour_prices', 'tour_departures.departure'])
+        $tours = Tour::with([
+            'tour_photos' => function($query) {
+                $query->where('show', 1);
+            },
+            'tour_prices', 
+            'tour_departures.departure', 
+            'tour_destinations.destination'
+        ])
             ->where('show', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(12);
+
+        // Add price attribute to each tour
+        $tours->getCollection()->transform(function ($tour) {
+            if ($tour->tour_prices && $tour->tour_prices->count() > 0) {
+                $tour->price = $tour->tour_prices->min('price');
+            } else {
+                $tour->price = 0;
+            }
+            return $tour;
+        });
 
         return view('pages.frontsite.tours.index', compact('tours'));
     }
@@ -41,7 +58,12 @@ class TourController extends Controller
         $totalReviews = $tour->tour_reviews->count();
 
         // Get related tours
-        $relatedTours = Tour::with(['tour_photos', 'tour_prices'])
+        $relatedTours = Tour::with([
+            'tour_photos' => function($q) {
+                $q->where('show', 1);
+            },
+            'tour_prices'
+        ])
             ->where('show', 1)
             ->where('id', '!=', $tour->id)
             ->limit(4)

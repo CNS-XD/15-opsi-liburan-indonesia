@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/frontsite-assets/css/style.css">
     <!--  Custom CSS  -->
     <link rel="stylesheet" href="/frontsite-assets/css/custom.css">
+    <!--  Custom Pages CSS  -->
+    <link rel="stylesheet" href="/frontsite-assets/css/custom-pages.css">
 
     <link rel="icon" href="/frontsite-assets/img/fav-icon.svg" type="image/gif" sizes="20x20">
     <link href="/frontsite-assets/css/nice-select.css" rel="stylesheet">

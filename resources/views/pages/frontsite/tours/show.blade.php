@@ -1,5 +1,7 @@
 @extends('layouts.frontsite')
 
+@section('activeMenuTours', 'active')
+
 @section('title', $tour->title . ' | Opsi Liburan Indonesia')
 
 @section('content')
@@ -28,7 +30,7 @@
                         </div>
                     @else
                         <div class="tour-image single-image">
-                            <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/default.jpg') }}" 
+                            <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/1.jpg') }}" 
                                  alt="{{ $tour->title }}">
                         </div>
                     @endif
@@ -626,7 +628,7 @@
                     <div class="related-tour-card">
                         <a href="{{ route('frontsite.tours.show', $relatedTour->slug) }}" class="tour-image-link">
                             <div class="tour-image-container">
-                                <img src="{{ $relatedTour->tour_photos->first() ? asset('storage/' . $relatedTour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/default.jpg') }}" 
+                                <img src="{{ $relatedTour->tour_photos->first() ? asset('storage/' . $relatedTour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/1.jpg') }}" 
                                      alt="{{ $relatedTour->title }}">
                                 <div class="image-overlay">
                                     <i class="fas fa-eye"></i>

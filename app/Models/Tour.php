@@ -67,6 +67,11 @@ class Tour extends Model
 
 	public function tour_photos()
 	{
+		return $this->hasMany(TourPhoto::class, 'id_tour')->where('show', 1);
+	}
+
+	public function all_tour_photos()
+	{
 		return $this->hasMany(TourPhoto::class, 'id_tour');
 	}
 

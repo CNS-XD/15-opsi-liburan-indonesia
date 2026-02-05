@@ -140,19 +140,19 @@
                                 <h5>Resources Pages</h5>
                             </div>
                             <ul class="widget-list">
-                                <li><a href="javascript:void(0);">Guide Book</a></li>
-                                <li><a href="javascript:void(0);">Package Tour</a></li>
+                                <li><a href="{{ route('frontsite.guide-book.index') }}">Guide Book</a></li>
+                                <li><a href="{{ route('frontsite.tours.index') }}">Package Tour</a></li>
                                 <li><a href="{{ route('frontsite.about-us.index') }}">About Us</a></li>
                                 <li><a href="{{ route('frontsite.news.index') }}">Travel News</a></li>
-                                <li><a href="javascript:void(0);">Gallery</a></li>
+                                <li><a href="{{ route('frontsite.gallery.index') }}">Gallery</a></li>
                                 <li><a href="{{ route('frontsite.faq.index') }}">FAQ</a></li>
-                                <li><a href="javascript:void(0);">Destinations</a></li>
-                                <li><a href="javascript:void(0);">Departure City</a></li>
-                                <li><a href="javascript:void(0);">Customized Tour</a></li>
-                                <li><a href="javascript:void(0);">Review or Testimony</a></li>
+                                <li><a href="{{ route('frontsite.destinations.index') }}">Destinations</a></li>
+                                <li><a href="{{ route('frontsite.departures.index') }}">Departure City</a></li>
+                                <li><a href="{{ route('frontsite.custom-itinerary.index') }}">Customized Tour</a></li>
+                                <li><a href="{{ route('frontsite.testimonies.index') }}">Review or Testimony</a></li>
                                 <li><a href="{{ route('frontsite.contact.index') }}">Contact</a></li>
-                                <li><a href="javascript:void(0);">Terms & Condition</a></li>
-                                <li><a href="javascript:void(0);">Privacy & Policy</a></li>
+                                <li><a href="{{ route('frontsite.terms-conditions.index') }}">Terms & Condition</a></li>
+                                <li><a href="{{ route('frontsite.privacy-policy.index') }}">Privacy & Policy</a></li>
                             </ul>
                         </div>
                     </div>

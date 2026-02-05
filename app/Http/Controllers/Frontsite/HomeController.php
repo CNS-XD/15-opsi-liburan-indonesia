@@ -37,7 +37,13 @@ class HomeController extends Controller
         }
 
         // Get popular tours (is_best = 1 and show = 1) with related data
-        $popularTours = Tour::with(['tour_photos', 'tour_prices', 'tour_departures'])
+        $popularTours = Tour::with([
+            'tour_photos' => function($q) {
+                $q->where('show', 1);
+            },
+            'tour_prices', 
+            'tour_departures'
+        ])
             ->where('is_best', 1)
             ->where('show', 1)
             ->orderBy('created_at', 'desc')

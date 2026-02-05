@@ -13,6 +13,11 @@ use App\Http\Controllers\Frontsite\NewsController;
 use App\Http\Controllers\Frontsite\GuideBookController;
 use App\Http\Controllers\Frontsite\SearchController;
 use App\Http\Controllers\Frontsite\CustomItineraryController;
+use App\Http\Controllers\Frontsite\DestinationController;
+use App\Http\Controllers\Frontsite\DepartureController;
+use App\Http\Controllers\Frontsite\TestimonyController;
+use App\Http\Controllers\Frontsite\GalleryController;
+use App\Http\Controllers\Frontsite\StaticPageController;
 use Illuminate\Support\Facades\Route;
 
 // Xendit Webhook (outside middleware)
@@ -65,10 +70,33 @@ Route::name('frontsite.')->middleware('pbh')->group(function () {
     
     // About Us
     Route::get('about-us', [AboutUsController::class, 'index'])->name('about-us.index');
+    
     // Contact Us
     Route::get('contact', [ContactController::class, 'index'])->name('contact.index');
+    Route::post('contact', [ContactController::class, 'store'])->name('contact.store');
+    
     // FAQ
     Route::get('faq', [FaqController::class, 'index'])->name('faq.index');
-    // News
+    
+    // News/Blog
     Route::get('news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('news/{id}', [NewsController::class, 'show'])->name('news.show');
+    
+    // Destinations
+    Route::get('destinations', [DestinationController::class, 'index'])->name('destinations.index');
+    Route::get('destinations/{id}', [DestinationController::class, 'show'])->name('destinations.show');
+    
+    // Departure Cities
+    Route::get('departures', [DepartureController::class, 'index'])->name('departures.index');
+    Route::get('departures/{id}', [DepartureController::class, 'show'])->name('departures.show');
+    
+    // Testimonies/Reviews
+    Route::get('testimonies', [TestimonyController::class, 'index'])->name('testimonies.index');
+    
+    // Gallery
+    Route::get('gallery', [GalleryController::class, 'index'])->name('gallery.index');
+    
+    // Static Pages
+    Route::get('terms-conditions', [StaticPageController::class, 'termsConditions'])->name('terms-conditions.index');
+    Route::get('privacy-policy', [StaticPageController::class, 'privacyPolicy'])->name('privacy-policy.index');
 });

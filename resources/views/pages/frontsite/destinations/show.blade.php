@@ -1,141 +1,81 @@
 @extends('layouts.frontsite')
 
-@section('title', 'Search Tours - Opsi Liburan Indonesia')
-@section('activeMenuTours', 'active')
+@section('activeMenuDestinations', 'active')
+
+@section('title', $destination->title . ' - Destinations')
+
+@section('meta_description', Str::limit($destination->description, 160))
 
 @section('content')
-<!-- Start Breadcrumb section -->
-<div class="breadcrumb-section" style="height: 30px; background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/frontsite-assets/img/innerpages/breadcrumb-bg1.jpg);">  
-    <div class="container">
-        <div class="banner-content" style="margin-top: -60px;">
-            <h1 class="text-white">Search Tours</h1>
-            <h3 class="text-white">Find your perfect travel experience</h3>
-        </div>
-    </div>
-</div>
-<!-- End Breadcrumb section -->
-
-<!-- Search Filter Section Start -->
-<div class="search-filter-section">
-    <div class="container">
-        <div class="search-filter-wrapper">
-            <form method="GET" action="{{ route('frontsite.search') }}" class="search-filter-form">
-                <div class="row">
-                    <div class="col-lg-3 col-md-6">
-                        <div class="filter-group">
-                            <label>Destination</label>
-                            <select name="destination" class="form-select">
-                                <option value="">All Destinations</option>
-                                @foreach($destinations as $destination)
-                                <option value="{{ $destination->title }}" 
-                                    {{ request('destination') == $destination->title ? 'selected' : '' }}>
-                                    {{ $destination->title }}
-                                </option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="filter-group">
-                            <label>Duration (Days)</label>
-                            <select name="day" class="form-select">
-                                <option value="">Any Duration</option>
-                                <option value="1" {{ request('day') == '1' ? 'selected' : '' }}>1 Day</option>
-                                <option value="2" {{ request('day') == '2' ? 'selected' : '' }}>2 Days</option>
-                                <option value="3" {{ request('day') == '3' ? 'selected' : '' }}>3 Days</option>
-                                <option value="4" {{ request('day') == '4' ? 'selected' : '' }}>4 Days</option>
-                                <option value="5" {{ request('day') == '5' ? 'selected' : '' }}>5 Days</option>
-                                <option value="7" {{ request('day') == '7' ? 'selected' : '' }}>7 Days</option>
-                                <option value="10" {{ request('day') == '10' ? 'selected' : '' }}>10+ Days</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="filter-group">
-                            <label>Tour Type</label>
-                            <select name="type" class="form-select">
-                                <option value="">All Types</option>
-                                <option value="private" {{ request('type') == 'private' ? 'selected' : '' }}>
-                                    Private Tour
-                                </option>
-                                <option value="sharing" {{ request('type') == 'sharing' ? 'selected' : '' }}>
-                                    Sharing Tour
-                                </option>
-                                <option value="group" {{ request('type') == 'group' ? 'selected' : '' }}>
-                                    Group Tour
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <div class="filter-group">
-                            <label>Keyword</label>
-                            <input type="text" name="keyword" class="form-control" 
-                                placeholder="Search tours..." value="{{ request('keyword') }}">
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-6">
-                        <div class="filter-group">
-                            <label>&nbsp;</label>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="bi bi-search"></i> Search
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Search Filter Section End -->
-
-<!-- Search Results Section Start -->
-<div class="search-results-section">
+<!-- Breadcrumb Section -->
+<div class="breadcrumb-section" style="background-image: linear-gradient(270deg, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.3) 101.02%), url('{{ $destination->image ? asset('storage/' . $destination->image) : asset('frontsite-assets/img/innerpages/destination-card4-img4.jpg') }}');">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="search-results-header">
-                    <h3>Search Results</h3>
-                    <p>Found {{ $tours->total() ?? 0 }} tours</p>
-                    
-                    @if(request()->hasAny(['destination', 'day', 'type', 'keyword']))
-                    <div class="active-filters">
-                        <span>Active Filters:</span>
-                        @if(request('destination'))
-                            <span class="filter-tag">
-                                Destination: {{ request('destination') }}
-                                <a href="{{ request()->fullUrlWithQuery(['destination' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        @if(request('day'))
-                            <span class="filter-tag">
-                                Duration: {{ request('day') }} Day{{ request('day') > 1 ? 's' : '' }}
-                                <a href="{{ request()->fullUrlWithQuery(['day' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        @if(request('type'))
-                            <span class="filter-tag">
-                                Type: {{ ucfirst(request('type')) }} Tour
-                                <a href="{{ request()->fullUrlWithQuery(['type' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        @if(request('keyword'))
-                            <span class="filter-tag">
-                                Keyword: {{ request('keyword') }}
-                                <a href="{{ request()->fullUrlWithQuery(['keyword' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        <a href="{{ route('frontsite.search') }}" class="clear-all-filters">Clear All</a>
-                    </div>
-                    @endif
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="banner-content">
+                    <h1>{{ $destination->title }}</h1>
+                    <ul class="breadcrumb-list">
+                        <li><a href="{{ route('frontsite.home.index') }}">Home</a></li>
+                        <li><a href="{{ route('frontsite.destinations.index') }}">Destinations</a></li>
+                        <li>{{ $destination->title }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 
+<!-- Destination Details Section -->
+<div class="destination-details-section pt-120 pb-120">
+    <div class="container">
         <div class="row">
+            <div class="col-lg-8">
+                <div class="destination-details-content">
+                    <div class="destination-details-img">
+                        @if($destination->image)
+                        <img src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}">
+                        @else
+                        <img src="{{ asset('frontsite-assets/img/innerpages/destination-details-img.png') }}" alt="{{ $destination->title }}">
+                        @endif
+                    </div>
+                    <div class="destination-details-text">
+                        <h2>About {{ $destination->title }}</h2>
+                        <p>{{ $destination->description }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="destination-sidebar">
+                    <div class="destination-info-card">
+                        <h4>Destination Info</h4>
+                        <ul class="destination-info-list">
+                            <li>
+                                <span>Total Tours:</span>
+                                <span>{{ $tours->total() }} Tours</span>
+                            </li>
+                            <li>
+                                <span>Location:</span>
+                                <span>{{ $destination->title }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tours Section -->
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <div class="section-head">
+                    <h3>Tours in {{ $destination->title }}</h3>
+                    <p>Explore amazing tour packages in this destination</p>
+                </div>
+            </div>
+        </div>
+        <div class="row g-4">
             @forelse($tours as $tour)
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="package-card">
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="package-card modern-tour-card">
                     <div class="package-img-wrap">
                         @if($tour->tour_photos->count() > 1)
                             <div class="swiper package-card-img-slider">
@@ -162,6 +102,11 @@
                             <span>Most Loved</span>
                         </div>
                         @endif
+                        <div class="love-react">
+                            <div class="heart-icon">
+                                <i class="bi bi-heart"></i>
+                            </div>
+                        </div>
                     </div>
                     <div class="package-content">
                         <h5><a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}">{{ $tour->title }}</a></h5>
@@ -201,7 +146,7 @@
                             </a>
                             <div class="price-area">
                                 <h6>Per Person</h6>
-                                <span>${{ number_format($tour->price, 0) }}</span>
+                                <span>${{ number_format($tour->price ?? 0, 0) }}</span>
                             </div>
                         </div>
                         <svg class="divider" height="6" viewBox="0 0 374 6" xmlns="http://www.w3.org/2000/svg">
@@ -233,182 +178,24 @@
                 </div>
             </div>
             @empty
-            <div class="col-lg-12">
-                <div class="no-results">
-                    <div class="no-results-content">
-                        <i class="bi bi-search"></i>
-                        <h4>No tours found</h4>
-                        <p>Try adjusting your search criteria or browse all tours.</p>
-                        <a href="{{ route('frontsite.search') }}" class="btn btn-primary">View All Tours</a>
-                    </div>
+            <div class="col-12">
+                <div class="text-center py-5">
+                    <h4>No tours found</h4>
+                    <p>There are no tours available for this destination at the moment.</p>
                 </div>
             </div>
             @endforelse
         </div>
-
-        <!-- Pagination -->
+        
         @if($tours->hasPages())
         <div class="row">
             <div class="col-lg-12">
-                <div class="pagination-wrapper">
-                    {{ $tours->appends(request()->except('page'))->links() }}
+                <div class="pagination-area">
+                    {{ $tours->links() }}
                 </div>
             </div>
         </div>
         @endif
     </div>
 </div>
-<!-- Search Results Section End -->
-
 @endsection
-
-@push('after-style')
-<style>
-.search-filter-section {
-    background: #f8f9fa;
-    padding: 30px 0;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.filter-group {
-    margin-bottom: 20px;
-}
-
-.filter-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-}
-
-.form-select, .form-control {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
-}
-
-.search-results-section {
-    padding: 40px 0;
-}
-
-.search-results-header {
-    margin-bottom: 30px;
-}
-
-.active-filters {
-    margin-top: 15px;
-}
-
-.filter-tag {
-    display: inline-block;
-    background: #e9ecef;
-    padding: 5px 10px;
-    border-radius: 15px;
-    margin-right: 10px;
-    margin-bottom: 5px;
-    font-size: 12px;
-}
-
-.filter-tag a {
-    margin-left: 5px;
-    color: #dc3545;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.clear-all-filters {
-    color: #dc3545;
-    text-decoration: none;
-    font-size: 12px;
-    margin-left: 10px;
-}
-
-.no-results {
-    text-align: center;
-    padding: 60px 20px;
-}
-
-.no-results i {
-    font-size: 64px;
-    color: #dee2e6;
-    margin-bottom: 20px;
-}
-
-.no-results h4 {
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.no-results p {
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.pagination-wrapper {
-    text-align: center;
-    margin-top: 40px;
-}
-
-/* Loading indicator */
-.loading-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-}
-
-.loading-spinner {
-    width: 40px;
-    height: 40px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #007bff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-</style>
-@endpush
-
-@push('after-script')
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Show loading when form is submitted
-    const searchForm = document.querySelector('.search-filter-form');
-    if (searchForm) {
-        searchForm.addEventListener('submit', function() {
-            showLoading();
-        });
-    }
-    
-    // Show loading when filter links are clicked
-    const filterLinks = document.querySelectorAll('.filter-tag a, .clear-all-filters');
-    filterLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            showLoading();
-        });
-    });
-    
-    function showLoading() {
-        let overlay = document.querySelector('.loading-overlay');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'loading-overlay';
-            overlay.innerHTML = '<div class="loading-spinner"></div>';
-            document.body.appendChild(overlay);
-        }
-        overlay.style.display = 'flex';
-    }
-});
-</script>
-@endpush

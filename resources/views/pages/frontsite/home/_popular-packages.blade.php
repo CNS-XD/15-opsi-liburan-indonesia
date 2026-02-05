@@ -19,7 +19,7 @@
                 </div>
             @else
                 <a href="{{ route('frontsite.tours.show', $tour->slug) }}" class="package-img">
-                    <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/default.jpg') }}" alt="{{ $tour->title }}" style="height:250px; width:100%; object-fit:cover;">
+                    <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/1.jpg') }}" alt="{{ $tour->title }}" style="height:250px; width:100%; object-fit:cover;">
                 </a>
             @endif
             @if($tour->is_best)

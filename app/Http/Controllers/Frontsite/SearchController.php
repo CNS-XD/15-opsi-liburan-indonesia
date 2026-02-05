@@ -13,7 +13,14 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Tour::with(['tour_photos', 'tour_prices', 'tour_departures.departure', 'tour_destinations.destination'])
+            $query = Tour::with([
+                'tour_photos' => function($q) {
+                    $q->where('show', 1);
+                },
+                'tour_prices', 
+                'tour_departures.departure', 
+                'tour_destinations.destination'
+            ])
                 ->where('show', Tour::SHOW['publish']);
 
             // Filter by destination
