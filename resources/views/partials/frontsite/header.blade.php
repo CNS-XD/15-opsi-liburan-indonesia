@@ -45,9 +45,9 @@
                                 Travel News
                             </a>
                         </li>
-                        {{-- <li>
-                            <a href="javascript:void(0);">
-                                Customized Tour
+                        {{-- <li class="@yield('activeMenuCustomItinerary')">
+                            <a href="{{ route('frontsite.custom-itinerary.index') }}">
+                                Custom Itinerary
                             </a>
                         </li> --}}
                     </ul>

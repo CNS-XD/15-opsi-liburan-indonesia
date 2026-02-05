@@ -24,6 +24,7 @@ use App\Http\Controllers\Backsite\UserController;
 use App\Http\Controllers\Backsite\FaqController;
 use App\Http\Controllers\Backsite\BookingController;
 use App\Http\Controllers\Backsite\PaymentController;
+use App\Http\Controllers\Backsite\CustomItineraryController;
 
 // Backsite Routes with Middleware
 Route::name('backsite.')->middleware('auth')->group(function () {
@@ -357,6 +358,15 @@ Route::name('backsite.')->middleware('auth')->group(function () {
         Route::get('/', [PaymentController::class, 'index'])->name('index');
         Route::get('datatable', [PaymentController::class, 'datatable'])->name('datatable');
         Route::get('{id}', [PaymentController::class, 'show'])->name('show');
+    });
+
+    // Custom Itinerary
+    Route::prefix('custom-itinerary')->name('custom-itinerary.')->group(function () {
+        Route::get('/', [CustomItineraryController::class, 'index'])->name('index');
+        Route::get('export', [CustomItineraryController::class, 'export'])->name('export');
+        Route::get('{id}', [CustomItineraryController::class, 'show'])->name('show');
+        Route::patch('{id}/status', [CustomItineraryController::class, 'updateStatus'])->name('update-status');
+        Route::delete('{id}', [CustomItineraryController::class, 'destroy'])->name('destroy');
     });
 
     // Currency

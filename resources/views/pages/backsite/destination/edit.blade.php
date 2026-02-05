@@ -55,6 +55,14 @@
                                                     <input type="text" name="title" class="form-control" placeholder="ex: Bromo Mountain, Ijen Crater, Tumpak Sewu, Madakaripura Waterfall, dll" value="{{ $data->title }}" />
                                                 </div>
                                             </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3 pl1-2 pr1-2 label-control">Province</label>
+                                                <div class="col-md-9 pl1-2 pr1-2 mx-auto">
+                                                    <input type="text" name="province" class="form-control" placeholder="ex: East Java, Bali, Central Java, West Java, etc" value="{{ $data->province }}" />
+                                                    <small class="form-text text-muted">Optional - Province or region where this destination is located</small>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

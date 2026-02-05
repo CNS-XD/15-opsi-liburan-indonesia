@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('destinations', function (Blueprint $table) {
             $table->bigIncrements('id', true);
             $table->string('title', 255)->comment('ex: Bromo Mountain, Ijen Crater, Tumpak Sewu, Madakaripura Waterfall, dll');
+            $table->string('province', 255)->comment('ex: East Java, West Java, dll');
             
             $table->timestamp('created_at');
             $table->string('created_by', 255)->nullable();

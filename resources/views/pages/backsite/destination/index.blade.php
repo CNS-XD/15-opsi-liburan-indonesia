@@ -37,6 +37,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Title</th>
+                                            <th>Province</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -86,6 +87,10 @@
                 {
                     data: 'title',
                     name: 'title',
+                },
+                {
+                    data: 'province',
+                    name: 'province',
                 },
                 {
                     data: 'action',

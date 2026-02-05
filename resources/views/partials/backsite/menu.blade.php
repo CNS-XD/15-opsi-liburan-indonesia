@@ -115,6 +115,12 @@
                         <span class="menu-title" data-i18n="eCommerce">Booking</span>
                     </a>
                 </li>
+                {{-- <li class="nav-item @yield('activeMenuCustomItinerary')">
+                    <a href="{{ route('backsite.custom-itinerary.index') }}" class="@yield('activeSubMenuCustomItinerary')">
+                        <i class="la la-calendar-plus-o"></i>
+                        <span class="menu-title" data-i18n="eCommerce">Custom Itinerary</span>
+                    </a>
+                </li> --}}
 
                 {{-- SETTING --}}
                 <li class="navigation-header open">

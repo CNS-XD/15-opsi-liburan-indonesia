@@ -83,6 +83,7 @@ class DestinationController extends Controller
         try {
             $data = new Destination;
             $data->title = $request->title;
+            $data->province = $request->province;
             $data->save();
             DB::commit();
 
@@ -151,6 +152,7 @@ class DestinationController extends Controller
     
             // Update data
             $data->title = $request->title;
+            $data->province = $request->province;
             $data->save();
             DB::commit();
     

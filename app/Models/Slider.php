@@ -16,6 +16,11 @@ class Slider extends Model
         'draft' => 0,
         'publish' => 1
     ];
+
+    public const TYPE = [
+        'image' => 0,
+        'video' => 1
+    ];
     
     protected $table = 'sliders';
     protected $guarded = [];
@@ -41,5 +46,48 @@ class Slider extends Model
         return Carbon::parse($date)
         ->timezone('Asia/Jakarta')
         ->translatedFormat('l, d F Y H:i') . ' WIB';
+    }
+
+    /**
+     * Get slider media URL
+     */
+    public function getMediaUrlAttribute()
+    {
+        if ($this->value) {
+            return asset('storage/' . $this->value);
+        }
+        return null;
+    }
+
+    /**
+     * Check if slider is video type
+     */
+    public function isVideo()
+    {
+        return $this->type == self::TYPE['video'];
+    }
+
+    /**
+     * Check if slider is image type
+     */
+    public function isImage()
+    {
+        return $this->type == self::TYPE['image'];
+    }
+
+    /**
+     * Check if slider is published
+     */
+    public function isPublished()
+    {
+        return $this->show == self::SHOW['publish'];
+    }
+
+    /**
+     * Scope for published sliders
+     */
+    public function scopePublished($query)
+    {
+        return $query->where('show', self::SHOW['publish']);
     }
 }

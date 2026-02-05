@@ -1,19 +1,6 @@
 <?php
 
 use App\Http\Controllers\Frontsite\AboutUsController;
-use App\Http\Controllers\Frontsite\DivisiKompetisiController;
-use App\Http\Controllers\Backsite\DashboardController;
-use App\Http\Controllers\Frontsite\PengumumanController;
-use App\Http\Controllers\Frontsite\StatistikController;
-use App\Http\Controllers\Frontsite\ProvinsiController;
-use App\Http\Controllers\Frontsite\PesertaController;
-use App\Http\Controllers\Frontsite\SekolahController;
-use App\Http\Controllers\Frontsite\TentangController;
-use App\Http\Controllers\Frontsite\UnduhanController;
-use App\Http\Controllers\Frontsite\BeritaController;
-use App\Http\Controllers\Frontsite\GaleriController;
-use App\Http\Controllers\Frontsite\JadwalController;
-use App\Http\Controllers\Frontsite\VideoController;
 use App\Http\Controllers\Frontsite\HomeController;
 use App\Http\Controllers\Frontsite\FaqController;
 use App\Http\Controllers\Frontsite\TourController;
@@ -24,10 +11,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Frontsite\ContactController;
 use App\Http\Controllers\Frontsite\NewsController;
 use App\Http\Controllers\Frontsite\GuideBookController;
+use App\Http\Controllers\Frontsite\SearchController;
+use App\Http\Controllers\Frontsite\CustomItineraryController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-
-Route::get('/', [HomeController::class, 'index'])->name('index');
 
 // Xendit Webhook (outside middleware)
 Route::post('webhook/xendit/invoice', [PaymentController::class, 'webhook'])->name('webhook.xendit.invoice');
@@ -39,6 +25,19 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('sinkronisasi/{regCode}/{compCode}', [LoginController::class, 'storeSinkron'])->name('login.store-sinkron');
 
 Route::name('frontsite.')->middleware('pbh')->group(function () {
+    // Home
+    Route::get('/', [HomeController::class, 'index'])->name('home.index');
+    
+    // Search
+    Route::get('search', [SearchController::class, 'index'])->name('search');
+    Route::get('search/suggestions', [SearchController::class, 'suggestions'])->name('search.suggestions');
+    
+    // Custom Itinerary
+    Route::get('custom-itinerary', [CustomItineraryController::class, 'index'])->name('custom-itinerary.index');
+    Route::post('custom-itinerary', [CustomItineraryController::class, 'store'])->name('custom-itinerary.store');
+    Route::get('custom-itinerary/success/{id}', [CustomItineraryController::class, 'success'])->name('custom-itinerary.success');
+    Route::get('custom-itinerary/{id}', [CustomItineraryController::class, 'show'])->name('custom-itinerary.show');
+    
     // Tours
     Route::get('tours', [TourController::class, 'index'])->name('tours.index');
     Route::get('tours/{slug}', [TourController::class, 'show'])->name('tours.show');

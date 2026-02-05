@@ -8,77 +8,110 @@
 <div class="home2-banner-section">
     <div class="swiper home2-banner-slider">
         <div class="swiper-wrapper">
-            <div class="swiper-slide">
-                <div class="banner-wrapper">
-                    <div class="banner-video-area">
-                        <video autoplay loop muted playsinline src="/frontsite-assets/video/home2-banner-video.mp4"></video>
-                    </div>
-                    <div class="banner-content-wrap">
-                        <div class="container">
-                            <div class="banner-content">
-                                <h1>Discover Indonesia, One Trip at a Time.</h1>
-                                <p>Book curated tours and travel experiences across Indonesia — simple, flexible, and hassle-free.</p>
+            @forelse($sliders as $slider)
+                <div class="swiper-slide">
+                    <div class="banner-wrapper">
+                        @if($slider->isVideo())
+                            <!-- Video Slider -->
+                            <div class="banner-video-area">
+                                <video autoplay loop muted playsinline src="{{ $slider->media_url }}"></video>
                             </div>
-                        </div>
-                    </div>      
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="banner-wrapper">
-                    <div class="banner-img-area">
-                        <img src="/frontsite-assets/img/home2/banner-img1.jpg" alt="">
-                    </div>
-                    <div class="banner-content-wrap">
-                        <div class="container">
-                            <div class="banner-content">
-                                <h2>Plan Your Trip, Your Way.</h2>
-                                <p>Perfect for customized travel experiences — tailored flights, stays, and tours just for you.</p>
+                        @else
+                            <!-- Image Slider -->
+                            <div class="banner-img-area">
+                                <img src="{{ $slider->media_url }}" alt="{{ $slider->title ?? 'Slider Image' }}">
                             </div>
-                        </div>
-                    </div>      
-                </div>
-            </div>
-            <div class="swiper-slide">
-                <div class="banner-wrapper">
-                    <div class="banner-img-area">
-                        <img src="/frontsite-assets/img/home2/banner-img2.jpg" alt="">
-                    </div>
-                    <div class="banner-content-wrap">
-                        <div class="container">
-                            <div class="banner-content">
-                                <h2>Your Gateway To The World.</h2>
-                                <p>Ideal for explorers seeking seamless booking and expert travel support every step of the way.</p>
+                        @endif
+                        <div class="banner-content-wrap">
+                            <div class="container">
+                                <div class="banner-content">
+                                    @if($slider->title)
+                                        <h1>{{ $slider->title }}</h1>
+                                    @endif
+                                    @if($slider->description)
+                                        <p>{{ $slider->description }}</p>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                    </div>      
+                        </div>      
+                    </div>
                 </div>
-            </div>
+            @empty
+                <!-- Default slider jika tidak ada data -->
+                <div class="swiper-slide">
+                    <div class="banner-wrapper">
+                        <div class="banner-video-area">
+                            <video autoplay loop muted playsinline src="/frontsite-assets/video/home2-banner-video.mp4"></video>
+                        </div>
+                        <div class="banner-content-wrap">
+                            <div class="container">
+                                <div class="banner-content">
+                                    <h1>Discover Indonesia, One Trip at a Time.</h1>
+                                    <p>Book curated tours and travel experiences across Indonesia — simple, flexible, and hassle-free.</p>
+                                </div>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="banner-wrapper">
+                        <div class="banner-img-area">
+                            <img src="/frontsite-assets/img/home2/banner-img1.jpg" alt="">
+                        </div>
+                        <div class="banner-content-wrap">
+                            <div class="container">
+                                <div class="banner-content">
+                                    <h2>Plan Your Trip, Your Way.</h2>
+                                    <p>Perfect for customized travel experiences — tailored flights, stays, and tours just for you.</p>
+                                </div>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="banner-wrapper">
+                        <div class="banner-img-area">
+                            <img src="/frontsite-assets/img/home2/banner-img2.jpg" alt="">
+                        </div>
+                        <div class="banner-content-wrap">
+                            <div class="container">
+                                <div class="banner-content">
+                                    <h2>Your Gateway To The World.</h2>
+                                    <p>Ideal for explorers seeking seamless booking and expert travel support every step of the way.</p>
+                                </div>
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+            @endforelse
         </div>
     </div>
-    <div class="slider-btn-grp">
-        <div class="slider-btn banner-slider-prev">
-            <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-                <g>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0 10.0571H22V11.9428H0V10.0571Z"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.942857 11.9429C5.3768 11.9429 9.00115 8.0432 9.00115 3.88457V2.94171H7.11543V3.88457C7.11543 7.04251 4.29566 10.0571 0.942857 10.0571H0V11.9429H0.942857Z"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M0.942857 10.0571C5.3768 10.0571 9.00115 13.9568 9.00115 18.1154V19.0583H7.11543V18.1154C7.11543 14.9587 4.29566 11.9428 0.942857 11.9428H0V10.0571H0.942857Z"/>
-                </g>
-            </svg>
+    @if($sliders->count() > 1)
+        <div class="slider-btn-grp">
+            <div class="slider-btn banner-slider-prev">
+                <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0 10.0571H22V11.9428H0V10.0571Z"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M0.942857 11.9429C5.3768 11.9429 9.00115 8.0432 9.00115 3.88457V2.94171H7.11543V3.88457C7.11543 7.04251 4.29566 10.0571 0.942857 10.0571H0V11.9429H0.942857Z"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M0.942857 10.0571C5.3768 10.0571 9.00115 13.9568 9.00115 18.1154V19.0583H7.11543V18.1154C7.11543 14.9587 4.29566 11.9428 0.942857 11.9428H0V10.0571H0.942857Z"/>
+                    </g>
+                </svg>
+            </div>
+            <div class="slider-btn banner-slider-next">
+                <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+                    <g>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22 10.0571H-5.72205e-06V11.9428H22V10.0571Z"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M21.0571 11.9429C16.6232 11.9429 12.9989 8.0432 12.9989 3.88457V2.94171H14.8846V3.88457C14.8846 7.04251 17.7043 10.0571 21.0571 10.0571H22V11.9429H21.0571Z"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd"
+                            d="M21.0571 10.0571C16.6232 10.0571 12.9989 13.9568 12.9989 18.1154V19.0583H14.8846V18.1154C14.8846 14.9587 17.7043 11.9428 21.0571 11.9428H22V10.0571H21.0571Z"/>
+                    </g>
+                </svg>
+            </div>
         </div>
-        <div class="slider-btn banner-slider-next">
-            <svg width="22" height="22" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
-                <g>
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M22 10.0571H-5.72205e-06V11.9428H22V10.0571Z"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M21.0571 11.9429C16.6232 11.9429 12.9989 8.0432 12.9989 3.88457V2.94171H14.8846V3.88457C14.8846 7.04251 17.7043 10.0571 21.0571 10.0571H22V11.9429H21.0571Z"/>
-                    <path fill-rule="evenodd" clip-rule="evenodd"
-                        d="M21.0571 10.0571C16.6232 10.0571 12.9989 13.9568 12.9989 18.1154V19.0583H14.8846V18.1154C14.8846 14.9587 17.7043 11.9428 21.0571 11.9428H22V10.0571H21.0571Z"/>
-                </g>
-            </svg>
-        </div>
-    </div>
+    @endif
 </div>
 <div class="filter-wrapper">
     <div class="container">
@@ -96,7 +129,12 @@
             </li>
         </ul>
         <div class="filter-input-wrap">
-            <form class="filter-input show">
+            <form class="filter-input show" method="GET" action="{{ route('frontsite.search') }}">
+                <!-- Hidden inputs for form data -->
+                <input type="hidden" name="destination" id="selected-destination" value="">
+                <input type="hidden" name="day" id="selected-day" value="">
+                <input type="hidden" name="type" id="selected-type" value="">
+                
                 <div class="single-search-box">
                     <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                         <g>
@@ -109,10 +147,17 @@
                     <div class="custom-select-dropdown destination-dropdown">
                         <input type="text" readonly value="Where are you going?">
                         <div class="input-field-value">
-                            <div class="destination">
-                                <h6>Bromo Mount</h6>
-                                <span>East Java</span>
-                            </div> 
+                            @if($destinations->count() > 0)
+                                <div class="destination">
+                                    <h6>{{ $destinations->first()->title }}</h6>
+                                    <span>{{ $destinations->first()->province ?? '-' }}</span>
+                                </div>
+                            @else
+                                <div class="destination">
+                                    <h6>No Destination Yet</h6>
+                                    <span>No Province Yet</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                     <div class="custom-select-wrap">
@@ -121,91 +166,32 @@
                             <input type="text" placeholder="Type Your Destination">
                         </div>
                         <ul class="option-list-destination">
-                            <li>
-                                <div class="destination">
-                                    <h6>Bromo Mount</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>15 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Ijen Crater</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>13 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Tumpak Sewu Waterfall</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>11 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Madakaripura Waterfall</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>10 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Surabaya Shore Excursion</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>4 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Probolinggo Shore Excursion</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>3 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Taman Safari</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>2 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Surabaya City</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>6 <br> Tour</span>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="destination">
-                                    <h6>Malang City</h6>
-                                    <span>East Java</span>
-                                </div> 
-                                <div class="tour">
-                                    <span>8 <br> Tour</span>
-                                </div>
-                            </li>
+                            @forelse($destinations as $destination)
+                                <li>
+                                    <div class="destination">
+                                        <h6>{{ $destination->title }}</h6>
+                                        <span>{{ $destination->province ?? '-' }}</span>
+                                    </div> 
+                                    <div class="tour">
+                                        <span>{{ $destination->tour_destinations_count }} <br> Tour{{ $destination->tour_destinations_count > 1 ? 's' : '' }}</span>
+                                    </div>
+                                </li>
+                            @empty
+                                <!-- Default destinations jika tidak ada data -->
+                                <li>
+                                    <div class="destination">
+                                        <h6>No Destination Yet</h6>
+                                        <span>No Province Yet</span>
+                                    </div> 
+                                    <div class="tour">
+                                        <span>0 <br> Tour</span>
+                                    </div>
+                                </li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>
-                <div class="single-search-box date-field">
+                <div class="single-search-box">
                     <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
                         <g>
                             <path
@@ -218,13 +204,27 @@
                                 d="M7.87378 0.591064C7.87378 0.280404 7.62194 0.0285645 7.31128 0.0285645C7.00062 0.0285645 6.74878 0.280404 6.74878 0.591064V2.84106C6.74878 3.15172 7.00062 3.40356 7.31128 3.40356C7.62194 3.40356 7.87378 3.15172 7.87378 2.84106V0.591064Z"/>
                             <path
                                 d="M4.49628 0.591064C4.49628 0.280404 4.24444 0.0285645 3.93378 0.0285645C3.62312 0.0285645 3.37128 0.280404 3.37128 0.591064V2.84106C3.37128 3.15172 3.62312 3.40356 3.93378 3.40356C4.24444 3.40356 4.49628 3.15172 4.49628 2.84106V0.591064Z"/>
-                            <path
-                                d="M5.57379 12.859C5.57379 11.841 6.19393 11.266 6.94745 10.9237C6.31772 10.5738 5.93327 9.97518 5.93327 9.23362C5.93327 7.84346 7.14253 6.93768 9.03335 6.93768C10.665 6.93768 12.0754 7.71146 12.0754 9.2562C12.0754 10.0578 11.5991 10.5852 11.0117 10.8392C11.8151 11.133 12.4262 11.8054 12.4262 12.8442C12.4262 14.553 10.7024 15.3177 8.95704 15.3177C7.14785 15.3177 5.57379 14.5132 5.57379 12.859ZM10.4611 12.8062C10.4611 12.1583 10.0752 11.6429 8.99162 11.6429C7.89793 11.6429 7.50868 12.1281 7.50868 12.7625C7.50868 13.578 8.28429 13.9316 8.9993 13.9316C9.72377 13.9316 10.4611 13.636 10.4611 12.8062ZM7.83377 9.24273C7.83377 9.7755 8.13992 10.2237 9.04127 10.2237C9.88592 10.2237 10.171 9.82871 10.171 9.25623C10.171 8.62605 9.6497 8.29207 8.99612 8.29207C8.39034 8.29203 7.83377 8.57565 7.83377 9.24273Z"/>
                         </g>
                     </svg>
                     <div class="custom-select-dropdown">
-                        <input type="text" name="inOut" readonly value="Sep 12 - Sep 20">
-                        <div class="selected-date"></div>
+                        <input type="text" readonly value="1">
+                        <span>Day Tour</span>
+                    </div>
+                    <div class="custom-select-wrap two">
+                        <ul class="option-list">
+                            <li class="single-item">
+                                <h6>1</h6>
+                            </li>
+                            <li class="single-item">
+                                <h6>2</h6>
+                            </li>
+                            <li class="single-item">
+                                <h6>3</h6>
+                            </li>
+                            <li class="single-item">
+                                <h6>4</h6>
+                            </li>
+                        </ul>
                     </div>
                 </div>
                 <div class="single-search-box">
@@ -240,7 +240,7 @@
                     </svg>
                     <div class="custom-select-dropdown">
                         <input type="text" readonly value="Private Tour">
-                        <span>Category</span>
+                        <span>Type Tour</span>
                     </div>
                     <div class="custom-select-wrap two">
                         <ul class="option-list">
@@ -274,7 +274,7 @@
                     </span>
                 </button>
             </form>
-            <p>Can’t find what you’re looking for? create your <a href="javascript:void(0);">Custom Itinerary</a></p>
+            {{-- <p>Can’t find what you’re looking for? create your <a href="{{ route('frontsite.custom-itinerary.index') }}">Custom Itinerary</a></p> --}}
         </div>
     </div>
 </div>
@@ -1940,3 +1940,7 @@
 </div>
 <!-- home2 gallery Section End-->
 @endsection
+
+@push('after-script')
+<script src="/frontsite-assets/js/search-form.js"></script>
+@endpush

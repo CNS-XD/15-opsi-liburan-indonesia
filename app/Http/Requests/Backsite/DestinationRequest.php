@@ -26,13 +26,15 @@ class DestinationRequest extends FormRequest
         switch ($route) {
             case 'backsite.destination.store':
                 return [
-                    'title'  => 'required|string|max:255|unique:destinations,title',
+                    'title'    => 'required|string|max:255|unique:destinations,title',
+                    'province' => 'nullable|string|max:255',
                 ];
 
             case 'backsite.destination.update':
                 return [
-                    'id'     => 'exists:destinations,id',
-                    'title'  => 'required|string|max:255|unique:destinations,title,' . $this->route('destination'),
+                    'id'       => 'exists:destinations,id',
+                    'title'    => 'required|string|max:255|unique:destinations,title,' . $this->route('destination'),
+                    'province' => 'nullable|string|max:255',
                 ];
 
             default:
