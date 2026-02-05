@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('plain_text', 255);
             $table->string('phone', 255)->nullable();
             $table->string('nationality', 255)->nullable();
-            $table->integer('role')->comment('1=Superadmin, 2=Client');
+            $table->integer('role')->comment('1=Superadmin, 2=Client / Visitor / Traveler');
             $table->integer('status')->default(1)->comment('0=Pending, 1=Active, 2=Non-Active');
             $table->text('photo')->nullable();
 

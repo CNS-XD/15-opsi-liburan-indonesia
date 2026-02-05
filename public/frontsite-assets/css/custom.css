@@ -20,7 +20,7 @@
     padding-top: 50px;
 }
 .guide-book .body .items .item .guide-step {
-    border: 2.5px dashed #E9448B;
+    border: 4px dashed #E9448B;
     border-radius: 0px 20px 20px 0px;
     border-left: none;
     position: relative;
@@ -53,7 +53,7 @@
     height: 100%;
     left: 0px;
     top: 0px;
-    border: 2.5px dashed #E9448B;
+    border: 4px dashed #E9448B;
     border-right: none;
     border-radius: 20px 0px 0px 20px;
     margin-top: -3px;

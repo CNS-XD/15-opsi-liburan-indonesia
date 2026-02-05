@@ -52,7 +52,7 @@
                     <div class="payment-details-card mb-4">
                         <div class="details-header">
                             <i class="fas fa-receipt me-2"></i>
-                            <h3>Detail Pembayaran</h3>
+                            <h3 class="text-white">Detail Pembayaran</h3>
                         </div>
                         <div class="details-body">
                             <div class="row g-3">
@@ -275,7 +275,7 @@
     </div>
 </div>
 
-@push('styles')
+@push('after-style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 /* Variables */
@@ -915,7 +915,7 @@
 </style>
 @endpush
 
-@push('scripts')
+@push('after-script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Smooth scroll to top

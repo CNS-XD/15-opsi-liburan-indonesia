@@ -52,6 +52,14 @@
                                         <td>{{ $booking->phone }}</td>
                                     </tr>
                                     <tr>
+                                        <td><strong>Nationality:</strong></td>
+                                        <td>
+                                            <span class="badge badge-secondary">
+                                                <i class="fa fa-flag"></i> {{ $booking->nationality ?? 'Not specified' }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
                                         <td><strong>Number of Travelers:</strong></td>
                                         <td><span class="badge badge-info">{{ $booking->travelers }} orang</span></td>
                                     </tr>

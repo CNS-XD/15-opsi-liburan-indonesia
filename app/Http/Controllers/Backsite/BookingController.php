@@ -106,10 +106,12 @@ class BookingController extends Controller
             })
 
             ->addColumn('customer_info', function ($row) {
+                $nationality = $row->nationality ? '<i class="fa fa-flag"></i> ' . $row->nationality : 'Not specified';
                 return '<div class="customer-info">
                     <strong>' . $row->name . '</strong><br>
                     <small class="text-muted">' . $row->email . '</small><br>
-                    <small class="text-muted">' . $row->phone . '</small>
+                    <small class="text-muted">' . $row->phone . '</small><br>
+                    <small class="text-muted">' . $nationality . '</small>
                 </div>';
             })
 
@@ -159,7 +161,7 @@ class BookingController extends Controller
             ->addColumn('payment_status', function ($row) {
                 $payment = $row->latestPayment;
                 if (!$payment) {
-                    return '<span class="badge badge-light">No Payment</span>';
+                    return '<span class="badge badge-warning">No Payment</span>';
                 }
                 
                 return '<div class="payment-info">

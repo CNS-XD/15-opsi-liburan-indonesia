@@ -12,8 +12,8 @@
                     <div class="booking-header text-center mb-4">
                         <h1 class="display-5 fw-bold mb-3">Booking Details</h1>
                         <div class="booking-code-wrapper">
-                            <p class="text-muted mb-2">Booking Code</p>
-                            <h4 class="text-primary fw-bold">{{ $booking->booking_code }}</h4>
+                            <p class="text-white mb-2">Booking Code</p>
+                            <h4 class="text-white fw-bold">{{ $booking->booking_code }}</h4>
                         </div>
                         
                         <!-- Status Badge -->
@@ -32,7 +32,7 @@
                                 <div class="info-card h-100">
                                     <div class="info-card-header">
                                         <i class="fas fa-map-marked-alt me-2"></i>
-                                        <h5 class="mb-0">Tour Information</h5>
+                                        <h5 class="mb-0 text-white">Tour Information</h5>
                                     </div>
                                     <div class="info-card-body">
                                         <div class="info-item">
@@ -60,7 +60,7 @@
                                 <div class="info-card h-100">
                                     <div class="info-card-header">
                                         <i class="fas fa-user me-2"></i>
-                                        <h5 class="mb-0">Customer Information</h5>
+                                        <h5 class="mb-0 text-white">Customer Information</h5>
                                     </div>
                                     <div class="info-card-body">
                                         <div class="info-item">
@@ -88,7 +88,7 @@
                                 <div class="info-card h-100">
                                     <div class="info-card-header">
                                         <i class="fas fa-calendar-check me-2"></i>
-                                        <h5 class="mb-0">Trip Details</h5>
+                                        <h5 class="mb-0 text-white">Trip Details</h5>
                                     </div>
                                     <div class="info-card-body">
                                         <div class="info-item">
@@ -119,7 +119,7 @@
                                 <div class="info-card h-100 payment-summary-card">
                                     <div class="info-card-header">
                                         <i class="fas fa-receipt me-2"></i>
-                                        <h5 class="mb-0">Payment Summary</h5>
+                                        <h5 class="mb-0 text-white">Payment Summary</h5>
                                     </div>
                                     <div class="info-card-body">
                                         <div class="payment-breakdown">
@@ -148,7 +148,7 @@
                         <div class="info-card">
                             <div class="info-card-header">
                                 <i class="fas fa-info-circle me-2"></i>
-                                <h5 class="mb-0">Booking Status</h5>
+                                <h5 class="mb-0 text-white">Booking Status</h5>
                             </div>
                             <div class="info-card-body">
                                 @if($booking->status == \App\Models\Booking::STATUS_PENDING)
@@ -288,7 +288,7 @@
     </div>
 </div>
 
-@push('styles')
+@push('after-style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 /* Main Container */

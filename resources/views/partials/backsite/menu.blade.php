@@ -135,7 +135,7 @@
                         </li>
                         <li class="@yield('activeSubMenuClient')">
                             <a class="menu-item" href="{{ route('backsite.user.index', 'client') }}">
-                                <span data-i18n="Basic Forms">Client</span>
+                                <span data-i18n="Basic Forms">Client / Visitor / Traveler</span>
                             </a>
                         </li>
                     </ul>

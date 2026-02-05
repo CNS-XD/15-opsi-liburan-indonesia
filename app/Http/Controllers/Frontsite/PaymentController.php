@@ -173,25 +173,64 @@ class PaymentController extends Controller
      */
     public function cancel($paymentCode)
     {
-        $payment = Payment::with('booking.tour')->where('payment_code', $paymentCode)->firstOrFail();
-        
-        if ($payment->status === Payment::STATUS_PENDING && $payment->xendit_invoice_id) {
-            $result = $this->xenditService->cancelPayment($payment->xendit_invoice_id);
+        try {
+            Log::info('Cancel payment request received', ['payment_code' => $paymentCode]);
             
-            if ($result['success']) {
-                // Payment and booking status will be updated by XenditService
-                return redirect()->route('frontsite.booking.show', $payment->booking->booking_code)
-                    ->with('success', 'Pembayaran berhasil dibatalkan.');
+            $payment = Payment::with('booking.tour')->where('payment_code', $paymentCode)->firstOrFail();
+            
+            Log::info('Payment found for cancellation', [
+                'payment_id' => $payment->id,
+                'status' => $payment->status,
+                'xendit_invoice_id' => $payment->xendit_invoice_id
+            ]);
+            
+            if ($payment->status === Payment::STATUS_PENDING) {
+                if ($payment->xendit_invoice_id) {
+                    Log::info('Attempting to cancel payment via Xendit API');
+                    $result = $this->xenditService->cancelPayment($payment->xendit_invoice_id);
+                    
+                    Log::info('Xendit cancel result', $result);
+                    
+                    if ($result['success']) {
+                        Log::info('Payment cancelled successfully via Xendit');
+                        return redirect()->route('frontsite.payment.status', $payment->payment_code)
+                            ->with('success', 'Pembayaran berhasil dibatalkan.');
+                    } else {
+                        Log::error('Failed to cancel payment via Xendit', ['error' => $result['error']]);
+                        
+                        // If Xendit API fails, still cancel locally
+                        Log::info('Xendit API failed, cancelling payment locally');
+                        $payment->markAsCancelled('Cancelled by user (Xendit API failed)');
+                        
+                        return redirect()->route('frontsite.payment.status', $payment->payment_code)
+                            ->with('info', 'Pembayaran telah dibatalkan secara lokal.');
+                    }
+                } else {
+                    // Manually cancel if no Xendit invoice ID
+                    Log::info('Manually cancelling payment (no Xendit invoice ID)');
+                    $payment->markAsCancelled('Cancelled by user');
+                    
+                    return redirect()->route('frontsite.payment.status', $payment->payment_code)
+                        ->with('info', 'Pembayaran telah dibatalkan.');
+                }
             } else {
+                Log::warning('Attempted to cancel payment with non-pending status', [
+                    'payment_code' => $paymentCode,
+                    'current_status' => $payment->status
+                ]);
+                
                 return redirect()->back()
-                    ->with('error', 'Gagal membatalkan pembayaran: ' . $result['error']);
+                    ->with('error', 'Pembayaran tidak dapat dibatalkan karena status saat ini: ' . $payment->status_label);
             }
-        } else {
-            // Manually cancel if no Xendit invoice ID
-            $payment->markAsCancelled('Cancelled by user');
+        } catch (\Exception $e) {
+            Log::error('Error in cancel payment', [
+                'payment_code' => $paymentCode,
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             
-            return redirect()->route('frontsite.booking.show', $payment->booking->booking_code)
-                ->with('info', 'Pembayaran telah dibatalkan.');
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat membatalkan pembayaran. Silakan coba lagi.');
         }
     }
 

@@ -31,7 +31,7 @@
                             <div class="detail-card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-map-marked-alt me-2"></i>
-                                    <h3>Detail Tour</h3>
+                                    <h3 class="text-white">Detail Tour</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="tour-showcase">
@@ -86,7 +86,7 @@
                             <div class="detail-card mb-4">
                                 <div class="card-header header-success">
                                     <i class="fas fa-user me-2"></i>
-                                    <h3>Informasi Pemesan</h3>
+                                    <h3 class="text-white">Informasi Pemesan</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="row g-3">
@@ -163,7 +163,7 @@
                             <div class="detail-card mb-4 d-lg-none">
                                 <div class="card-header header-secondary">
                                     <i class="fas fa-file-contract me-2"></i>
-                                    <h3>Syarat dan Ketentuan</h3>
+                                    <h3 class="text-white">Syarat dan Ketentuan</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="terms-list">
@@ -210,7 +210,7 @@
                                 <div class="summary-card">
                                     <div class="summary-header">
                                         <i class="fas fa-calculator me-2"></i>
-                                        <h3>Ringkasan Pembayaran</h3>
+                                        <h3 class="text-white">Ringkasan Pembayaran</h3>
                                     </div>
                                     
                                     <div class="summary-body">
@@ -290,7 +290,7 @@
                                 <div class="detail-card mt-4 d-none d-lg-block">
                                     <div class="card-header header-secondary">
                                         <i class="fas fa-file-contract me-2"></i>
-                                        <h3>Syarat & Ketentuan</h3>
+                                        <h3 class="text-white">Syarat & Ketentuan</h3>
                                     </div>
                                     <div class="card-body">
                                         <div class="terms-list-compact">
@@ -345,7 +345,7 @@
     </div>
 </div>
 
-@push('styles')
+@push('after-style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 /* Variables */
@@ -870,7 +870,7 @@
 </style>
 @endpush
 
-@push('scripts')
+@push('after-script')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Payment form handling

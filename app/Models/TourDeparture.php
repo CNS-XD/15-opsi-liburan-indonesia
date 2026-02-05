@@ -13,11 +13,7 @@ class TourDeparture extends Model
     use HasFactory;
 
     protected $table = 'tour_departures';
-
-    protected $fillable = [
-        'id_tour',
-        'id_departure',
-    ];
+    protected $guarded = [];
 
     protected static function boot()
     {

@@ -19,6 +19,8 @@
                                 <i class="fas fa-clock text-warning"></i>
                             @elseif($payment->status === 'expired')
                                 <i class="fas fa-times-circle text-secondary"></i>
+                            @elseif($payment->status === 'cancelled')
+                                <i class="fas fa-ban text-dark"></i>
                             @else
                                 <i class="fas fa-exclamation-triangle text-danger"></i>
                             @endif
@@ -34,6 +36,28 @@
                             </span>
                         </div>
                     </div>
+
+                    <!-- Flash Messages -->
+                    @if(session('success'))
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    
+                    @if(session('error'))
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+                    
+                    @if(session('info'))
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <i class="fas fa-info-circle me-2"></i>{{ session('info') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
 
                     <!-- Alert Messages -->
                     <div id="paymentStatusContent" class="mb-4">
@@ -103,6 +127,16 @@
                                     <p class="alert-text">{{ $payment->failure_reason ?? 'Pembayaran tidak dapat diproses. Silakan coba lagi atau hubungi customer service.' }}</p>
                                 </div>
                             </div>
+                        @elseif($payment->status === 'cancelled')
+                            <div class="alert-card alert-dark">
+                                <div class="alert-icon">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <div class="alert-content">
+                                    <h5 class="alert-title">Pembayaran Dibatalkan</h5>
+                                    <p class="alert-text">{{ $payment->failure_reason ?? 'Pembayaran telah dibatalkan. Anda dapat membuat pesanan baru jika diperlukan.' }}</p>
+                                </div>
+                            </div>
                         @endif
                     </div>
 
@@ -113,7 +147,7 @@
                             <div class="detail-card">
                                 <div class="card-header header-primary">
                                     <i class="fas fa-ticket-alt me-2"></i>
-                                    <h3>Detail Pesanan</h3>
+                                    <h3 class="text-white">Detail Pesanan</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="info-group mb-3">
@@ -141,7 +175,7 @@
                             <div class="detail-card">
                                 <div class="card-header header-success">
                                     <i class="fas fa-money-bill-wave me-2"></i>
-                                    <h3>Detail Pembayaran</h3>
+                                    <h3 class="text-white">Detail Pembayaran</h3>
                                 </div>
                                 <div class="card-body">
                                     <div class="info-group mb-3">
@@ -175,9 +209,9 @@
                     <div class="action-buttons-wrapper">
                         <div class="action-buttons">
                             @if($payment->status === 'pending')
-                                <form action="{{ route('frontsite.payment.cancel', $payment->payment_code) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin membatalkan pembayaran ini?')">
+                                <form action="{{ route('frontsite.payment.cancel', $payment->payment_code) }}" method="POST" class="d-inline" id="cancelPaymentForm" onsubmit="return confirmCancel(event)">
                                     @csrf
-                                    <button type="submit" class="btn btn-outline-danger">
+                                    <button type="submit" class="btn btn-outline-danger" id="cancelButton">
                                         <i class="fas fa-times me-2"></i>Batalkan Pembayaran
                                     </button>
                                 </form>
@@ -189,7 +223,7 @@
                                 </a>
                             @endif
                             
-                            @if(in_array($payment->status, ['expired', 'failed']))
+                            @if(in_array($payment->status, ['expired', 'failed', 'cancelled']))
                                 <a href="{{ route('frontsite.payment.show', $payment->booking->booking_code) }}" class="btn btn-primary">
                                     <i class="fas fa-redo me-2"></i>Coba Lagi
                                 </a>
@@ -226,7 +260,7 @@
     </div>
 </div>
 
-@push('styles')
+@push('after-style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
 /* Variables */
@@ -330,6 +364,11 @@
     color: white;
 }
 
+.status-badge.status-cancelled {
+    background: linear-gradient(135deg, #343a40, #23272b);
+    color: white;
+}
+
 @keyframes pulse {
     0%, 100% {
         transform: scale(1);
@@ -380,6 +419,11 @@
     border-left: 4px solid var(--danger-color);
 }
 
+.alert-card.alert-dark {
+    background: linear-gradient(135deg, #d6d8db 0%, #e2e3e5 100%);
+    border-left: 4px solid #343a40;
+}
+
 .alert-icon {
     font-size: 48px;
     flex-shrink: 0;
@@ -399,6 +443,10 @@
 
 .alert-card.alert-danger .alert-icon {
     color: var(--danger-color);
+}
+
+.alert-card.alert-dark .alert-icon {
+    color: #343a40;
 }
 
 .alert-content {
@@ -737,11 +785,64 @@ button, a {
 </style>
 @endpush
 
-@push('scripts')
+@push('after-script')
 <script>
+// Cancel payment confirmation and debugging
+function confirmCancel(event) {
+    console.log('Cancel payment form submitted');
+    console.log('Event:', event);
+    console.log('Form:', event.target);
+    
+    const confirmed = confirm('Apakah Anda yakin ingin membatalkan pembayaran ini?');
+    
+    if (confirmed) {
+        console.log('User confirmed cancellation');
+        const button = document.getElementById('cancelButton');
+        if (button) {
+            button.disabled = true;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Membatalkan...';
+            button.classList.add('btn-loading');
+        }
+        
+        // Add additional debugging
+        const form = event.target;
+        console.log('Form action:', form.action);
+        console.log('Form method:', form.method);
+        console.log('CSRF token:', form.querySelector('input[name="_token"]')?.value);
+        
+        return true;
+    } else {
+        console.log('User cancelled the cancellation');
+        event.preventDefault();
+        return false;
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const paymentCode = '{{ $payment->payment_code }}';
     const currentStatus = '{{ $payment->status }}';
+    
+    console.log('Payment status page loaded', {
+        paymentCode: paymentCode,
+        currentStatus: currentStatus
+    });
+    
+    // Check if cancel form exists
+    const cancelForm = document.getElementById('cancelPaymentForm');
+    if (cancelForm) {
+        console.log('Cancel form found', {
+            action: cancelForm.action,
+            method: cancelForm.method
+        });
+        
+        // Add additional debugging
+        cancelForm.addEventListener('submit', function(e) {
+            console.log('Form submit event triggered');
+            console.log('Form data:', new FormData(this));
+        });
+    } else {
+        console.log('Cancel form not found - payment status might not be pending');
+    }
     
     // Auto refresh for pending payments
     if (currentStatus === 'pending') {
@@ -778,6 +879,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`{{ route('frontsite.payment.check-status', $payment->payment_code) }}`)
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Payment status check result:', data);
                     if (data.status !== currentStatus) {
                         // Status changed, show loading and reload page
                         showPageReloading();

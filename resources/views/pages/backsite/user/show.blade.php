@@ -117,7 +117,7 @@
                     if (res.data.role == 1) {
                         role = "Superadmin"
                     } else if (res.data.role == 2) {
-                        role = "Client"
+                        role = "Client / Visitor / Traveler"
                     }
                     $('#role').text(role)
 

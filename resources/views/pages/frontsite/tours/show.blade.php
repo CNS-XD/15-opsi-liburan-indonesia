@@ -308,6 +308,215 @@
                                 
                                 <div class="form-group mb-3">
                                     <label class="form-label">
+                                        <i class="fas fa-flag me-1"></i>Nationality *
+                                    </label>
+                                    <input list="nationalityList" name="nationality" id="nationalityInput" class="form-control @error('nationality') is-invalid @enderror" placeholder="Type to search or select your nationality..." value="{{ old('nationality') }}" required>
+                                    <datalist id="nationalityList">
+                                        <option value="Afghanistan">Afghanistan</option>
+                                        <option value="Albania">Albania</option>
+                                        <option value="Algeria">Algeria</option>
+                                        <option value="Andorra">Andorra</option>
+                                        <option value="Angola">Angola</option>
+                                        <option value="Antigua and Barbuda">Antigua and Barbuda</option>
+                                        <option value="Argentina">Argentina</option>
+                                        <option value="Armenia">Armenia</option>
+                                        <option value="Australia">Australia</option>
+                                        <option value="Austria">Austria</option>
+                                        <option value="Azerbaijan">Azerbaijan</option>
+                                        <option value="Bahamas">Bahamas</option>
+                                        <option value="Bahrain">Bahrain</option>
+                                        <option value="Bangladesh">Bangladesh</option>
+                                        <option value="Barbados">Barbados</option>
+                                        <option value="Belarus">Belarus</option>
+                                        <option value="Belgium">Belgium</option>
+                                        <option value="Belize">Belize</option>
+                                        <option value="Benin">Benin</option>
+                                        <option value="Bhutan">Bhutan</option>
+                                        <option value="Bolivia">Bolivia</option>
+                                        <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                        <option value="Botswana">Botswana</option>
+                                        <option value="Brazil">Brazil</option>
+                                        <option value="Brunei">Brunei</option>
+                                        <option value="Bulgaria">Bulgaria</option>
+                                        <option value="Burkina Faso">Burkina Faso</option>
+                                        <option value="Burundi">Burundi</option>
+                                        <option value="Cabo Verde">Cabo Verde</option>
+                                        <option value="Cambodia">Cambodia</option>
+                                        <option value="Cameroon">Cameroon</option>
+                                        <option value="Canada">Canada</option>
+                                        <option value="Central African Republic">Central African Republic</option>
+                                        <option value="Chad">Chad</option>
+                                        <option value="Chile">Chile</option>
+                                        <option value="China">China</option>
+                                        <option value="Colombia">Colombia</option>
+                                        <option value="Comoros">Comoros</option>
+                                        <option value="Congo">Congo</option>
+                                        <option value="Costa Rica">Costa Rica</option>
+                                        <option value="Croatia">Croatia</option>
+                                        <option value="Cuba">Cuba</option>
+                                        <option value="Cyprus">Cyprus</option>
+                                        <option value="Czech Republic">Czech Republic</option>
+                                        <option value="Democratic Republic of the Congo">Democratic Republic of the Congo</option>
+                                        <option value="Denmark">Denmark</option>
+                                        <option value="Djibouti">Djibouti</option>
+                                        <option value="Dominica">Dominica</option>
+                                        <option value="Dominican Republic">Dominican Republic</option>
+                                        <option value="Ecuador">Ecuador</option>
+                                        <option value="Egypt">Egypt</option>
+                                        <option value="El Salvador">El Salvador</option>
+                                        <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                        <option value="Eritrea">Eritrea</option>
+                                        <option value="Estonia">Estonia</option>
+                                        <option value="Eswatini">Eswatini</option>
+                                        <option value="Ethiopia">Ethiopia</option>
+                                        <option value="Fiji">Fiji</option>
+                                        <option value="Finland">Finland</option>
+                                        <option value="France">France</option>
+                                        <option value="Gabon">Gabon</option>
+                                        <option value="Gambia">Gambia</option>
+                                        <option value="Georgia">Georgia</option>
+                                        <option value="Germany">Germany</option>
+                                        <option value="Ghana">Ghana</option>
+                                        <option value="Greece">Greece</option>
+                                        <option value="Grenada">Grenada</option>
+                                        <option value="Guatemala">Guatemala</option>
+                                        <option value="Guinea">Guinea</option>
+                                        <option value="Guinea-Bissau">Guinea-Bissau</option>
+                                        <option value="Guyana">Guyana</option>
+                                        <option value="Haiti">Haiti</option>
+                                        <option value="Honduras">Honduras</option>
+                                        <option value="Hungary">Hungary</option>
+                                        <option value="Iceland">Iceland</option>
+                                        <option value="India">India</option>
+                                        <option value="Indonesia">Indonesia</option>
+                                        <option value="Iran">Iran</option>
+                                        <option value="Iraq">Iraq</option>
+                                        <option value="Ireland">Ireland</option>
+                                        <option value="Israel">Israel</option>
+                                        <option value="Italy">Italy</option>
+                                        <option value="Ivory Coast">Ivory Coast</option>
+                                        <option value="Jamaica">Jamaica</option>
+                                        <option value="Japan">Japan</option>
+                                        <option value="Jordan">Jordan</option>
+                                        <option value="Kazakhstan">Kazakhstan</option>
+                                        <option value="Kenya">Kenya</option>
+                                        <option value="Kiribati">Kiribati</option>
+                                        <option value="Kuwait">Kuwait</option>
+                                        <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                        <option value="Laos">Laos</option>
+                                        <option value="Latvia">Latvia</option>
+                                        <option value="Lebanon">Lebanon</option>
+                                        <option value="Lesotho">Lesotho</option>
+                                        <option value="Liberia">Liberia</option>
+                                        <option value="Libya">Libya</option>
+                                        <option value="Liechtenstein">Liechtenstein</option>
+                                        <option value="Lithuania">Lithuania</option>
+                                        <option value="Luxembourg">Luxembourg</option>
+                                        <option value="Madagascar">Madagascar</option>
+                                        <option value="Malawi">Malawi</option>
+                                        <option value="Malaysia">Malaysia</option>
+                                        <option value="Maldives">Maldives</option>
+                                        <option value="Mali">Mali</option>
+                                        <option value="Malta">Malta</option>
+                                        <option value="Marshall Islands">Marshall Islands</option>
+                                        <option value="Mauritania">Mauritania</option>
+                                        <option value="Mauritius">Mauritius</option>
+                                        <option value="Mexico">Mexico</option>
+                                        <option value="Micronesia">Micronesia</option>
+                                        <option value="Moldova">Moldova</option>
+                                        <option value="Monaco">Monaco</option>
+                                        <option value="Mongolia">Mongolia</option>
+                                        <option value="Montenegro">Montenegro</option>
+                                        <option value="Morocco">Morocco</option>
+                                        <option value="Mozambique">Mozambique</option>
+                                        <option value="Myanmar">Myanmar</option>
+                                        <option value="Namibia">Namibia</option>
+                                        <option value="Nauru">Nauru</option>
+                                        <option value="Nepal">Nepal</option>
+                                        <option value="Netherlands">Netherlands</option>
+                                        <option value="New Zealand">New Zealand</option>
+                                        <option value="Nicaragua">Nicaragua</option>
+                                        <option value="Niger">Niger</option>
+                                        <option value="Nigeria">Nigeria</option>
+                                        <option value="North Korea">North Korea</option>
+                                        <option value="North Macedonia">North Macedonia</option>
+                                        <option value="Norway">Norway</option>
+                                        <option value="Oman">Oman</option>
+                                        <option value="Pakistan">Pakistan</option>
+                                        <option value="Palau">Palau</option>
+                                        <option value="Palestine">Palestine</option>
+                                        <option value="Panama">Panama</option>
+                                        <option value="Papua New Guinea">Papua New Guinea</option>
+                                        <option value="Paraguay">Paraguay</option>
+                                        <option value="Peru">Peru</option>
+                                        <option value="Philippines">Philippines</option>
+                                        <option value="Poland">Poland</option>
+                                        <option value="Portugal">Portugal</option>
+                                        <option value="Qatar">Qatar</option>
+                                        <option value="Romania">Romania</option>
+                                        <option value="Russia">Russia</option>
+                                        <option value="Rwanda">Rwanda</option>
+                                        <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
+                                        <option value="Saint Lucia">Saint Lucia</option>
+                                        <option value="Saint Vincent and the Grenadines">Saint Vincent and the Grenadines</option>
+                                        <option value="Samoa">Samoa</option>
+                                        <option value="San Marino">San Marino</option>
+                                        <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                                        <option value="Saudi Arabia">Saudi Arabia</option>
+                                        <option value="Senegal">Senegal</option>
+                                        <option value="Serbia">Serbia</option>
+                                        <option value="Seychelles">Seychelles</option>
+                                        <option value="Sierra Leone">Sierra Leone</option>
+                                        <option value="Singapore">Singapore</option>
+                                        <option value="Slovakia">Slovakia</option>
+                                        <option value="Slovenia">Slovenia</option>
+                                        <option value="Solomon Islands">Solomon Islands</option>
+                                        <option value="Somalia">Somalia</option>
+                                        <option value="South Africa">South Africa</option>
+                                        <option value="South Korea">South Korea</option>
+                                        <option value="South Sudan">South Sudan</option>
+                                        <option value="Spain">Spain</option>
+                                        <option value="Sri Lanka">Sri Lanka</option>
+                                        <option value="Sudan">Sudan</option>
+                                        <option value="Suriname">Suriname</option>
+                                        <option value="Sweden">Sweden</option>
+                                        <option value="Switzerland">Switzerland</option>
+                                        <option value="Syria">Syria</option>
+                                        <option value="Taiwan">Taiwan</option>
+                                        <option value="Tajikistan">Tajikistan</option>
+                                        <option value="Tanzania">Tanzania</option>
+                                        <option value="Thailand">Thailand</option>
+                                        <option value="Timor-Leste">Timor-Leste</option>
+                                        <option value="Togo">Togo</option>
+                                        <option value="Tonga">Tonga</option>
+                                        <option value="Trinidad and Tobago">Trinidad and Tobago</option>
+                                        <option value="Tunisia">Tunisia</option>
+                                        <option value="Turkey">Turkey</option>
+                                        <option value="Turkmenistan">Turkmenistan</option>
+                                        <option value="Tuvalu">Tuvalu</option>
+                                        <option value="Uganda">Uganda</option>
+                                        <option value="Ukraine">Ukraine</option>
+                                        <option value="United Arab Emirates">United Arab Emirates</option>
+                                        <option value="United Kingdom">United Kingdom</option>
+                                        <option value="United States">United States</option>
+                                        <option value="Uruguay">Uruguay</option>
+                                        <option value="Uzbekistan">Uzbekistan</option>
+                                        <option value="Vanuatu">Vanuatu</option>
+                                        <option value="Vatican City">Vatican City</option>
+                                        <option value="Venezuela">Venezuela</option>
+                                        <option value="Vietnam">Vietnam</option>
+                                        <option value="Yemen">Yemen</option>
+                                        <option value="Zambia">Zambia</option>
+                                        <option value="Zimbabwe">Zimbabwe</option>
+                                        <option value="Other">Other</option>
+                                    </datalist>
+                                    @error('nationality')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                
+                                <div class="form-group mb-3">
+                                    <label class="form-label">
                                         <i class="fas fa-users me-1"></i>Number of Travelers *
                                     </label>
                                     <input type="number" name="travelers" class="form-control @error('travelers') is-invalid @enderror" min="1" value="{{ old('travelers', 1) }}" required>
@@ -445,891 +654,971 @@
 </div>
 <!-- Tour Detail Section End -->
 
-@push('styles')
+@push('after-style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
 <style>
-/* Main Section */
-.tour-detail-section {
-    background: #f8f9fa;
-    min-height: 100vh;
-}
-
-/* Tour Images */
-.tour-images-wrapper {
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-}
-
-.tour-image {
-    position: relative;
-    width: 100%;
-    height: 450px;
-    overflow: hidden;
-}
-
-.tour-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.tour-image.single-image {
-    border-radius: 20px;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-    color: #ffffff;
-    background: rgba(0, 0, 0, 0.5);
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-
-.swiper-button-next:after,
-.swiper-button-prev:after {
-    font-size: 20px;
-}
-
-.swiper-pagination-bullet {
-    background: #ffffff;
-    opacity: 0.7;
-}
-
-.swiper-pagination-bullet-active {
-    opacity: 1;
-    background: #667eea;
-}
-
-/* Tour Header */
-.tour-header-section {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-.tour-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #212529;
-    line-height: 1.3;
-}
-
-.tour-meta-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.rating-section {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.stars-display i {
-    color: #ffc107;
-    font-size: 16px;
-}
-
-.stars-display i.far {
-    color: #dee2e6;
-}
-
-.rating-text {
-    font-weight: 600;
-    color: #212529;
-    font-size: 16px;
-}
-
-.reviews-count {
-    color: #6c757d;
-    font-size: 14px;
-}
-
-.tour-type-badge .badge {
-    padding: 8px 16px;
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-/* Price Card */
-.price-card {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-}
-
-.price-label {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-}
-
-.price-value {
-    color: #ffffff;
-    font-size: 36px;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.price-unit {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 13px;
-}
-
-/* Quick Info Grid */
-.tour-quick-info-grid {
-    background: #ffffff;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-.info-box {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    text-align: center;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    height: 100%;
-}
-
-.info-box:hover {
-    background: #ffffff;
-    border-color: #667eea;
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.info-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 15px;
-}
-
-.info-icon i {
-    color: #ffffff;
-    font-size: 24px;
-}
-
-.info-label {
-    font-size: 13px;
-    color: #6c757d;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 5px;
-}
-
-.info-value {
-    font-size: 16px;
-    color: #212529;
-    font-weight: 600;
-}
-
-/* Content Sections */
-.content-section {
-    background: #ffffff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-}
-
-.section-title {
-    font-size: 24px;
-    font-weight: 700;
-    color: #212529;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 3px solid #f0f0f0;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 15px;
-    border-bottom: 3px solid #f0f0f0;
-    margin-bottom: 20px;
-}
-
-.content-body {
-    color: #495057;
-    line-height: 1.8;
-    font-size: 15px;
-}
-
-.description-content p {
-    margin-bottom: 15px;
-}
-
-/* Details Grid */
-.details-grid {
-    display: grid;
-    gap: 20px;
-}
-
-.detail-item-card {
-    background: #f8f9fa;
-    padding: 20px;
-    border-radius: 12px;
-    border-left: 4px solid #667eea;
-}
-
-.detail-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 10px;
-}
-
-.detail-description {
-    color: #6c757d;
-    margin: 0;
-    line-height: 1.6;
-}
-
-/* Reviews Section */
-.reviews-list {
-    display: grid;
-    gap: 20px;
-}
-
-.review-card {
-    background: #f8f9fa;
-    padding: 25px;
-    border-radius: 12px;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-}
-
-.review-card:hover {
-    background: #ffffff;
-    border-color: #667eea;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.review-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 15px;
-}
-
-.reviewer-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.reviewer-avatar {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-weight: 700;
-    font-size: 20px;
-    text-transform: uppercase;
-}
-
-.reviewer-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 5px;
-}
-
-.review-stars i {
-    color: #ffc107;
-    font-size: 14px;
-}
-
-.review-stars i.far {
-    color: #dee2e6;
-}
-
-.review-date {
-    font-size: 13px;
-    color: #6c757d;
-}
-
-.review-text {
-    color: #495057;
-    line-height: 1.7;
-    margin: 0;
-}
-
-.empty-state {
-    text-align: center;
-    padding: 40px 20px;
-    color: #6c757d;
-}
-
-.empty-state i {
-    font-size: 50px;
-    margin-bottom: 15px;
-    opacity: 0.5;
-}
-
-/* Review Form */
-.add-review-section {
-    background: #f8f9fa;
-    padding: 30px;
-    border-radius: 15px;
-}
-
-.form-section-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #212529;
-    margin-bottom: 25px;
-}
-
-.review-form .form-group {
-    margin-bottom: 20px;
-}
-
-.review-form .form-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 8px;
-}
-
-.review-form .form-control {
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    padding: 12px 15px;
-    font-size: 15px;
-}
-
-.review-form .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
-}
-
-.rating-input-wrapper {
-    background: #ffffff;
-    padding: 20px;
-    border-radius: 10px;
-    border: 2px solid #e9ecef;
-}
-
-.stars {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.stars i {
-    font-size: 32px;
-    color: #dee2e6;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.stars i:hover,
-.stars i.fas {
-    color: #ffc107;
-    transform: scale(1.1);
-}
-
-.rating-helper-text {
-    font-size: 13px;
-    color: #6c757d;
-    font-style: italic;
-}
-
-/* Sidebar */
-.sidebar-sticky {
-    position: sticky;
-    top: 100px;
-}
-
-.sidebar-card {
-    background: #ffffff;
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-}
-
-.sidebar-card .card-header {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    padding: 20px 25px;
-}
-
-.sidebar-card .card-title {
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.sidebar-card .card-body {
-    padding: 25px;
-}
-
-/* Booking Card Form */
-.booking-card .form-group {
-    margin-bottom: 20px;
-}
-
-.booking-card .form-label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #212529;
-    margin-bottom: 8px;
-}
-
-.booking-card .form-control {
-    border: 2px solid #e9ecef;
-    border-radius: 10px;
-    padding: 12px 15px;
-    font-size: 15px;
-}
-
-.booking-card .form-control:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
-}
-
-/* Highlights List */
-.highlights-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.highlights-list li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    padding: 12px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.highlights-list li:last-child {
-    border-bottom: none;
-}
-
-.highlights-list i {
-    color: #10b981;
-    font-size: 18px;
-    margin-top: 2px;
-    flex-shrink: 0;
-}
-
-.highlights-list span {
-    color: #495057;
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-/* Contact Card */
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 15px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.contact-item:last-child {
-    border-bottom: none;
-}
-
-.contact-icon {
-    width: 45px;
-    height: 45px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.contact-icon.whatsapp {
-    background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-}
-
-.contact-icon i {
-    color: #ffffff;
-    font-size: 20px;
-}
-
-.contact-label {
-    font-size: 12px;
-    color: #6c757d;
-    font-weight: 600;
-    text-transform: uppercase;
-    margin-bottom: 3px;
-}
-
-.contact-value {
-    font-size: 14px;
-    color: #212529;
-    font-weight: 600;
-}
-
-/* Related Tours */
-.related-tours-section {
-    border-top: 3px solid #e9ecef;
-}
-
-.section-main-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #212529;
-}
-
-.related-tour-card {
-    background: #ffffff;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-    transition: all 0.3s ease;
-}
-
-.related-tour-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
-.tour-image-link {
-    display: block;
-    position: relative;
-}
-
-.tour-image-container {
-    position: relative;
-    height: 220px;
-    overflow: hidden;
-}
-
-.tour-image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.related-tour-card:hover .tour-image-container img {
-    transform: scale(1.1);
-}
-
-.image-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(102, 126, 234, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.related-tour-card:hover .image-overlay {
-    opacity: 1;
-}
-
-.image-overlay i {
-    color: #ffffff;
-    font-size: 40px;
-}
-
-.tour-card-content {
-    padding: 20px;
-}
-
-.tour-card-title {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 15px;
-    min-height: 48px;
-}
-
-.tour-card-title a {
-    color: #212529;
-    text-decoration: none;
-}
-
-.tour-card-title a:hover {
-    color: #667eea;
-}
-
-.tour-card-price {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-}
-
-.tour-card-price .price {
-    font-size: 24px;
-    font-weight: 700;
-    color: #667eea;
-}
-
-.tour-card-price .unit {
-    font-size: 13px;
-    color: #6c757d;
-}
-
-/* Buttons */
-.btn-primary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border: none;
-    padding: 12px 24px;
-    font-weight: 600;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
-}
-
-.btn-outline-primary {
-    border: 2px solid #667eea;
-    color: #667eea;
-    font-weight: 600;
-    border-radius: 10px;
-}
-
-.btn-outline-primary:hover {
-    background: #667eea;
-    color: #ffffff;
-}
-
-/* Alerts */
-.alert {
-    border-radius: 10px;
-    border: none;
-}
-
-/* Responsive */
-@media (max-width: 992px) {
-    .tour-title {
-        font-size: 28px;
+    /* Main Section */
+    .tour-detail-section {
+        background: #f8f9fa;
+        min-height: 100vh;
     }
-    
-    .price-value {
-        font-size: 30px;
-    }
-    
-    .sidebar-sticky {
-        position: relative;
-        top: 0;
-    }
-}
 
-@media (max-width: 768px) {
+    /* Tour Images */
+    .tour-images-wrapper {
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
     .tour-image {
-        height: 300px;
+        position: relative;
+        width: 100%;
+        height: 450px;
+        overflow: hidden;
     }
-    
-    .tour-header-section {
-        padding: 20px;
+
+    .tour-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
-    
-    .tour-title {
-        font-size: 24px;
+
+    .tour-image.single-image {
+        border-radius: 20px;
     }
-    
-    .tour-meta-wrapper {
-        flex-direction: column;
-        gap: 10px;
-        align-items: flex-start;
-    }
-    
-    .price-card {
-        margin-top: 20px;
-    }
-    
-    .info-box {
-        padding: 15px;
-    }
-    
-    .info-icon {
+
+    .swiper-button-next,
+    .swiper-button-prev {
+        color: #ffffff;
+        background: rgba(0, 0, 0, 0.5);
         width: 50px;
         height: 50px;
+        border-radius: 50%;
     }
-    
-    .info-icon i {
+
+    .swiper-button-next:after,
+    .swiper-button-prev:after {
         font-size: 20px;
     }
-    
-    .content-section,
-    .sidebar-card .card-body {
-        padding: 20px;
+
+    .swiper-pagination-bullet {
+        background: #ffffff;
+        opacity: 0.7;
     }
-    
-    .section-main-title {
+
+    .swiper-pagination-bullet-active {
+        opacity: 1;
+        background: #667eea;
+    }
+
+    /* Tour Header */
+    .tour-header-section {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .tour-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #212529;
+        line-height: 1.3;
+    }
+
+    .tour-meta-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .rating-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stars-display i {
+        color: #ffc107;
+        font-size: 16px;
+    }
+
+    .stars-display i.far {
+        color: #dee2e6;
+    }
+
+    .rating-text {
+        font-weight: 600;
+        color: #212529;
+        font-size: 16px;
+    }
+
+    .reviews-count {
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .tour-type-badge .badge {
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    /* Price Card */
+    .price-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 25px;
+        border-radius: 15px;
+        text-align: center;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .price-label {
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
+    }
+
+    .price-value {
+        color: #ffffff;
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    .price-unit {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 13px;
+    }
+
+    /* Quick Info Grid */
+    .tour-quick-info-grid {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .info-box {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .info-box:hover {
+        background: #ffffff;
+        border-color: #667eea;
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+    }
+
+    .info-icon i {
+        color: #ffffff;
         font-size: 24px;
     }
-}
 
-@media (max-width: 576px) {
-    .tour-detail-section {
-        padding-top: 30px;
-        padding-bottom: 30px;
+    .info-label {
+        font-size: 13px;
+        color: #6c757d;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
     }
-    
+
+    .info-value {
+        font-size: 16px;
+        color: #212529;
+        font-weight: 600;
+    }
+
+    /* Content Sections */
+    .content-section {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #f0f0f0;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #f0f0f0;
+        margin-bottom: 20px;
+    }
+
+    .content-body {
+        color: #495057;
+        line-height: 1.8;
+        font-size: 15px;
+    }
+
+    .description-content p {
+        margin-bottom: 15px;
+    }
+
+    /* Details Grid */
+    .details-grid {
+        display: grid;
+        gap: 20px;
+    }
+
+    .detail-item-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 12px;
+        border-left: 4px solid #667eea;
+    }
+
+    .detail-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 10px;
+    }
+
+    .detail-description {
+        color: #6c757d;
+        margin: 0;
+        line-height: 1.6;
+    }
+
+    /* Reviews Section */
+    .reviews-list {
+        display: grid;
+        gap: 20px;
+    }
+
+    .review-card {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 12px;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+    }
+
+    .review-card:hover {
+        background: #ffffff;
+        border-color: #667eea;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .reviewer-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .reviewer-avatar {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-weight: 700;
+        font-size: 20px;
+        text-transform: uppercase;
+    }
+
+    .reviewer-name {
+        font-size: 16px;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 5px;
+    }
+
+    .review-stars i {
+        color: #ffc107;
+        font-size: 14px;
+    }
+
+    .review-stars i.far {
+        color: #dee2e6;
+    }
+
+    .review-date {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    .review-text {
+        color: #495057;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6c757d;
+    }
+
+    .empty-state i {
+        font-size: 50px;
+        margin-bottom: 15px;
+        opacity: 0.5;
+    }
+
+    /* Review Form */
+    .add-review-section {
+        background: #f8f9fa;
+        padding: 30px;
+        border-radius: 15px;
+    }
+
+    .form-section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #212529;
+        margin-bottom: 25px;
+    }
+
+    .review-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .review-form .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 8px;
+    }
+
+    .review-form .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+
+    .review-form .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+    }
+
+    .rating-input-wrapper {
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+    }
+
+    .stars {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
     .stars i {
-        font-size: 28px;
+        font-size: 32px;
+        color: #dee2e6;
+        cursor: pointer;
+        transition: all 0.2s ease;
     }
-}
+
+    .stars i:hover,
+    .stars i.fas {
+        color: #ffc107;
+        transform: scale(1.1);
+    }
+
+    .rating-helper-text {
+        font-size: 13px;
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    /* Sidebar */
+    .sidebar-sticky {
+        position: sticky;
+        top: 100px;
+    }
+
+    .sidebar-card {
+        background: #ffffff;
+        border-radius: 15px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+    }
+
+    .sidebar-card .card-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 20px 25px;
+    }
+
+    .sidebar-card .card-title {
+        color: #ffffff;
+        font-size: 18px;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    .sidebar-card .card-body {
+        padding: 25px;
+    }
+
+    /* Booking Card Form */
+    .booking-card .form-group {
+        margin-bottom: 20px;
+    }
+
+    .booking-card .form-label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #212529;
+        margin-bottom: 8px;
+    }
+
+    .booking-card .form-control {
+        border: 2px solid #e9ecef;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 15px;
+    }
+
+    .booking-card .form-control:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+    }
+
+    /* Highlights List */
+    .highlights-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .highlights-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .highlights-list li:last-child {
+        border-bottom: none;
+    }
+
+    .highlights-list i {
+        color: #10b981;
+        font-size: 18px;
+        margin-top: 2px;
+        flex-shrink: 0;
+    }
+
+    .highlights-list span {
+        color: #495057;
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+    /* Contact Card */
+    .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .contact-item:last-child {
+        border-bottom: none;
+    }
+
+    .contact-icon {
+        width: 45px;
+        height: 45px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .contact-icon.whatsapp {
+        background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+    }
+
+    .contact-icon i {
+        color: #ffffff;
+        font-size: 20px;
+    }
+
+    .contact-label {
+        font-size: 12px;
+        color: #6c757d;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+    }
+
+    .contact-value {
+        font-size: 14px;
+        color: #212529;
+        font-weight: 600;
+    }
+
+    /* Related Tours */
+    .related-tours-section {
+        border-top: 3px solid #e9ecef;
+    }
+
+    .section-main-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #212529;
+    }
+
+    .related-tour-card {
+        background: #ffffff;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+
+    .related-tour-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .tour-image-link {
+        display: block;
+        position: relative;
+    }
+
+    .tour-image-container {
+        position: relative;
+        height: 220px;
+        overflow: hidden;
+    }
+
+    .tour-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .related-tour-card:hover .tour-image-container img {
+        transform: scale(1.1);
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(102, 126, 234, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .related-tour-card:hover .image-overlay {
+        opacity: 1;
+    }
+
+    .image-overlay i {
+        color: #ffffff;
+        font-size: 40px;
+    }
+
+    .tour-card-content {
+        padding: 20px;
+    }
+
+    .tour-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        min-height: 48px;
+    }
+
+    .tour-card-title a {
+        color: #212529;
+        text-decoration: none;
+    }
+
+    .tour-card-title a:hover {
+        color: #667eea;
+    }
+
+    .tour-card-price {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+    }
+
+    .tour-card-price .price {
+        font-size: 24px;
+        font-weight: 700;
+        color: #667eea;
+    }
+
+    .tour-card-price .unit {
+        font-size: 13px;
+        color: #6c757d;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        padding: 12px 24px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid #667eea;
+        color: #667eea;
+        font-weight: 600;
+        border-radius: 10px;
+    }
+
+    .btn-outline-primary:hover {
+        background: #667eea;
+        color: #ffffff;
+    }
+
+    /* Alerts */
+    .alert {
+        border-radius: 10px;
+        border: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .tour-title {
+            font-size: 28px;
+        }
+        
+        .price-value {
+            font-size: 30px;
+        }
+        
+        .sidebar-sticky {
+            position: relative;
+            top: 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .tour-image {
+            height: 300px;
+        }
+        
+        .tour-header-section {
+            padding: 20px;
+        }
+        
+        .tour-title {
+            font-size: 24px;
+        }
+        
+        .tour-meta-wrapper {
+            flex-direction: column;
+            gap: 10px;
+            align-items: flex-start;
+        }
+        
+        .price-card {
+            margin-top: 20px;
+        }
+        
+        .info-box {
+            padding: 15px;
+        }
+        
+        .info-icon {
+            width: 50px;
+            height: 50px;
+        }
+        
+        .info-icon i {
+            font-size: 20px;
+        }
+        
+        .content-section,
+        .sidebar-card .card-body {
+            padding: 20px;
+        }
+        
+        .section-main-title {
+            font-size: 24px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .tour-detail-section {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+        
+        .stars i {
+            font-size: 28px;
+        }
+    }
+
+    /* Enhanced datalist styling for nationality input */
+    .position-relative {
+        position: relative;
+    }
+
+    #nationalityInput {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0.75rem center;
+        background-size: 16px 12px;
+    }
+
+    #nationalityInput:focus {
+        border-color: #86b7fe;
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    /* Datalist dropdown styling */
+    datalist {
+        position: absolute;
+        background-color: white;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 1000;
+    }
+
+    /* Mobile responsive */
+    @media (max-width: 768px) {
+        #nationalityInput {
+            font-size: 16px; /* Prevent zoom on iOS */
+        }
+    }
 </style>
 @endpush
 
-@push('scripts')
+@push('after-script')
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script>
-// Initialize Swiper for tour images
-if (document.querySelector('.tour-detail-slider')) {
-    new Swiper('.tour-detail-slider', {
-        loop: true,
-        autoplay: {
-            delay: 5000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-    });
-}
+    // Initialize Swiper for tour images
+    if (document.querySelector('.tour-detail-slider')) {
+        new Swiper('.tour-detail-slider', {
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+    }
 
-// Rating stars functionality
-document.querySelectorAll('.stars i').forEach(star => {
-    star.addEventListener('click', function() {
-        const rating = this.getAttribute('data-rating');
-        document.getElementById('rating').value = rating;
+    // Rating stars functionality
+    document.querySelectorAll('.stars i').forEach(star => {
+        star.addEventListener('click', function() {
+            const rating = this.getAttribute('data-rating');
+            document.getElementById('rating').value = rating;
+            
+            // Update star display
+            document.querySelectorAll('.stars i').forEach((s, index) => {
+                if (index < rating) {
+                    s.classList.remove('far');
+                    s.classList.add('fas');
+                    s.style.color = '#ffc107';
+                } else {
+                    s.classList.remove('fas');
+                    s.classList.add('far');
+                    s.style.color = '#dee2e6';
+                }
+            });
+        });
         
-        // Update star display
+        // Hover effect
+        star.addEventListener('mouseenter', function() {
+            const rating = this.getAttribute('data-rating');
+            document.querySelectorAll('.stars i').forEach((s, index) => {
+                if (index < rating) {
+                    s.style.color = '#ffc107';
+                } else {
+                    s.style.color = '#dee2e6';
+                }
+            });
+        });
+    });
+
+    // Reset hover effect
+    document.querySelector('.stars').addEventListener('mouseleave', function() {
+        const currentRating = document.getElementById('rating').value;
         document.querySelectorAll('.stars i').forEach((s, index) => {
-            if (index < rating) {
-                s.classList.remove('far');
-                s.classList.add('fas');
+            if (index < currentRating) {
                 s.style.color = '#ffc107';
             } else {
-                s.classList.remove('fas');
-                s.classList.add('far');
                 s.style.color = '#dee2e6';
             }
         });
     });
-    
-    // Hover effect
-    star.addEventListener('mouseenter', function() {
-        const rating = this.getAttribute('data-rating');
-        document.querySelectorAll('.stars i').forEach((s, index) => {
-            if (index < rating) {
-                s.style.color = '#ffc107';
+
+    // Booking form validation
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        const requiredFields = this.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('is-invalid');
             } else {
-                s.style.color = '#dee2e6';
+                field.classList.remove('is-invalid');
             }
         });
+        
+        if (!isValid) {
+            e.preventDefault();
+            alert('Please fill in all required fields.');
+            return false;
+        }
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
+        submitBtn.disabled = true;
+        
+        return true;
     });
-});
 
-// Reset hover effect
-document.querySelector('.stars').addEventListener('mouseleave', function() {
-    const currentRating = document.getElementById('rating').value;
-    document.querySelectorAll('.stars i').forEach((s, index) => {
-        if (index < currentRating) {
-            s.style.color = '#ffc107';
-        } else {
-            s.style.color = '#dee2e6';
+    // Review form validation
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        const rating = document.getElementById('rating').value;
+        if (!rating) {
+            e.preventDefault();
+            alert('Please select a rating.');
+            return false;
+        }
+        
+        // Show loading state
+        const submitBtn = this.querySelector('button[type="submit"]');
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
+        submitBtn.disabled = true;
+        
+        return true;
+    });
+
+    // Auto-hide alerts after 5 seconds
+    document.querySelectorAll('.alert').forEach(alert => {
+        setTimeout(() => {
+            const bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }, 5000);
+    });
+    
+    // Enhanced datalist functionality for nationality input
+    document.addEventListener('DOMContentLoaded', function() {
+        const nationalityInput = document.getElementById('nationalityInput');
+        
+        if (nationalityInput) {
+            // Add search icon
+            const wrapper = document.createElement('div');
+            wrapper.className = 'position-relative';
+            nationalityInput.parentNode.insertBefore(wrapper, nationalityInput);
+            wrapper.appendChild(nationalityInput);
+            
+            const searchIcon = document.createElement('i');
+            searchIcon.className = 'fas fa-search position-absolute';
+            searchIcon.style.cssText = 'right: 12px; top: 50%; transform: translateY(-50%); color: #6c757d; pointer-events: none;';
+            wrapper.appendChild(searchIcon);
+            
+            // Add autocomplete styling
+            nationalityInput.style.paddingRight = '35px';
+            
+            // Handle form validation
+            const form = document.getElementById('bookingForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const value = nationalityInput.value.trim();
+                    if (!value) {
+                        e.preventDefault();
+                        nationalityInput.classList.add('is-invalid');
+                        return false;
+                    }
+                    nationalityInput.classList.remove('is-invalid');
+                });
+            }
+            
+            // Remove error styling when user types
+            nationalityInput.addEventListener('input', function() {
+                if (this.value.trim()) {
+                    this.classList.remove('is-invalid');
+                }
+            });
+            
+            console.log('Nationality datalist initialized successfully');
         }
     });
-});
-
-// Booking form validation
-document.getElementById('bookingForm').addEventListener('submit', function(e) {
-    const requiredFields = this.querySelectorAll('[required]');
-    let isValid = true;
-    
-    requiredFields.forEach(field => {
-        if (!field.value.trim()) {
-            isValid = false;
-            field.classList.add('is-invalid');
-        } else {
-            field.classList.remove('is-invalid');
-        }
-    });
-    
-    if (!isValid) {
-        e.preventDefault();
-        alert('Please fill in all required fields.');
-        return false;
-    }
-    
-    // Show loading state
-    const submitBtn = this.querySelector('button[type="submit"]');
-    const originalHTML = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Processing...';
-    submitBtn.disabled = true;
-    
-    return true;
-});
-
-// Review form validation
-document.getElementById('reviewForm').addEventListener('submit', function(e) {
-    const rating = document.getElementById('rating').value;
-    if (!rating) {
-        e.preventDefault();
-        alert('Please select a rating.');
-        return false;
-    }
-    
-    // Show loading state
-    const submitBtn = this.querySelector('button[type="submit"]');
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Submitting...';
-    submitBtn.disabled = true;
-    
-    return true;
-});
-
-// Auto-hide alerts after 5 seconds
-document.querySelectorAll('.alert').forEach(alert => {
-    setTimeout(() => {
-        const bsAlert = new bootstrap.Alert(alert);
-        bsAlert.close();
-    }, 5000);
-});
 </script>
 @endpush
 @endsection

@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Frontsite;
 use Illuminate\Routing\Controller;
 use App\Models\Booking;
 use App\Models\Tour;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class BookingController extends Controller
 {
@@ -18,6 +21,7 @@ class BookingController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|max:255',
                 'phone' => 'required|string|max:20',
+                'nationality' => 'required|string|max:100',
                 'travelers' => 'required|integer|min:1',
                 'preferred_date' => 'required|date|after_or_equal:today',
                 'special_requests' => 'nullable|string|max:1000'
@@ -31,6 +35,38 @@ class BookingController extends Controller
             // Calculate total price
             $totalPrice = $tour->price * $request->travelers;
 
+            // Check if user already exists, if not create new user
+            $user = User::where('email', $request->email)->first();
+            
+            if (!$user) {
+                // Create new user
+                $user = User::create([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                    'password' => Hash::make($request->email), // Use email as password
+                    'plain_text' => $request->email, // Store email as plain text
+                    'phone' => $request->phone,
+                    'nationality' => $request->nationality,
+                    'role' => 2, // Client/Visitor/Traveller
+                    'status' => 1, // Active
+                    'photo' => null,
+                    'created_by' => $request->email
+                ]);
+                
+                Log::info('New user created during booking', ['user_id' => $user->id, 'email' => $user->email]);
+            } else {
+                // Update existing user info if needed
+                $user->update([
+                    'name' => $request->name,
+                    'phone' => $request->phone,
+                    'nationality' => $request->nationality,
+                    'updated_by' => $request->email
+                ]);
+                
+                Log::info('Existing user updated during booking', ['user_id' => $user->id, 'email' => $user->email]);
+            }
+
+            // Create booking
             $booking = Booking::create([
                 'id_tour' => $request->tour_id,
                 'id_tour_price' => null, // We'll set this to null for now since we're using base tour price
@@ -38,6 +74,7 @@ class BookingController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
+                'nationality' => $request->nationality,
                 'travelers' => $request->travelers,
                 'preferred_date' => $request->preferred_date,
                 'special_requests' => $request->special_requests,
@@ -46,6 +83,8 @@ class BookingController extends Controller
                 'order_date' => now()->toDateString(),
                 'created_by' => $request->email
             ]);
+
+            Log::info('New booking created', ['booking_id' => $booking->id, 'booking_code' => $booking->booking_code]);
 
             // Send confirmation email (you can implement this later)
             // Mail::to($request->email)->send(new BookingConfirmation($booking));
@@ -59,7 +98,7 @@ class BookingController extends Controller
                             ->withInput()
                             ->with('error', 'Please check the form and try again.');
         } catch (\Exception $e) {
-            \Log::error('Booking creation failed: ' . $e->getMessage());
+            Log::error('Booking creation failed: ' . $e->getMessage());
             return redirect()->back()
                             ->withInput()
                             ->with('error', 'Something went wrong. Please try again or contact support.');

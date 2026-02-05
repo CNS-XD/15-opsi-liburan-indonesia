@@ -45,11 +45,11 @@
                                 Travel News
                             </a>
                         </li>
-                        <li>
+                        {{-- <li>
                             <a href="javascript:void(0);">
                                 Customized Tour
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                     {{-- <div class="contact-area d-xl-none d-flex">
                         <div class="icon">

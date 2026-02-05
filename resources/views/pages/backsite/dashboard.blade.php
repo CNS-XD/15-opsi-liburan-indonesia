@@ -160,7 +160,7 @@
                             </span>
                         </p>
                     </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-calendar"></i></span>
+                    <span class="float-right display-5 opacity-5"><i class="text-white fa fa-calendar"></i></span>
                 </div>
             </div>
         </div>
@@ -197,7 +197,7 @@
                             </span>
                         </p>
                     </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-money-bill-alt"></i></span>
+                    <span class="float-right display-5 opacity-5"><i class="text-white fa fa-money-bill-alt"></i></span>
                 </div>
             </div>
         </div>
@@ -228,7 +228,7 @@
                             </span>
                         </p>
                     </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-map-marker-alt"></i></span>
+                    <span class="float-right display-5 opacity-5"><i class="text-white fa fa-map-marker-alt"></i></span>
                 </div>
             </div>
         </div>
@@ -251,7 +251,7 @@
                             <span class="badge badge-light">Registered</span>
                         </p>
                     </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
+                    <span class="float-right display-5 opacity-5"><i class="text-white fa fa-users"></i></span>
                 </div>
             </div>
         </div>

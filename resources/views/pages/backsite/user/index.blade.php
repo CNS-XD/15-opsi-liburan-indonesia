@@ -107,7 +107,7 @@
                     if (row.role === 1) {
                         return 'Superadmin';
                     } else {
-                        return 'Client';
+                        return 'Client / Visitor / Traveler';
                     }
                 }
             },

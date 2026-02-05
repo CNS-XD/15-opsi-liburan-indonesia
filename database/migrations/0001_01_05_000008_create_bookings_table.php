@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('email', 255);
             $table->string('phone', 20);
+            $table->string('nationality', 150)->nullable();
             $table->integer('travelers')->default(1);
             $table->date('preferred_date');
             $table->text('special_requests')->nullable();
