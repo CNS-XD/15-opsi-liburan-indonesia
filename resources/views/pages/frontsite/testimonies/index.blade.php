@@ -47,7 +47,7 @@
                                 @endif
                             </div>
                             <div class="author-info">
-                                <h6>{[ $testimony->name }}</h6>
+                                <h6>{!! $testimony->name !!}</h6>
                                 <span>Customer</span>
                             </div>
                         </div>
