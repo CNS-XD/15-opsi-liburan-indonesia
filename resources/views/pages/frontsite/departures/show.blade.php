@@ -47,7 +47,7 @@
                                     @foreach($tour->tour_photos->take(3) as $photo)
                                     <div class="swiper-slide">
                                         <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}" class="package-img">
-                                            <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $tour->title }}" style="height:250px; width:100%; object-fit:cover;">
+                                            <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $tour->title }}" style="width:100%; object-fit:cover;">
                                         </a>
                                     </div>
                                     @endforeach
@@ -58,19 +58,14 @@
                             </div>
                         @else
                             <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}" class="package-img">
-                                <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/1.jpg') }}" alt="{{ $tour->title }}" style="height:250px; width:100%; object-fit:cover;">
+                                <img src="{{ $tour->image ? asset('storage/' . $tour->image) : asset('frontsite-assets/img/packages/1.jpg') }}" alt="{{ $tour->title }}" style="width:100%; object-fit:cover;">
                             </a>
                         @endif
                         @if($tour->is_best)
-                        <div class="batch">
-                            <span>Most Loved</span>
-                        </div>
-                        @endif
-                        <div class="love-react">
-                            <div class="heart-icon">
-                                <i class="bi bi-heart"></i>
+                            <div class="batch">
+                                <span>Most Loved</span>
                             </div>
-                        </div>
+                        @endif
                     </div>
                     <div class="package-content">
                         <h5><a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}">{{ $tour->title }}</a></h5>

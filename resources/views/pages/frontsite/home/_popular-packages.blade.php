@@ -8,7 +8,7 @@
                         @foreach($tour->tour_photos->take(3) as $photo)
                         <div class="swiper-slide">
                             <a href="{{ route('frontsite.tours.show', $tour->slug) }}" class="package-img">
-                                <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $tour->title }}" style="height:250px; width:100%; object-fit:cover;">
+                                <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $tour->title }}" style="width:100%; object-fit:cover;">
                             </a>
                         </div>
                         @endforeach
@@ -19,7 +19,7 @@
                 </div>
             @else
                 <a href="{{ route('frontsite.tours.show', $tour->slug) }}" class="package-img">
-                    <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/1.jpg') }}" alt="{{ $tour->title }}" style="height:250px; width:100%; object-fit:cover;">
+                    <img src="{{ $tour->image ? asset('storage/' . $tour->image) : asset('frontsite-assets/img/packages/1.jpg') }}" alt="{{ $tour->title }}" style="width:100%; object-fit:cover;">
                 </a>
             @endif
             @if($tour->is_best)

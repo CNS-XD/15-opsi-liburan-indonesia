@@ -30,7 +30,7 @@
                         </div>
                     @else
                         <div class="tour-image single-image">
-                            <img src="{{ $tour->tour_photos->first() ? asset('storage/' . $tour->tour_photos->first()->image) : asset('frontsite-assets/img/packages/1.jpg') }}" 
+                            <img src="{{ $tour->image ? asset('storage/' . $tour->image) : asset('frontsite-assets/img/packages/1.jpg') }}" 
                                  alt="{{ $tour->title }}">
                         </div>
                     @endif

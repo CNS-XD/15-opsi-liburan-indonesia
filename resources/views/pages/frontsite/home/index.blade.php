@@ -774,8 +774,8 @@ use Illuminate\Support\Str;
                             @else
                                 <!-- Single image -->
                                 <a href="{{ route('frontsite.tours.show', $tour->slug) }}" class="package-img">
-                                    @if($tour->tour_photos->first() && $tour->tour_photos->first()->image && file_exists(public_path('storage/' . $tour->tour_photos->first()->image)))
-                                        <img src="{{ asset('storage/' . $tour->tour_photos->first()->image) }}" style="height: 300px; width: 100%; object-fit: cover;" alt="{{ $tour->title }}">
+                                    @if($tour->image && file_exists(public_path('storage/' . $tour->image)))
+                                        <img src="{{ asset('storage/' . $tour->image) }}" style="height: 300px; width: 100%; object-fit: cover;" alt="{{ $tour->title }}">
                                     @else
                                         <img src="/frontsite-assets/img/packages/{{ ($index % 10) + 1 }}.jpg" style="height: 300px; width: 100%; object-fit: cover;" alt="{{ $tour->title }}">
                                     @endif
