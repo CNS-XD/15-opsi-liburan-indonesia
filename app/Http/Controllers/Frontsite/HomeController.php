@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller;
 use App\Models\Tour;
 use App\Models\Slider;
 use App\Models\Destination;
+use App\Models\Departure;
 use App\Models\Advantage;
 use App\Models\Blog;
 use App\Models\Testimony;
@@ -25,6 +26,11 @@ class HomeController extends Controller
                 $query->whereHas('tour', function($q) {
                     $q->where('show', Tour::SHOW['publish']);
                 });
+            }])
+            ->with(['tour_destinations' => function($query) {
+                $query->whereHas('tour', function($q) {
+                    $q->where('show', Tour::SHOW['publish']);
+                })->with('tour')->limit(1);
             }])
             ->orderBy('tour_destinations_count', 'desc')
             ->get();
@@ -46,7 +52,8 @@ class HomeController extends Controller
                 $q->where('show', 1);
             },
             'tour_prices', 
-            'tour_departures'
+            'tour_departures',
+            'tour_destinations.destination'
         ])
             ->where('is_best', 1)
             ->where('show', 1)
@@ -108,6 +115,20 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('pages.frontsite.home.index', compact('sliders', 'destinations', 'popularTours', 'advantages', 'oneDayTours', 'blogs', 'testimonials', 'partners'));
+        // Get departures with tour count
+        $departures = Departure::withCount(['tour_departures as tour_departures_count' => function($query) {
+                $query->whereHas('tour', function($q) {
+                    $q->where('show', Tour::SHOW['publish']);
+                });
+            }])
+            ->with(['tour_departures' => function($query) {
+                $query->whereHas('tour', function($q) {
+                    $q->where('show', Tour::SHOW['publish']);
+                })->with('tour')->limit(1);
+            }])
+            ->orderBy('tour_departures_count', 'desc')
+            ->get();
+
+        return view('pages.frontsite.home.index', compact('sliders', 'destinations', 'departures', 'popularTours', 'advantages', 'oneDayTours', 'blogs', 'testimonials', 'partners'));
     }
 }

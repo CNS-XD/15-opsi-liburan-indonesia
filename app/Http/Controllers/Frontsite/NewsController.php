@@ -16,13 +16,14 @@ class NewsController extends Controller
         return view('pages.frontsite.news.index', compact('blogs'));
     }
 
-    public function show($id)
+    public function show($slug)
     {
         $blog = Blog::where('show', Blog::SHOW['publish'])
-            ->findOrFail($id);
+            ->where('slug', $slug)
+            ->firstOrFail();
 
         $relatedBlogs = Blog::where('show', Blog::SHOW['publish'])
-            ->where('id', '!=', $id)
+            ->where('id', '!=', $blog->id)
             ->orderBy('created_at', 'desc')
             ->limit(4)
             ->get();

@@ -15,7 +15,7 @@ use Illuminate\Support\Str;
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="hero-content animate-fade-in-up">
-                    <h1>Discover Indonesia, One Trip at a Time</h1>
+                    <h1>Discover Indonesia, <span class="text-gradient">One Trip at a Time</span></h1>
                     <p>Book curated tours and travel experiences across Indonesia — simple, flexible, and hassle-free.</p>
                     <div class="hero-cta-group">
                         <a href="{{ route('frontsite.tours.index') }}" class="btn-hero-primary">
@@ -25,7 +25,7 @@ use Illuminate\Support\Str;
                             </svg>
                             Explore Tours
                         </a>
-                        {{-- <a href="{{ route('frontsite.custom-itinerary.index') }}" class="btn-hero-secondary">
+                        <a href="{{ route('frontsite.custom-itinerary.index') }}" class="btn-hero-secondary">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M19 4H5C3.89543 4 3 4.89543 3 6V20C3 21.1046 3.89543 22 5 22H19C20.1046 22 21 21.1046 21 20V6C21 4.89543 20.1046 4 19 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M16 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -33,13 +33,13 @@ use Illuminate\Support\Str;
                                 <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             Custom Itinerary
-                        </a> --}}
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 d-none d-lg-block">
                 <div class="hero-image animate-float">
-                    <img src="/frontsite-assets/img/home2/banner-img1.jpg" alt="Travel Indonesia" style="height: 400px; width: 100%; object-fit: cover; border-radius: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+                    <img src="/frontsite-assets/img/home2/banner-img1.jpg" alt="Travel Indonesia" style="border-radius: 2rem; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
                 </div>
             </div>
         </div>
@@ -55,51 +55,51 @@ use Illuminate\Support\Str;
         </div>
         
         <div class="row g-4">
-            @forelse($popularTours as $tour)
+            @forelse($tours as $tour)
             <div class="col-lg-4 col-md-6">
                 <div class="card-modern">
                     <div class="card-modern-image">
-                        @if($tour->image && file_exists(public_path('storage/' . $tour->image)))
-                            <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->title }}">
+                        @if($tour->photos->isNotEmpty())
+                            <img src="{{ asset('storage/' . $tour->photos->first()->photo) }}" alt="{{ $tour->name }}">
                         @else
-                            <img src="/frontsite-assets/img/packages/package-1.jpg" alt="{{ $tour->title }}">
+                            <img src="/frontsite-assets/img/packages/package-1.jpg" alt="{{ $tour->name }}">
                         @endif
-                        @if($tour->is_best)
+                        @if($tour->is_featured)
                             <span class="card-modern-badge">
                                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; margin-right: 4px;">
                                     <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="currentColor"/>
                                 </svg>
-                                Most Loved
+                                Featured
                             </span>
                         @endif
                     </div>
                     <div class="card-modern-content">
                         <h3 class="card-modern-title">
-                            <a href="{{ route('frontsite.tours.show', $tour->slug) }}">{{ $tour->title }}</a>
+                            <a href="{{ route('frontsite.tours.show', $tour->slug) }}">{{ $tour->name }}</a>
                         </h3>
-                        <p class="card-modern-text">{{ Str::limit(strip_tags($tour->description), 100) }}</p>
+                        <p class="card-modern-text">{{ Str::limit($tour->description, 100) }}</p>
                         <div class="card-modern-meta">
                             <div class="card-modern-meta-item">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                {{ $tour->day_tour }} {{ $tour->day_tour > 1 ? 'Days' : 'Day' }}
+                                {{ $tour->duration }}
                             </div>
-                            @if($tour->tour_destinations->isNotEmpty())
+                            @if($tour->destinations->isNotEmpty())
                             <div class="card-modern-meta-item">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                {{ $tour->tour_destinations->first()->destination->title }}
+                                {{ $tour->destinations->first()->destination->name }}
                             </div>
                             @endif
                         </div>
                     </div>
                     <div class="card-modern-footer">
                         <div class="card-modern-price">
-                            @if($tour->price)
-                                ${{ number_format($tour->price, 0) }}
+                            @if($tour->prices->isNotEmpty())
+                                ${{ number_format($tour->prices->first()->price_usd, 0) }}
                                 <small>/person</small>
                             @else
                                 <small>Contact for price</small>
@@ -118,7 +118,7 @@ use Illuminate\Support\Str;
             @endforelse
         </div>
         
-        @if($popularTours->count() > 0)
+        @if($tours->count() > 0)
         <div class="text-center mt-5">
             <a href="{{ route('frontsite.tours.index') }}" class="btn-modern btn-modern-accent">
                 View All Tours
@@ -133,7 +133,7 @@ use Illuminate\Support\Str;
 </section>
 
 <!-- Destinations Section -->
-<section class="section-modern" style="background: #eee;">
+<section class="section-modern" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
     <div class="container">
         <div class="section-title-modern">
             <h2>Top Destinations</h2>
@@ -145,35 +145,21 @@ use Illuminate\Support\Str;
             <div class="col-lg-4 col-md-6">
                 <div class="card-modern">
                     <div class="card-modern-image">
-                        @php
-                            $destinationImage = null;
-                            // Try to get image from related tour
-                            if($destination->tour_destinations->isNotEmpty() && $destination->tour_destinations->first()->tour) {
-                                $tour = $destination->tour_destinations->first()->tour;
-                                if($tour->image && file_exists(public_path('storage/' . $tour->image))) {
-                                    $destinationImage = asset('storage/' . $tour->image);
-                                }
-                            }
-                            // Fallback to destination image
-                            if(!$destinationImage && $destination->image && file_exists(public_path('storage/' . $destination->image))) {
-                                $destinationImage = asset('storage/' . $destination->image);
-                            }
-                            // Final fallback to default image
-                            if(!$destinationImage) {
-                                $destinationImage = '/frontsite-assets/img/packages/default.jpg';
-                            }
-                        @endphp
-                        <img src="{{ $destinationImage }}" alt="{{ $destination->title }}">
+                        @if($destination->image && file_exists(public_path('storage/' . $destination->image)))
+                            <img src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->name }}">
+                        @else
+                            <img src="/frontsite-assets/img/home2/destination-1.jpg" alt="{{ $destination->name }}">
+                        @endif
                     </div>
                     <div class="card-modern-content">
                         <h3 class="card-modern-title">
-                            <a href="{{ route('frontsite.destinations.show', $destination->id) }}">{{ $destination->title }}</a>
+                            <a href="{{ route('frontsite.destinations.show', $destination->id) }}">{{ $destination->name }}</a>
                         </h3>
-                        <p class="card-modern-text">{{ Str::limit(strip_tags($destination->description), 100) }}</p>
+                        <p class="card-modern-text">{{ Str::limit($destination->description, 100) }}</p>
                     </div>
                     <div class="card-modern-footer">
                         <span class="badge-modern badge-modern-primary">
-                            {{ $destination->tour_destinations_count ?? 0 }} Tours Available
+                            {{ $destination->tours_count ?? 0 }} Tours Available
                         </span>
                         <a href="{{ route('frontsite.destinations.show', $destination->id) }}" class="btn-modern btn-modern-secondary">
                             Explore
@@ -198,81 +184,8 @@ use Illuminate\Support\Str;
     </div>
 </section>
 
-<!-- Departure Cities Section -->
-<section class="section-modern bg-white">
-    <div class="container">
-        <div class="section-title-modern">
-            <h2>Departure Cities</h2>
-            <p>Choose your starting point for an unforgettable journey</p>
-        </div>
-        
-        <div class="row g-4">
-            @forelse($departures->take(6) as $departure)
-            <div class="col-lg-4 col-md-6">
-                <div class="card-modern">
-                    <div class="card-modern-image">
-                        @php
-                            $departureImage = null;
-                            // Try to get image from related tour
-                            if($departure->tour_departures->isNotEmpty() && $departure->tour_departures->first()->tour) {
-                                $tour = $departure->tour_departures->first()->tour;
-                                if($tour->image && file_exists(public_path('storage/' . $tour->image))) {
-                                    $departureImage = asset('storage/' . $tour->image);
-                                }
-                            }
-                            // Fallback to departure image
-                            if(!$departureImage && $departure->image && file_exists(public_path('storage/' . $departure->image))) {
-                                $departureImage = asset('storage/' . $departure->image);
-                            }
-                            // Final fallback to default image
-                            if(!$departureImage) {
-                                $departureImage = '/frontsite-assets/img/packages/default.jpg';
-                            }
-                        @endphp
-                        <img src="{{ $departureImage }}" alt="{{ $departure->title }}">
-                        <div style="position: absolute; top: 1rem; left: 1rem; background: rgba(255, 255, 255, 0.95); padding: 0.5rem 1rem; border-radius: var(--radius-lg); backdrop-filter: blur(10px);">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
-                                <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#667eea" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span style="font-weight: 600; color: #667eea; font-size: 0.875rem;">Departure City</span>
-                        </div>
-                    </div>
-                    <div class="card-modern-content">
-                        <h3 class="card-modern-title">
-                            <a href="{{ route('frontsite.departures.show', $departure->id) }}">{{ $departure->title }}</a>
-                        </h3>
-                        <p class="card-modern-text">{{ Str::limit(strip_tags($departure->description), 100) }}</p>
-                    </div>
-                    <div class="card-modern-footer">
-                        <span class="badge-modern badge-modern-accent">
-                            {{ $departure->tour_departures_count ?? 0 }} Tours Available
-                        </span>
-                        <a href="{{ route('frontsite.departures.show', $departure->id) }}" class="btn-modern btn-modern-secondary">
-                            View Tours
-                        </a>
-                    </div>
-                </div>
-            </div>
-            @empty
-            <div class="col-12 text-center py-5">
-                <p class="text-muted">No departure cities available at the moment.</p>
-            </div>
-            @endforelse
-        </div>
-        
-        @if($departures->count() > 6)
-        <div class="text-center mt-5">
-            <a href="{{ route('frontsite.departures.index') }}" class="btn-modern btn-modern-outline">
-                View All Departure Cities
-            </a>
-        </div>
-        @endif
-    </div>
-</section>
-
 <!-- Testimonials Section -->
-<section class="section-modern" style="background: #eee;">
+<section class="section-modern bg-white">
     <div class="container">
         <div class="section-title-modern">
             <h2>What Travelers Say</h2>
@@ -284,14 +197,15 @@ use Illuminate\Support\Str;
             <div class="col-lg-4 col-md-6">
                 <div class="card-modern" style="border: 2px solid var(--neutral-200);">
                     <div class="card-modern-content">
-                        <div>
+                        <div class="mb-3">
                             @for($i = 1; $i <= 5; $i++)
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--accent-orange)" xmlns="http://www.w3.org/2000/svg" style="display: inline-block;">
                                 <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
                             </svg>
                             @endfor
                         </div>
-                        <p class="card-modern-text">{!! Str::limit($testimony->description, 150) !!}</p>
+                        <h4 class="card-modern-title">{{ $testimony->title }}</h4>
+                        <p class="card-modern-text">"{{ $testimony->description }}"</p>
                         <div class="d-flex align-items-center gap-3 mt-4">
                             <div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden; flex-shrink: 0;">
                                 @if($testimony->image && file_exists(public_path('storage/' . $testimony->image)))
@@ -326,7 +240,7 @@ use Illuminate\Support\Str;
 </section>
 
 <!-- Blog/News Section -->
-<section class="section-modern bg-white">
+<section class="section-modern" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);">
     <div class="container">
         <div class="section-title-modern">
             <h2>Travel Inspiration</h2>
@@ -341,7 +255,7 @@ use Illuminate\Support\Str;
                         @if($blog->image && file_exists(public_path('storage/' . $blog->image)))
                             <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->title }}">
                         @else
-                            <img src="/frontsite-assets/img/packages/default.jpg" alt="{{ $blog->title }}">
+                            <img src="/frontsite-assets/img/innerpages/blog-1.jpg" alt="{{ $blog->title }}">
                         @endif
                         <span class="card-modern-badge">{{ $blog->type ?? 'Travel' }}</span>
                     </div>
@@ -349,6 +263,7 @@ use Illuminate\Support\Str;
                         <h3 class="card-modern-title">
                             <a href="{{ route('frontsite.news.show', $blog->id) }}">{{ Str::limit($blog->title, 60) }}</a>
                         </h3>
+                        <p class="card-modern-text">{{ Str::limit($blog->description, 100) }}</p>
                         <div class="card-modern-meta">
                             <div class="card-modern-meta-item">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -357,7 +272,7 @@ use Illuminate\Support\Str;
                                     <path d="M8 2V6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M3 10H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
-                                {{ \Carbon\Carbon::parse($blog->created_at)->format('M d, Y') }}
+                                {{ \Carbon\Carbon::parse($blog->date)->format('M d, Y') }}
                             </div>
                         </div>
                     </div>
@@ -387,7 +302,7 @@ use Illuminate\Support\Str;
 
 <!-- Partners Section -->
 @if($partners->count() > 0)
-<section class="section-modern" style="background: #eee;">
+<section class="section-modern bg-white">
     <div class="container">
         <div class="section-title-modern">
             <h2>Our Trusted Partners</h2>
@@ -418,7 +333,7 @@ use Illuminate\Support\Str;
 @endif
 
 <!-- CTA Section -->
-<section class="section-modern" style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); color: white;">
+<section class="section-modern" style="background: linear-gradient(135deg, var(--primary-teal) 0%, var(--primary-teal-dark) 100%); color: white;">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-8 text-center text-lg-start">

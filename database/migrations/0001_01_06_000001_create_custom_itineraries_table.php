@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('custom_itineraries', function (Blueprint $table) {
             $table->bigIncrements('id', true);
 
+            $table->string('request_code');
             $table->string('customer_name');
             $table->string('email');
             $table->string('phone');
@@ -29,7 +30,7 @@ return new class extends Migration
             $table->enum('accommodation_level', ['budget', 'standard', 'luxury']);
             $table->enum('transportation_type', ['car', 'bus', 'flight']);
             $table->text('special_requirements')->nullable();
-            $table->enum('status', ['pending', 'quoted', 'confirmed', 'cancelled'])->default('pending');
+            $table->string('status')->default('pending')->comment('pending, review, quoted, confirmed, cancelled');
             $table->text('admin_notes')->nullable();
             $table->decimal('estimated_price', 10, 2)->nullable();
             $table->decimal('final_price', 10, 2)->nullable();

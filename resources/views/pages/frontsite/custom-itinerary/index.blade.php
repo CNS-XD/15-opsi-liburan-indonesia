@@ -4,19 +4,25 @@
 @section('activeMenuCustomItinerary', 'active')
 
 @section('content')
-<!-- Breadcrumb Section Start -->
-<div class="breadcrumb-section" style="height: 30px; background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/frontsite-assets/img/innerpages/breadcrumb-bg1.jpg);">  
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container">
-        <div class="banner-content" style="margin-top: -60px;">
-            <h1 class="text-white">Create Your Custom Itinerary</h1>
-            <h3 class="text-white">Tell us your dream trip and we'll make it happen</h3>
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate-fade-in-up">
+                    <div style="margin-bottom: 1.5rem;">
+                        <i class="bi bi-calendar-plus" style="font-size: 4rem; color: rgba(255, 255, 255, 0.9);"></i>
+                    </div>
+                    <h1 style="color: white; margin-bottom: 1rem; font-weight: 700;">Create Your Custom Itinerary</h1>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.2rem;">Tell us your dream trip and we'll make it happen</p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<!-- Breadcrumb Section End -->
+</section>
 
 <!-- Custom Itinerary Form Section Start -->
-<div class="custom-itinerary-section">
+<section class="section-modern" style="background: #f8fafc;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-10">
@@ -386,9 +392,15 @@
 
                         <!-- Form Navigation -->
                         <div class="form-navigation">
-                            <button type="button" id="prev-step" class="btn btn-secondary" style="display: none;">Previous</button>
-                            <button type="button" id="next-step" class="btn btn-primary">Next</button>
-                            <button type="submit" id="submit-form" class="btn btn-success" style="display: none;">Submit Request</button>
+                            <button type="button" id="prev-step" class="btn-modern btn-modern-secondary" style="display: none;">
+                                <i class="bi bi-arrow-left me-2"></i>Previous
+                            </button>
+                            <button type="button" id="next-step" class="btn-modern btn-modern-primary">
+                                Next<i class="bi bi-arrow-right ms-2"></i>
+                            </button>
+                            <button type="submit" id="submit-form" class="btn-modern btn-modern-primary" style="display: none; background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+                                <i class="bi bi-check-circle me-2"></i>Submit Request
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -397,256 +409,6 @@
     </div>
 </div>
 <!-- Custom Itinerary Form Section End -->
-
-<style>
-.custom-itinerary-section {
-    padding: 80px 0;
-    background-color: #f8f9fa;
-}
-
-.custom-itinerary-wrapper {
-    background: white;
-    border-radius: 15px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-}
-
-.form-progress {
-    margin-bottom: 40px;
-}
-
-.progress-steps {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: relative;
-    margin-bottom: 30px;
-}
-
-.progress-steps::before {
-    content: '';
-    position: absolute;
-    top: 20px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background-color: #e9ecef;
-    z-index: 1;
-}
-
-.step {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    z-index: 2;
-    background: white;
-    padding: 0 15px;
-}
-
-.step-number {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: #e9ecef;
-    color: #6c757d;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-bottom: 8px;
-    transition: all 0.3s ease;
-}
-
-.step.active .step-number {
-    background-color: #007bff;
-    color: white;
-}
-
-.step.completed .step-number {
-    background-color: #28a745;
-    color: white;
-}
-
-.step-title {
-    font-size: 12px;
-    color: #6c757d;
-    text-align: center;
-}
-
-.step.active .step-title {
-    color: #007bff;
-    font-weight: 600;
-}
-
-.form-step {
-    display: none;
-}
-
-.form-step.active {
-    display: block;
-}
-
-.step-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.step-header h3 {
-    color: #2c3e50;
-    margin-bottom: 10px;
-}
-
-.step-header p {
-    color: #6c757d;
-    margin-bottom: 0;
-}
-
-.form-group {
-    margin-bottom: 25px;
-}
-
-.form-group label {
-    font-weight: 600;
-    color: #2c3e50;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.form-control {
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    padding: 12px 15px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
-}
-
-.destinations-grid, .activities-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
-    margin-top: 10px;
-}
-
-.destination-item, .activity-item {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.destination-item:hover, .activity-item:hover {
-    border-color: #007bff;
-    background-color: #f8f9ff;
-}
-
-.destination-item input[type="checkbox"], .activity-item input[type="checkbox"] {
-    margin-right: 10px;
-}
-
-.destination-item input[type="checkbox"]:checked + label,
-.activity-item input[type="checkbox"]:checked + label {
-    color: #007bff;
-    font-weight: 600;
-}
-
-.form-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 40px;
-    padding-top: 30px;
-    border-top: 1px solid #e9ecef;
-}
-
-.btn {
-    padding: 12px 30px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.review-summary {
-    background-color: #f8f9fa;
-    border-radius: 10px;
-    padding: 30px;
-}
-
-.summary-section {
-    margin-bottom: 30px;
-}
-
-.summary-section:last-child {
-    margin-bottom: 0;
-}
-
-.summary-section h4 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid #007bff;
-}
-
-.summary-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.summary-item:last-child {
-    border-bottom: none;
-}
-
-.summary-item .label {
-    font-weight: 600;
-    color: #495057;
-}
-
-.summary-item .value {
-    color: #2c3e50;
-}
-
-@media (max-width: 768px) {
-    .custom-itinerary-wrapper {
-        padding: 20px;
-    }
-    
-    .progress-steps {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .step {
-        flex: 1;
-        min-width: 80px;
-    }
-    
-    .destinations-grid, .activities-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-navigation {
-        flex-direction: column;
-        gap: 15px;
-    }
-    
-    .summary-item {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 5px;
-    }
-}
-</style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -657,6 +419,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const prevBtn = document.getElementById('prev-step');
     const submitBtn = document.getElementById('submit-form');
     
+    console.log('Form initialized:', {
+        form: form,
+        steps: steps.length,
+        progressSteps: progressSteps.length,
+        nextBtn: nextBtn,
+        prevBtn: prevBtn,
+        submitBtn: submitBtn
+    });
+    
     let currentStep = 1;
     const totalSteps = steps.length;
     
@@ -664,48 +435,72 @@ document.addEventListener('DOMContentLoaded', function() {
     showStep(currentStep);
     
     // Next button click
-    nextBtn.addEventListener('click', function() {
-        if (validateStep(currentStep)) {
-            if (currentStep < totalSteps) {
-                currentStep++;
-                showStep(currentStep);
-                updateReview();
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Next clicked, current step:', currentStep);
+            if (validateStep(currentStep)) {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    showStep(currentStep);
+                    updateReview();
+                }
             }
-        }
-    });
+        });
+    }
     
     // Previous button click
-    prevBtn.addEventListener('click', function() {
-        if (currentStep > 1) {
-            currentStep--;
-            showStep(currentStep);
-        }
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Previous clicked, current step:', currentStep);
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+    }
     
     // Show specific step
     function showStep(step) {
         // Hide all steps
-        steps.forEach(s => s.classList.remove('active'));
+        steps.forEach(s => {
+            s.classList.remove('active');
+            s.style.display = 'none';
+        });
         progressSteps.forEach(s => s.classList.remove('active', 'completed'));
         
         // Show current step
-        document.querySelector(`[data-step="${step}"]`).classList.add('active');
-        document.querySelector(`.progress-steps [data-step="${step}"]`).classList.add('active');
+        const currentFormStep = document.querySelector(`.form-step[data-step="${step}"]`);
+        if (currentFormStep) {
+            currentFormStep.classList.add('active');
+            currentFormStep.style.display = 'block';
+        }
+        
+        const currentProgressStep = document.querySelector(`.progress-steps .step[data-step="${step}"]`);
+        if (currentProgressStep) {
+            currentProgressStep.classList.add('active');
+        }
         
         // Mark completed steps
         for (let i = 1; i < step; i++) {
-            document.querySelector(`.progress-steps [data-step="${i}"]`).classList.add('completed');
+            const completedStep = document.querySelector(`.progress-steps .step[data-step="${i}"]`);
+            if (completedStep) {
+                completedStep.classList.add('completed');
+            }
         }
         
         // Update navigation buttons
-        prevBtn.style.display = step > 1 ? 'inline-block' : 'none';
-        nextBtn.style.display = step < totalSteps ? 'inline-block' : 'none';
-        submitBtn.style.display = step === totalSteps ? 'inline-block' : 'none';
+        prevBtn.style.display = step > 1 ? 'inline-flex' : 'none';
+        nextBtn.style.display = step < totalSteps ? 'inline-flex' : 'none';
+        submitBtn.style.display = step === totalSteps ? 'inline-flex' : 'none';
     }
     
     // Validate current step
     function validateStep(step) {
-        const currentStepElement = document.querySelector(`[data-step="${step}"]`);
+        const currentStepElement = document.querySelector(`.form-step[data-step="${step}"]`);
+        if (!currentStepElement) return true;
+        
         const requiredFields = currentStepElement.querySelectorAll('[required]');
         let isValid = true;
         
@@ -819,3 +614,374 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 @endsection
+
+@push('after-style')
+<style>
+/* Wrapper Styling */
+.custom-itinerary-wrapper {
+    background: white;
+    border-radius: 1.5rem;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+
+/* Progress Steps Styling */
+.form-progress {
+    margin-bottom: 3rem;
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.progress-steps::before {
+    content: '';
+    position: absolute;
+    top: 22px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #e9ecef 0%, #e9ecef 100%);
+    z-index: 1;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    background: white;
+    padding: 0 15px;
+}
+
+.step-number {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: #e9ecef;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    margin-bottom: 8px;
+    transition: all 0.3s ease;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.step.active .step-number {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    transform: scale(1.1);
+}
+
+.step.completed .step-number {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.step-title {
+    font-size: 13px;
+    color: #6c757d;
+    text-align: center;
+    font-weight: 600;
+}
+
+.step.active .step-title {
+    color: #667eea;
+    font-weight: 700;
+}
+
+/* Form Step Display */
+.form-step {
+    display: none !important;
+}
+
+.form-step.active {
+    display: block !important;
+}
+
+/* Step Header */
+.step-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.step-header h3 {
+    color: #1e293b;
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.step-header p {
+    color: #64748b;
+    margin-bottom: 0;
+    font-size: 1.05rem;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 1.75rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    display: block;
+    font-size: 0.95rem;
+}
+
+/* Enhanced Form Input Styling */
+.custom-itinerary-wrapper .form-control,
+.custom-itinerary-wrapper .form-select,
+.custom-itinerary-wrapper select.form-control {
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 0.75rem !important;
+    padding: 0.875rem 1rem !important;
+    font-size: 0.95rem !important;
+    transition: all 0.3s ease !important;
+    color: #1e293b !important;
+    background: white !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.custom-itinerary-wrapper .form-control:hover,
+.custom-itinerary-wrapper .form-select:hover,
+.custom-itinerary-wrapper select.form-control:hover {
+    border-color: #94a3b8 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.custom-itinerary-wrapper .form-control:focus,
+.custom-itinerary-wrapper .form-select:focus,
+.custom-itinerary-wrapper select.form-control:focus {
+    border-color: #667eea !important;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15), 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+    outline: none !important;
+    background: white !important;
+}
+
+.custom-itinerary-wrapper .form-control::placeholder {
+    color: #94a3b8 !important;
+}
+
+.custom-itinerary-wrapper textarea.form-control {
+    min-height: 120px !important;
+    resize: vertical !important;
+}
+
+/* Checkbox and Radio Styling */
+.custom-itinerary-wrapper input[type="checkbox"],
+.custom-itinerary-wrapper input[type="radio"] {
+    width: 20px !important;
+    height: 20px !important;
+    border: 2px solid #cbd5e1 !important;
+    border-radius: 0.375rem !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.custom-itinerary-wrapper input[type="checkbox"]:checked,
+.custom-itinerary-wrapper input[type="radio"]:checked {
+    background-color: #667eea !important;
+    border-color: #667eea !important;
+}
+
+.custom-itinerary-wrapper input[type="checkbox"]:focus,
+.custom-itinerary-wrapper input[type="radio"]:focus {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15) !important;
+    outline: none !important;
+}
+
+/* Destination and Activity Cards */
+.destinations-grid, .activities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.custom-itinerary-wrapper .destination-item,
+.custom-itinerary-wrapper .activity-item {
+    background: white !important;
+    border: 2px solid #cbd5e1 !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06) !important;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.custom-itinerary-wrapper .destination-item:hover,
+.custom-itinerary-wrapper .activity-item:hover {
+    border-color: #667eea !important;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2) !important;
+    transform: translateY(-2px);
+}
+
+.custom-itinerary-wrapper .destination-item input[type="checkbox"],
+.custom-itinerary-wrapper .activity-item input[type="checkbox"] {
+    margin-right: 0.75rem;
+}
+
+.custom-itinerary-wrapper .destination-item label,
+.custom-itinerary-wrapper .activity-item label {
+    margin: 0;
+    cursor: pointer;
+    flex: 1;
+}
+
+.custom-itinerary-wrapper input[type="checkbox"]:checked ~ label {
+    color: #667eea !important;
+    font-weight: 700 !important;
+}
+
+/* Form Navigation */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 2px solid #e2e8f0;
+}
+
+/* Review Summary */
+.review-summary {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    border-radius: 1rem;
+    padding: 2rem;
+    border: 2px solid #e2e8f0;
+}
+
+.summary-section {
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.summary-section:last-child {
+    margin-bottom: 0;
+}
+
+.summary-section h4 {
+    color: #1e293b;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid #667eea;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.summary-item:last-child {
+    border-bottom: none;
+}
+
+.summary-item .label {
+    font-weight: 600;
+    color: #64748b;
+    font-size: 0.95rem;
+}
+
+.summary-item .value {
+    color: #1e293b;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* Date Input */
+.custom-itinerary-wrapper input[type="date"] {
+    background: white !important;
+    cursor: pointer !important;
+}
+
+.custom-itinerary-wrapper input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer !important;
+    filter: invert(45%) sepia(78%) saturate(1345%) hue-rotate(221deg) brightness(95%) contrast(91%);
+}
+
+/* Form Check */
+.form-check {
+    padding-left: 0;
+}
+
+.form-check-input {
+    margin-right: 0.5rem;
+}
+
+.form-check-label {
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .custom-itinerary-wrapper {
+        padding: 1.5rem;
+    }
+    
+    .progress-steps {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .step {
+        flex: 1;
+        min-width: 70px;
+    }
+    
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .step-title {
+        font-size: 11px;
+    }
+    
+    .destinations-grid, .activities-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-navigation {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .form-navigation .btn-modern {
+        width: 100%;
+    }
+    
+    .summary-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .summary-item .value {
+        text-align: left;
+    }
+}
+</style>
+@endpush

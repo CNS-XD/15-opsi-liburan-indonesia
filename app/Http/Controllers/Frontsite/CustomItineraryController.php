@@ -15,7 +15,7 @@ class CustomItineraryController extends Controller
     {
         $destinations = Destination::orderBy('title', 'asc')->get();
         
-        return view('pages.frontsite.custom-itinerary.simple', compact('destinations'));
+        return view('pages.frontsite.custom-itinerary.index', compact('destinations'));
     }
 
     public function store(Request $request)
@@ -84,7 +84,7 @@ class CustomItineraryController extends Controller
                 }
             }
 
-            return redirect()->route('frontsite.custom-itinerary.success', $customItinerary->id)
+            return redirect()->route('frontsite.custom-itinerary.success', $customItinerary->request_code)
                 ->with('success', 'Your custom itinerary request has been submitted successfully!');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
@@ -101,18 +101,16 @@ class CustomItineraryController extends Controller
         }
     }
 
-    public function success($id)
+    public function success(CustomItinerary $customItinerary)
     {
-        $customItinerary = CustomItinerary::with(['destinations.destination', 'activities'])
-            ->findOrFail($id);
+        $customItinerary->load(['destinations.destination', 'activities']);
         
         return view('pages.frontsite.custom-itinerary.success', compact('customItinerary'));
     }
 
-    public function show($id)
+    public function show(CustomItinerary $customItinerary)
     {
-        $customItinerary = CustomItinerary::with(['destinations.destination', 'activities'])
-            ->findOrFail($id);
+        $customItinerary->load(['destinations.destination', 'activities']);
         
         return view('pages.frontsite.custom-itinerary.show', compact('customItinerary'));
     }

@@ -5,23 +5,40 @@
 @section('activeMenuGuideBook', 'active')
 
 @section('content')
-<div class="main-guide-book">
-    <div class="guide-book">
-        <!-- Start Breadcrumb section -->
-        <div class="breadcrumb-section" style="background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/frontsite-assets/img/innerpages/breadcrumb-bg1.jpg);">  
-            <div class="container">
-                <div class="banner-content">
-                    <h3 class="text-white">A quick guide to booking your next adventure in just a few simple steps.</h3>
-                    <ul class="breadcrumb-list">
-                        <li>Plan</li>
-                        <li>Book</li>
-                        <li>Enjoy!</li>
-                    </ul>
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 60vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate-fade-in-up">
+                    <div style="margin-bottom: 1.5rem;">
+                        <i class="bi bi-book" style="font-size: 4rem; color: rgba(255, 255, 255, 0.9);"></i>
+                    </div>
+                    <h1 style="color: white; margin-bottom: 1rem; font-weight: 700;">How to Book Your Adventure</h1>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.2rem;">
+                        <center>A quick guide to booking your next adventure in just a few simple steps</center>
+                    </p>
+                    <div style="margin-top: 2rem;">
+                        <ul class="breadcrumb-list" style="display: flex; justify-content: center; gap: 2rem; list-style: none; padding: 0; margin: 0; flex-wrap: wrap;">
+                            <li style="color: rgba(255, 255, 255, 0.95); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="bi bi-search" style="font-size: 1.2rem;"></i> Plan
+                            </li>
+                            <li style="color: rgba(255, 255, 255, 0.95); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="bi bi-calendar-check" style="font-size: 1.2rem;"></i> Book
+                            </li>
+                            <li style="color: rgba(255, 255, 255, 0.95); font-weight: 600; display: flex; align-items: center; gap: 0.5rem;">
+                                <i class="bi bi-emoji-smile" style="font-size: 1.2rem;"></i> Enjoy!
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-        <!-- End Breadcrumb section -->
+    </div>
+</section>
 
+<div class="main-guide-book">
+    <div class="guide-book">
         <div class="body">
             <div class="container">
                 <div class="items">

@@ -7,154 +7,229 @@
 @section('meta_description', 'Tours departing from ' . $departure->title . '. Find the perfect tour package starting from your city.')
 
 @section('content')
-<!-- Breadcrumb Section -->
-<div class="breadcrumb-section" style="background-image: linear-gradient(270deg, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.3) 101.02%), url('{{ $departure->image ? asset('storage/' . $departure->image) : asset('frontsite-assets/img/innerpages/destination-card4-img4.jpg') }}');">
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12 d-flex justify-content-center">
-                <div class="banner-content">
-                    <h1>Tours from {{ $departure->title }}</h1>
-                    <ul class="breadcrumb-list">
-                        <li><a href="{{ route('frontsite.home.index') }}">Home</a></li>
-                        <li><a href="{{ route('frontsite.departures.index') }}">Departure Cities</a></li>
-                        <li>{{ $departure->title }}</li>
-                    </ul>
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <div class="hero-content animate-fade-in-up">
+                    <div class="mb-3">
+                        <span class="badge-modern badge-modern-primary" style="background: rgba(255, 255, 255, 0.2); color: white; font-size: 1rem; padding: 0.5rem 1.5rem;">
+                            <i class="bi bi-geo-alt-fill me-2"></i>Departure City
+                        </span>
+                    </div>
+                    <h1 class="mb-4">Tours from {{ $departure->title }}</h1>
+                    <p class="mb-4">
+                        <center>
+                            Explore amazing tour packages departing from {{ $departure->title }}. Start your journey from your city!
+                        </center>
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{{ route('frontsite.departures.index') }}" class="btn-modern btn-modern-secondary" style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border: 2px solid rgba(255, 255, 255, 0.4); color: white !important;">
+                            <i class="bi bi-arrow-left me-2"></i>All Departures
+                        </a>
+                        <a href="{{ route('frontsite.home.index') }}" class="btn-modern" style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #764ba2 !important; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);">
+                            <i class="bi bi-house-fill me-2"></i>Back to Home
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Tours Section -->
-<div class="package-section pt-120 pb-120">
+<section class="section-modern" style="background: #f8fafc;">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-head">
-                    <h2>Tours from {{ $departure->title }}</h2>
-                    <p>Explore amazing tour packages departing from {{ $departure->title }}</p>
+        @if($tours->count() > 0)
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div>
+                        <h3 class="mb-2" style="color: #0f172a; font-weight: 700;">Available Tours</h3>
+                        <p class="text-muted mb-0">
+                            <center>
+                                Found {{ $tours->total() }} tour{{ $tours->total() > 1 ? 's' : '' }} departing from {{ $departure->title }}
+                            <center>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
+
         <div class="row g-4">
-            @forelse($tours as $tour)
+            @foreach($tours as $tour)
             <div class="col-xl-4 col-lg-6 col-md-6">
-                <div class="package-card modern-tour-card">
-                    <div class="package-img-wrap">
-                        @if($tour->tour_photos->count() > 1)
-                            <div class="swiper package-card-img-slider">
-                                <div class="swiper-wrapper">
-                                    @foreach($tour->tour_photos->take(3) as $photo)
-                                    <div class="swiper-slide">
-                                        <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}" class="package-img">
-                                            <img src="{{ asset('storage/' . $photo->image) }}" alt="{{ $tour->title }}" style="width:100%; object-fit:cover;">
-                                        </a>
-                                    </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                            <div class="slider-pagi-wrap">
-                                <div class="package-card-img-pagi paginations"></div>
-                            </div>
-                        @else
-                            <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}" class="package-img">
-                                <img src="{{ $tour->image ? asset('storage/' . $tour->image) : asset('frontsite-assets/img/packages/1.jpg') }}" alt="{{ $tour->title }}" style="width:100%; object-fit:cover;">
-                            </a>
-                        @endif
+                <div class="card-modern">
+                    <div class="card-modern-image">
+                        <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}">
+                            <img src="{{ $tour->image ? asset('storage/' . $tour->image) : asset('frontsite-assets/img/packages/default.jpg') }}" 
+                                 alt="{{ $tour->title }}"
+                                 loading="lazy">
+                        </a>
                         @if($tour->is_best)
-                            <div class="batch">
-                                <span>Most Loved</span>
-                            </div>
+                        <div class="card-modern-badge" style="background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%); color: #764ba2;">
+                            <i class="bi bi-star-fill me-1"></i>Most Loved
+                        </div>
                         @endif
+                        <div class="card-modern-badge" style="top: auto; bottom: 1rem; right: 1rem; background: rgba(102, 126, 234, 0.95); color: white;">
+                            <i class="bi bi-clock-fill me-1"></i>{{ $tour->time_tour }}
+                        </div>
                     </div>
-                    <div class="package-content">
-                        <h5><a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}">{{ $tour->title }}</a></h5>
-                        <div class="location-and-time">
-                            <div class="location">
-                                <svg width="14" height="14" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6.83615 0C3.77766 0 1.28891 2.48879 1.28891 5.54892C1.28891 7.93837 4.6241 11.8351 6.05811 13.3994C6.25669 13.6175 6.54154 13.7411 6.83615 13.7411C7.13076 13.7411 7.41561 13.6175 7.6142 13.3994C9.04821 11.8351 12.3834 7.93833 12.3834 5.54892C12.3834 2.48879 9.89464 0 6.83615 0ZM7.31469 13.1243C7.18936 13.2594 7.02008 13.3342 6.83615 13.3342C6.65222 13.3342 6.48295 13.2594 6.35761 13.1243C4.95614 11.5959 1.69584 7.79515 1.69584 5.54896C1.69584 2.7134 4.00067 0.406933 6.83615 0.406933C9.67164 0.406933 11.9765 2.7134 11.9765 5.54896C11.9765 7.79515 8.71617 11.5959 7.31469 13.1243Z"/>
-                                    <path d="M6.83618 8.54554C8.4624 8.54554 9.7807 7.22723 9.7807 5.60102C9.7807 3.9748 8.4624 2.65649 6.83618 2.65649C5.20997 2.65649 3.89166 3.9748 3.89166 5.60102C3.89166 7.22723 5.20997 8.54554 6.83618 8.54554Z"/>
-                                </svg>
-                                <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}">
+                    <div class="card-modern-content">
+                        <h3 class="card-modern-title">
+                            <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}">{{ $tour->title }}</a>
+                        </h3>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex align-items-center gap-2 text-muted" style="font-size: 0.9rem;">
+                                <i class="bi bi-geo-alt-fill" style="color: #ec4899;"></i>
+                                <span>
                                     @if($tour->tour_destinations->first())
                                         to {{ $tour->tour_destinations->first()->destination->name ?? 'Various Destinations' }}
                                     @else
                                         Various Destinations
                                     @endif
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mb-3 flex-wrap">
+                            <span class="badge-modern" style="background: rgba(102, 126, 234, 0.1); color: #667eea; font-size: 0.8rem;">
+                                <i class="bi bi-people-fill me-1"></i>{{ $tour->type_tour == 0 ? 'Private Tour' : 'Sharing Tour' }}
+                            </span>
+                            <span class="badge-modern" style="background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 0.8rem;">
+                                <i class="bi bi-check-circle-fill me-1"></i>All Inclusive
+                            </span>
+                        </div>
+
+                        <div class="mt-auto">
+                            <div class="d-flex justify-content-between align-items-center pt-3" style="border-top: 1px solid #e2e8f0;">
+                                <div>
+                                    <div class="text-muted" style="font-size: 0.85rem;">Starting from</div>
+                                    <div class="card-modern-price" style="font-size: 1.5rem; font-weight: 800; color: #ec4899;">
+                                        ${{ number_format($tour->price ?? 0, 0) }}
+                                    </div>
+                                </div>
+                                <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}" 
+                                   class="btn-modern btn-modern-primary" 
+                                   style="padding: 0.75rem 1.5rem;">
+                                    View Details
+                                    <i class="bi bi-arrow-right ms-1"></i>
                                 </a>
                             </div>
-                            <svg class="arrow" width="25" height="6" viewBox="0 0 25 6" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M0 3L5 5.88675V0.113249L0 3ZM25 3L20 0.113249V5.88675L25 3ZM4.5 3.5H20.5V2.5H4.5V3.5Z"/>
-                            </svg>
-                            <span>{{ $tour->time_tour }}</span>
-                        </div>
-                        <div class="btn-and-price-area">
-                            <a href="{{ route('frontsite.tours.show', $tour->slug ?? $tour->id) }}" class="primary-btn1">
-                                <span>
-                                    Book Now
-                                    <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.73535 1.14746C9.57033 1.97255 9.32924 3.26406 9.24902 4.66797C9.16817 6.08312 9.25559 7.5453 9.70214 8.73633C9.84754 9.12406 9.65129 9.55659 9.26367 9.70215C8.9001 9.83849 8.4969 9.67455 8.32812 9.33398L8.29785 9.26367L8.19921 8.98438C7.73487 7.5758 7.67054 5.98959 7.75097 4.58203C7.77875 4.09598 7.82525 3.62422 7.87988 3.17969L1.53027 9.53027C1.23738 9.82317 0.762615 9.82317 0.469722 9.53027C0.176829 9.23738 0.176829 8.76262 0.469722 8.46973L6.83593 2.10254C6.3319 2.16472 5.79596 2.21841 5.25 2.24902C3.8302 2.32862 2.2474 2.26906 0.958003 1.79102L0.704097 1.68945L0.635738 1.65527C0.303274 1.47099 0.157578 1.06102 0.310542 0.704102C0.463655 0.347333 0.860941 0.170391 1.22363 0.28418L1.29589 0.310547L1.48828 0.387695C2.47399 0.751207 3.79966 0.827571 5.16601 0.750977C6.60111 0.670504 7.97842 0.428235 8.86132 0.262695L9.95312 0.0585938L9.73535 1.14746Z"/>
-                                    </svg>
-                                </span>
-                                <span>
-                                    Book Now
-                                    <svg width="10" height="10" viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.73535 1.14746C9.57033 1.97255 9.32924 3.26406 9.24902 4.66797C9.16817 6.08312 9.25559 7.5453 9.70214 8.73633C9.84754 9.12406 9.65129 9.55659 9.26367 9.70215C8.9001 9.83849 8.4969 9.67455 8.32812 9.33398L8.29785 9.26367L8.19921 8.98438C7.73487 7.5758 7.67054 5.98959 7.75097 4.58203C7.77875 4.09598 7.82525 3.62422 7.87988 3.17969L1.53027 9.53027C1.23738 9.82317 0.762615 9.82317 0.469722 9.53027C0.176829 9.23738 0.176829 8.76262 0.469722 8.46973L6.83593 2.10254C6.3319 2.16472 5.79596 2.21841 5.25 2.24902C3.8302 2.32862 2.2474 2.26906 0.958003 1.79102L0.704097 1.68945L0.635738 1.65527C0.303274 1.47099 0.157578 1.06102 0.310542 0.704102C0.463655 0.347333 0.860941 0.170391 1.22363 0.28418L1.29589 0.310547L1.48828 0.387695C2.47399 0.751207 3.79966 0.827571 5.16601 0.750977C6.60111 0.670504 7.97842 0.428235 8.86132 0.262695L9.95312 0.0585938L9.73535 1.14746Z"/>
-                                    </svg>
-                                </span>
-                            </a>
-                            <div class="price-area">
-                                <h6>Per Person</h6>
-                                <span>${{ number_format($tour->price ?? 0, 0) }}</span>
-                            </div>
-                        </div>
-                        <svg class="divider" height="6" viewBox="0 0 374 6" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M5 2.5L0 0.113249V5.88675L5 3.5V2.5ZM369 3.5L374 5.88675V0.113249L369 2.5V3.5ZM4.5 3.5H369.5V2.5H4.5V3.5Z"/>
-                        </svg>
-                        <div class="bottom-area">
-                            <ul>
-                                <li>
-                                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M9.2732 12.9807H6.7268C6.68429 12.9807 6.64298 12.9666 6.60935 12.9406C6.55906 12.9018 5.36398 11.9718 4.14989 10.4857C3.43499 9.61078 2.86499 8.72565 2.45543 7.8549C1.93974 6.75846 1.67834 5.68141 1.67834 4.65329C1.67834 3.50657 2.36043 2.33394 3.54995 1.43595C4.1378 0.992226 4.81163 0.641781 5.55321 0.394396C6.33797 0.132617 7.16112 0 8 0C8.83888 0 9.66203 0.132617 10.4466 0.394396C11.1882 0.641781 11.862 0.992035 12.4499 1.43595C13.6392 2.33394 14.3215 3.50676 14.3215 4.65329C14.3215 5.63247 14.0599 6.67939 13.544 7.7647C13.1348 8.62565 12.5652 9.51367 11.8511 10.4036C10.6383 11.9148 9.40697 12.9272 9.39468 12.9371C9.36046 12.9653 9.31752 12.9807 9.2732 12.9807ZM6.79378 12.5969H9.20334C9.4465 12.3905 10.5082 11.4651 11.5563 10.1576C12.6425 8.8026 13.9374 6.74772 13.9374 4.65329C13.9374 2.63794 11.3981 0.38384 7.99981 0.38384C4.60148 0.38384 2.06238 2.63794 2.06238 4.65329C2.06238 6.85769 3.3563 8.90624 4.44199 10.2364C5.49084 11.5215 6.55311 12.4032 6.79378 12.5969Z"/>
-                                        <path d="M7.51886 12.7888C7.51886 12.7888 5.68372 9.03538 5.68372 4.65327C5.68372 2.43045 6.72066 0.191895 8 0.191895C9.27934 0.191895 10.3163 2.43045 10.3163 4.65327C10.3163 8.82024 8.48114 12.7888 8.48114 12.7888"/>
-                                        <path d="M7.34653 12.873C7.32753 12.8343 6.87594 11.9042 6.41802 10.4209C5.9956 9.05229 5.492 6.94079 5.492 4.65329C5.492 3.53843 5.74668 2.39036 6.19079 1.50312C6.67577 0.533921 7.31832 0 8.00002 0C8.68172 0 9.32426 0.53373 9.80944 1.50312C10.2535 2.39036 10.5082 3.53843 10.5082 4.65329C10.5082 6.82928 10.0048 8.94655 9.5824 10.3393C9.12505 11.8478 8.67423 12.8283 8.65542 12.8692L8.30709 12.7082C8.31169 12.6984 8.7675 11.7058 9.21717 10.2213C9.63114 8.85481 10.1246 6.77977 10.1246 4.65329C10.1246 3.5962 9.88467 2.51051 9.46648 1.67489C9.05577 0.854428 8.52146 0.38384 8.00021 0.38384C7.47895 0.38384 6.94465 0.854428 6.53394 1.67489C6.11574 2.51051 5.87584 3.5962 5.87584 4.65329C5.87584 6.893 6.37023 8.96439 6.78497 10.3076C7.23406 11.7626 7.68699 12.6951 7.6916 12.7043L7.34653 12.873ZM8.77038 16H7.22965C6.84658 16 6.5349 15.6883 6.5349 15.3052V13.9892C6.5349 13.8833 6.62088 13.7973 6.72682 13.7973H9.27321C9.37915 13.7973 9.46513 13.8833 9.46513 13.9892V15.3052C9.46513 15.6883 9.15346 16 8.77038 16ZM6.91874 14.1812V15.3052C6.91874 15.4766 7.05826 15.6162 7.22965 15.6162H8.77038C8.94177 15.6162 9.08129 15.4766 9.08129 15.3052V14.1812H6.91874Z"/>
-                                        <path d="M8.90952 14.1812H7.0907C7.00606 14.1812 6.93159 14.126 6.90703 14.045L6.54334 12.8445C6.52568 12.7863 6.53662 12.7232 6.5729 12.6745C6.60917 12.6257 6.66636 12.5969 6.72701 12.5969H9.2734C9.33424 12.5969 9.39143 12.6257 9.42751 12.6745C9.4454 12.6985 9.45739 12.7264 9.46252 12.756C9.46765 12.7855 9.46579 12.8158 9.45707 12.8445L9.09338 14.045C9.06862 14.1258 8.99397 14.1812 8.90952 14.1812ZM7.23291 13.7974H8.76693L9.01431 12.9808H6.98552L7.23291 13.7974Z"/>
-                                    </svg>
-                                    {{ $tour->type_tour == 0 ? 'Private Tour' : 'Sharing Tour' }}
-                                </li>
-                                <li>
-                                    <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-                                        <g>
-                                            <path d="M8 0C3.58853 0 0 3.58853 0 8C0 12.4115 3.58853 16 8 16C12.4115 16 16 12.4108 16 8C16 3.58916 12.4115 0 8 0ZM8 14.7607C4.27266 14.7607 1.23934 11.728 1.23934 8C1.23934 4.27203 4.27266 1.23934 8 1.23934C11.7273 1.23934 14.7607 4.27203 14.7607 8C14.7607 11.728 11.728 14.7607 8 14.7607Z"/>
-                                            <path d="M11.0984 7.32445H8.6197V4.84576C8.6197 4.5037 8.3427 4.22607 8.00001 4.22607C7.65733 4.22607 7.38033 4.5037 7.38033 4.84576V7.32445H4.90164C4.55895 7.32445 4.28195 7.60207 4.28195 7.94414C4.28195 8.2862 4.55895 8.56382 4.90164 8.56382H7.38033V11.0425C7.38033 11.3846 7.65733 11.6622 8.00001 11.6622C8.3427 11.6622 8.6197 11.3846 8.6197 11.0425V8.56382H11.0984C11.4411 8.56382 11.7181 8.2862 11.7181 7.94414C11.7181 7.60207 11.4411 7.32445 11.0984 7.32445Z"/>
-                                        </g>
-                                    </svg>
-                                    All Inclusive
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            @empty
-            <div class="col-12">
-                <div class="text-center py-5">
-                    <h4>No tours found</h4>
-                    <p>There are no tours departing from {{ $departure->title }} at the moment.</p>
-                </div>
-            </div>
-            @endforelse
+            @endforeach
         </div>
-        
+
+        <!-- Pagination -->
         @if($tours->hasPages())
+        <div class="row mt-5">
+            <div class="col-12">
+                <nav aria-label="Tours pagination">
+                    <ul class="pagination justify-content-center gap-2">
+                        {{-- Previous Page Link --}}
+                        @if ($tours->onFirstPage())
+                            <li class="page-item disabled">
+                                <span class="page-link" style="border-radius: 0.75rem; border: 2px solid #e2e8f0; background: white; color: #94a3b8; padding: 0.75rem 1rem;">
+                                    <i class="bi bi-chevron-left"></i>
+                                </span>
+                            </li>
+                        @else
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $tours->previousPageUrl() }}" style="border-radius: 0.75rem; border: 2px solid #667eea; background: white; color: #667eea; padding: 0.75rem 1rem; transition: all 0.3s;">
+                                    <i class="bi bi-chevron-left"></i>
+                                </a>
+                            </li>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($tours->links()->elements[0] as $page => $url)
+                            @if ($page == $tours->currentPage())
+                                <li class="page-item active">
+                                    <span class="page-link" style="border-radius: 0.75rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; color: white; padding: 0.75rem 1rem; min-width: 45px; text-align: center;">
+                                        {{ $page }}
+                                    </span>
+                                </li>
+                            @else
+                                <li class="page-item">
+                                    <a class="page-link" href="{{ $url }}" style="border-radius: 0.75rem; border: 2px solid #e2e8f0; background: white; color: #475569; padding: 0.75rem 1rem; min-width: 45px; text-align: center; transition: all 0.3s;">
+                                        {{ $page }}
+                                    </a>
+                                </li>
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($tours->hasMorePages())
+                            <li class="page-item">
+                                <a class="page-link" href="{{ $tours->nextPageUrl() }}" style="border-radius: 0.75rem; border: 2px solid #667eea; background: white; color: #667eea; padding: 0.75rem 1rem; transition: all 0.3s;">
+                                    <i class="bi bi-chevron-right"></i>
+                                </a>
+                            </li>
+                        @else
+                            <li class="page-item disabled">
+                                <span class="page-link" style="border-radius: 0.75rem; border: 2px solid #e2e8f0; background: white; color: #94a3b8; padding: 0.75rem 1rem;">
+                                    <i class="bi bi-chevron-right"></i>
+                                </span>
+                            </li>
+                        @endif
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        @endif
+
+        @else
+        <!-- Empty State -->
         <div class="row">
-            <div class="col-lg-12">
-                <div class="pagination-area">
-                    {{ $tours->links() }}
+            <div class="col-lg-6 mx-auto">
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="bi bi-inbox" style="font-size: 5rem; color: #cbd5e1;"></i>
+                    </div>
+                    <h3 class="mb-3" style="color: #334155; font-weight: 700;">No Tours Available</h3>
+                    <p class="text-muted mb-4" style="font-size: 1.1rem;">
+                        There are no tours departing from {{ $departure->title }} at the moment. 
+                        Please check back later or explore other departure cities.
+                    </p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{{ route('frontsite.departures.index') }}" class="btn-modern btn-modern-primary">
+                            <i class="bi bi-geo-alt-fill me-2"></i>View All Departures
+                        </a>
+                        <a href="{{ route('frontsite.home.index') }}" class="btn-modern btn-modern-secondary">
+                            <i class="bi bi-house-fill me-2"></i>Back to Home
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
         @endif
     </div>
-</div>
+</section>
+
+<style>
+/* Pagination Hover Effects */
+.pagination .page-link:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border-color: #667eea !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.pagination .page-item.disabled .page-link:hover {
+    transform: none;
+    box-shadow: none;
+    background: white !important;
+    color: #94a3b8 !important;
+}
+
+.pagination .page-item.active .page-link {
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+</style>
 @endsection

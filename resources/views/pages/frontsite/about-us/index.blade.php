@@ -5,53 +5,54 @@
 @section('meta_description', 'Learn more about Travel Indonesia. We are committed to providing the best travel experiences across Indonesia.')
 
 @section('content')
-<!-- Breadcrumb Section -->
-<div class="breadcrumb-section" style="background-image: linear-gradient(270deg, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.3) 101.02%), url('{{ asset('frontsite-assets/img/innerpages/destination-card4-img4.jpg') }}');">
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12 d-flex justify-content-center">
-                <div class="banner-content">
-                    <h1>About Us</h1>
-                    <ul class="breadcrumb-list">
-                        <li><a href="{{ route('frontsite.home.index') }}">Home</a></li>
-                        <li>About Us</li>
-                    </ul>
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate-fade-in-up">
+                    <h1 style="color: white; margin-bottom: 1rem;">About Us</h1>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.2rem;">
+                        <center>
+                            Discover who we are and what makes us your perfect travel partner in Indonesia
+                        </center>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- About Hero Section -->
-<div class="about-hero-section pt-120 pb-60">
+<section class="section-modern bg-white">
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-6">
                 <div class="about-hero-content">
                     <div class="section-head">
-                        <span class="section-subtitle">Welcome to Travel Indonesia</span>
-                        <h2>{{ $about->title ?? 'Your Gateway to Amazing Indonesian Adventures' }}</h2>
+                        <span class="section-subtitle" style="color: #667eea; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;">Welcome to Travel Indonesia</span>
+                        <h2 style="font-size: 2.5rem; font-weight: 700; color: #0f172a; margin-bottom: 25px; line-height: 1.2;">{{ $about->title ?? 'Your Gateway to Amazing Indonesian Adventures' }}</h2>
                     </div>
                     <div class="about-text">
                         @if($about && $about->content)
                             {!! $about->content !!}
                         @else
-                            <p>We are passionate about showcasing the incredible beauty and rich culture of Indonesia. From the majestic temples of Borobudur to the pristine beaches of Bali, we create unforgettable travel experiences that connect you with the heart and soul of this amazing archipelago.</p>
-                            <p>Our team of experienced local guides and travel experts are dedicated to providing you with authentic, safe, and memorable journeys across Indonesia's diverse landscapes and vibrant communities.</p>
+                            <p style="font-size: 16px; line-height: 1.7; color: #64748b; margin-bottom: 20px;">We are passionate about showcasing the incredible beauty and rich culture of Indonesia. From the majestic temples of Borobudur to the pristine beaches of Bali, we create unforgettable travel experiences that connect you with the heart and soul of this amazing archipelago.</p>
+                            <p style="font-size: 16px; line-height: 1.7; color: #64748b; margin-bottom: 20px;">Our team of experienced local guides and travel experts are dedicated to providing you with authentic, safe, and memorable journeys across Indonesia's diverse landscapes and vibrant communities.</p>
                         @endif
                     </div>
-                    <div class="about-stats">
+                    <div class="about-stats" style="margin-top: 40px;">
                         <div class="row g-4">
                             <div class="col-6">
-                                <div class="stat-item">
-                                    <h3>500+</h3>
-                                    <span>Happy Travelers</span>
+                                <div class="stat-item" style="text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%); border-radius: 15px; border: 2px solid rgba(102, 126, 234, 0.2);">
+                                    <h3 style="font-size: 2.5rem; font-weight: 700; color: #667eea; margin-bottom: 5px;">500+</h3>
+                                    <span style="color: #64748b; font-weight: 500;">Happy Travelers</span>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <div class="stat-item">
-                                    <h3>50+</h3>
-                                    <span>Destinations</span>
+                                <div class="stat-item" style="text-align: center; padding: 25px; background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(219, 39, 119, 0.1) 100%); border-radius: 15px; border: 2px solid rgba(236, 72, 153, 0.2);">
+                                    <h3 style="font-size: 2.5rem; font-weight: 700; color: #ec4899; margin-bottom: 5px;">50+</h3>
+                                    <span style="color: #64748b; font-weight: 500;">Destinations</span>
                                 </div>
                             </div>
                         </div>
@@ -59,20 +60,20 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="about-hero-img">
-                    @if($about && $about->image)
-                    <img src="{{ asset('storage/' . $about->image) }}" alt="About Us" class="main-img">
+                <div class="about-hero-img" style="position: relative;">
+                    @if($about && $about->image && file_exists(public_path('storage/' . $about->image)))
+                    <img src="{{ asset('storage/' . $about->image) }}" alt="About Us" class="main-img" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
                     @else
-                    <img src="{{ asset('frontsite-assets/img/packages/1.jpg') }}" alt="About Us" class="main-img">
+                    <img src="{{ asset('frontsite-assets/img/packages/1.jpg') }}" alt="About Us" class="main-img" style="width: 100%; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
                     @endif
-                    <div class="floating-card">
-                        <div class="card-content">
-                            <div class="card-icon">
+                    <div class="floating-card" style="position: absolute; bottom: 30px; left: 30px; background: #fff; padding: 20px 25px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); z-index: 2;">
+                        <div class="card-content" style="display: flex; align-items: center; gap: 15px;">
+                            <div class="card-icon" style="width: 50px; height: 50px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 20px;">
                                 <i class="bi bi-award-fill"></i>
                             </div>
                             <div class="card-text">
-                                <h6>Best Travel Agency</h6>
-                                <span>Indonesia 2024</span>
+                                <h6 style="margin: 0; font-weight: 600; color: #0f172a; font-size: 1rem;">Best Travel Agency</h6>
+                                <span style="color: #64748b; font-size: 14px;">Indonesia 2024</span>
                             </div>
                         </div>
                     </div>
@@ -80,299 +81,262 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Mission Vision Section -->
-<div class="mission-vision-section pt-60 pb-120" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+<section class="section-modern" style="background: #f8fafc;">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-6">
-                <div class="mission-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="bi bi-bullseye"></i>
+                <div class="card-modern" style="height: 100%;">
+                    <div class="card-modern-content">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px;">
+                                <i class="bi bi-bullseye"></i>
+                            </div>
+                            <h4 style="margin: 0; font-weight: 700; color: #0f172a; font-size: 1.5rem;">Our Mission</h4>
                         </div>
-                        <h4>Our Mission</h4>
-                    </div>
-                    <div class="card-content">
-                        <p>To provide exceptional travel experiences that showcase Indonesia's natural beauty, rich culture, and warm hospitality while promoting sustainable tourism practices that benefit local communities.</p>
+                        <p style="font-size: 16px; line-height: 1.7; color: #64748b; margin: 0;">To provide exceptional travel experiences that showcase Indonesia's natural beauty, rich culture, and warm hospitality while promoting sustainable tourism practices that benefit local communities.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="vision-card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="bi bi-eye-fill"></i>
+                <div class="card-modern" style="height: 100%;">
+                    <div class="card-modern-content">
+                        <div class="d-flex align-items-center gap-3 mb-4">
+                            <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #ec4899, #db2777); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px;">
+                                <i class="bi bi-eye-fill"></i>
+                            </div>
+                            <h4 style="margin: 0; font-weight: 700; color: #0f172a; font-size: 1.5rem;">Our Vision</h4>
                         </div>
-                        <h4>Our Vision</h4>
-                    </div>
-                    <div class="card-content">
-                        <p>To be Indonesia's leading travel company, recognized for creating transformative journeys that inspire travelers and contribute to the preservation of our nation's cultural and natural heritage.</p>
+                        <p style="font-size: 16px; line-height: 1.7; color: #64748b; margin: 0;">To be Indonesia's leading travel company, recognized for creating transformative journeys that inspire travelers and contribute to the preservation of our nation's cultural and natural heritage.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
 <!-- Why Choose Us Section -->
 @if($advantages->count() > 0)
-<div class="advantages-section pt-120 pb-120">
+<section class="section-modern bg-white">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="section-head text-center">
-                    <span class="section-subtitle">Why Choose Us</span>
-                    <h2>What Makes Us Special</h2>
-                    <p>Discover what makes us the perfect choice for your Indonesian adventure</p>
+                <div class="section-head text-center mb-5">
+                    <span style="color: #667eea; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;">Why Choose Us</span>
+                    <h2 style="font-size: 2.5rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">What Makes Us Special</h2>
+                    <p style="color: #64748b; font-size: 1.1rem;">Discover what makes us the perfect choice for your Indonesian adventure</p>
                 </div>
             </div>
         </div>
         <div class="row g-4">
             @foreach($advantages as $index => $advantage)
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="advantage-card modern-card" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
-                    <div class="advantage-icon">
-                        @if($advantage->icon)
-                        <img src="{{ asset('storage/' . $advantage->icon) }}" alt="{{ $advantage->title }}">
-                        @else
-                        <div class="default-icon">
-                            @switch($index % 4)
-                                @case(0)
-                                    <i class="bi bi-shield-check"></i>
-                                    @break
-                                @case(1)
-                                    <i class="bi bi-clock-history"></i>
-                                    @break
-                                @case(2)
-                                    <i class="bi bi-people-fill"></i>
-                                    @break
-                                @default
-                                    <i class="bi bi-geo-alt-fill"></i>
-                            @endswitch
+                <div class="card-modern" style="text-align: center; height: 100%;" data-aos="fade-up" data-aos-delay="{{ $index * 100 }}">
+                    <div class="card-modern-content">
+                        <div class="advantage-icon mb-4">
+                            @if($advantage->icon && file_exists(public_path('storage/' . $advantage->icon)))
+                            <img src="{{ asset('storage/' . $advantage->icon) }}" alt="{{ $advantage->title }}" style="width: 80px; height: 80px; object-fit: contain; margin: 0 auto;">
+                            @else
+                            <div class="default-icon" style="width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 32px; color: #fff; 
+                                @switch($index % 4)
+                                    @case(0) background: linear-gradient(135deg, #10b981, #059669); @break
+                                    @case(1) background: linear-gradient(135deg, #f59e0b, #d97706); @break
+                                    @case(2) background: linear-gradient(135deg, #8b5cf6, #7c3aed); @break
+                                    @default background: linear-gradient(135deg, #667eea, #764ba2);
+                                @endswitch
+                            ">
+                                @switch($index % 4)
+                                    @case(0) <i class="bi bi-shield-check"></i> @break
+                                    @case(1) <i class="bi bi-clock-history"></i> @break
+                                    @case(2) <i class="bi bi-people-fill"></i> @break
+                                    @default <i class="bi bi-geo-alt-fill"></i>
+                                @endswitch
+                            </div>
+                            @endif
                         </div>
-                        @endif
-                    </div>
-                    <div class="advantage-content">
-                        <h5>{{ $advantage->title }}</h5>
-                        <p>{{ $advantage->description }}</p>
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">{{ $advantage->title }}</h5>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">{{ $advantage->description }}</p>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
     </div>
-</div>
+</section>
 @else
 <!-- Default Advantages if none in database -->
-<div class="advantages-section pt-120 pb-120">
+<section class="section-modern bg-white">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="section-head text-center">
-                    <span class="section-subtitle">Why Choose Us</span>
-                    <h2>What Makes Us Special</h2>
-                    <p>Discover what makes us the perfect choice for your Indonesian adventure</p>
+                <div class="section-head text-center mb-5">
+                    <span style="color: #667eea; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;">Why Choose Us</span>
+                    <h2 style="font-size: 2.5rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">What Makes Us Special</h2>
+                    <p style="color: #64748b; font-size: 1.1rem;">Discover what makes us the perfect choice for your Indonesian adventure</p>
                 </div>
             </div>
         </div>
         <div class="row g-4">
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="advantage-card modern-card" data-aos="fade-up" data-aos-delay="0">
-                    <div class="advantage-icon">
-                        <div class="default-icon security">
-                            <i class="bi bi-shield-check"></i>
+                <div class="card-modern" style="text-align: center; height: 100%;" data-aos="fade-up" data-aos-delay="0">
+                    <div class="card-modern-content">
+                        <div class="advantage-icon mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 32px; color: #fff;">
+                                <i class="bi bi-shield-check"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="advantage-content">
-                        <h5>24/7 Customer Service</h5>
-                        <p>Our dedicated customer service team is available 24/7 to assist you before, during, and after your trip, ensuring a smooth and worry-free travel experience.</p>
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">24/7 Customer Service</h5>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Our dedicated customer service team is available 24/7 to assist you before, during, and after your trip, ensuring a smooth and worry-free travel experience.</p>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="advantage-card modern-card" data-aos="fade-up" data-aos-delay="100">
-                    <div class="advantage-icon">
-                        <div class="default-icon timing">
-                            <i class="bi bi-clock-history"></i>
+                <div class="card-modern" style="text-align: center; height: 100%;" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-modern-content">
+                        <div class="advantage-icon mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 32px; color: #fff;">
+                                <i class="bi bi-clock-history"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="advantage-content">
-                        <h5>Last Minute Booking</h5>
-                        <p>Enjoy the flexibility to book your trip at the last minute with instant confirmation and reliable service, perfect for spontaneous travel plans.</p>
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">Last Minute Booking</h5>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Enjoy the flexibility to book your trip at the last minute with instant confirmation and reliable service, perfect for spontaneous travel plans.</p>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="advantage-card modern-card" data-aos="fade-up" data-aos-delay="200">
-                    <div class="advantage-icon">
-                        <div class="default-icon personal">
-                            <i class="bi bi-people-fill"></i>
+                <div class="card-modern" style="text-align: center; height: 100%;" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-modern-content">
+                        <div class="advantage-icon mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 32px; color: #fff;">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="advantage-content">
-                        <h5>Personal Journey</h5>
-                        <p>Every journey is personalized based on your preferences, interests, and travel style, creating a unique and memorable experience tailored just for you.</p>
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">Personal Journey</h5>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Every journey is personalized based on your preferences, interests, and travel style, creating a unique and memorable experience tailored just for you.</p>
                     </div>
                 </div>
             </div>
             <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="advantage-card modern-card" data-aos="fade-up" data-aos-delay="300">
-                    <div class="advantage-icon">
-                        <div class="default-icon guide">
-                            <i class="bi bi-geo-alt-fill"></i>
+                <div class="card-modern" style="text-align: center; height: 100%;" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-modern-content">
+                        <div class="advantage-icon mb-4">
+                            <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; font-size: 32px; color: #fff;">
+                                <i class="bi bi-geo-alt-fill"></i>
+                            </div>
                         </div>
-                    </div>
-                    <div class="advantage-content">
-                        <h5>Expert Local Guides</h5>
-                        <p>Travel confidently with experienced local guides who provide in-depth knowledge, cultural insights, and assistance throughout your journey.</p>
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">Expert Local Guides</h5>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Travel confidently with experienced local guides who provide in-depth knowledge, cultural insights, and assistance throughout your journey.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endif
 
 <!-- Team Section -->
-<div class="team-section pt-120 pb-120" style="background-color: #f8f9fa;">
+<section class="section-modern" style="background: #f8fafc;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="section-head text-center">
-                    <span class="section-subtitle">Our Team</span>
-                    <h2>Meet Our Travel Experts</h2>
-                    <p>Passionate professionals dedicated to creating your perfect Indonesian adventure</p>
+                <div class="section-head text-center mb-5">
+                    <span style="color: #667eea; font-weight: 600; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: block;">Our Team</span>
+                    <h2 style="font-size: 2.5rem; font-weight: 700; color: #0f172a; margin-bottom: 15px;">Meet Our Travel Experts</h2>
+                    <p style="color: #64748b; font-size: 1.1rem;">Passionate professionals dedicated to creating your perfect Indonesian adventure</p>
                 </div>
             </div>
         </div>
         <div class="row g-4">
             <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-img">
-                        <img src="{{ asset('frontsite-assets/img/home1/testimonial-author-img1.png') }}" alt="Team Member">
-                        <div class="team-social">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                <div class="card-modern team-card-modern">
+                    <div class="team-img-modern" style="position: relative; overflow: hidden; border-radius: 20px 20px 0 0;">
+                        <img src="{{ asset('frontsite-assets/img/home1/testimonial-author-img1.png') }}" alt="Team Member" style="width: 100%; height: 300px; object-fit: cover; transition: transform 0.3s ease;">
+                        <div class="team-social-modern" style="position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.3s ease;">
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="team-content">
-                        <h5>Sarah Johnson</h5>
-                        <span>Travel Consultant</span>
-                        <p>Expert in cultural tours and adventure travel with 8+ years experience in Indonesian tourism.</p>
+                    <div class="card-modern-content" style="text-align: center;">
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 5px;">Sarah Johnson</h5>
+                        <span style="color: #667eea; font-weight: 600; margin-bottom: 15px; display: block;">Travel Consultant</span>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Expert in cultural tours and adventure travel with 8+ years experience in Indonesian tourism.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-img">
-                        <img src="{{ asset('frontsite-assets/img/home1/testimonial-author-img2.png') }}" alt="Team Member">
-                        <div class="team-social">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                <div class="card-modern team-card-modern">
+                    <div class="team-img-modern" style="position: relative; overflow: hidden; border-radius: 20px 20px 0 0;">
+                        <img src="{{ asset('frontsite-assets/img/home1/testimonial-author-img2.png') }}" alt="Team Member" style="width: 100%; height: 300px; object-fit: cover; transition: transform 0.3s ease;">
+                        <div class="team-social-modern" style="position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.3s ease;">
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="team-content">
-                        <h5>Ahmad Rizki</h5>
-                        <span>Local Guide</span>
-                        <p>Born and raised in Java, Ahmad specializes in historical sites and traditional culture experiences.</p>
+                    <div class="card-modern-content" style="text-align: center;">
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 5px;">Ahmad Rizki</h5>
+                        <span style="color: #667eea; font-weight: 600; margin-bottom: 15px; display: block;">Local Guide</span>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Born and raised in Java, Ahmad specializes in historical sites and traditional culture experiences.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6">
-                <div class="team-card">
-                    <div class="team-img">
-                        <img src="{{ asset('frontsite-assets/img/home1/testimonial-author-img3.png') }}" alt="Team Member">
-                        <div class="team-social">
-                            <a href="#"><i class="bi bi-facebook"></i></a>
-                            <a href="#"><i class="bi bi-instagram"></i></a>
-                            <a href="#"><i class="bi bi-linkedin"></i></a>
+                <div class="card-modern team-card-modern">
+                    <div class="team-img-modern" style="position: relative; overflow: hidden; border-radius: 20px 20px 0 0;">
+                        <img src="{{ asset('frontsite-assets/img/home1/testimonial-author-img3.png') }}" alt="Team Member" style="width: 100%; height: 300px; object-fit: cover; transition: transform 0.3s ease;">
+                        <div class="team-social-modern" style="position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px; opacity: 0; transition: opacity 0.3s ease;">
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" style="width: 40px; height: 40px; background: rgba(255,255,255,0.95); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #667eea; text-decoration: none; transition: all 0.3s ease;">
+                                <i class="bi bi-linkedin"></i>
+                            </a>
                         </div>
                     </div>
-                    <div class="team-content">
-                        <h5>Maya Sari</h5>
-                        <span>Operations Manager</span>
-                        <p>Ensures seamless travel operations and coordinates with local partners across Indonesia.</p>
+                    <div class="card-modern-content" style="text-align: center;">
+                        <h5 style="font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 5px;">Maya Sari</h5>
+                        <span style="color: #667eea; font-weight: 600; margin-bottom: 15px; display: block;">Operations Manager</span>
+                        <p style="color: #64748b; line-height: 1.6; margin: 0;">Ensures seamless travel operations and coordinates with local partners across Indonesia.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<!-- Testimonials Section -->
-@if($testimonies->count() > 0)
-<div class="testimonial-section pt-120 pb-120">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-head text-center">
-                    <span class="section-subtitle">Testimonials</span>
-                    <h2>What Our Customers Say</h2>
-                    <p>Read testimonials from our satisfied customers</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="testimonial-slider modern-slider">
-                    @foreach($testimonies as $testimony)
-                    <div class="testimonial-card modern-testimonial">
-                        <div class="testimonial-content">
-                            <div class="quote-icon">
-                                <i class="bi bi-quote"></i>
-                            </div>
-                            <div class="testimonial-rating">
-                                @for($i = 1; $i <= 5; $i++)
-                                    @if($i <= ($testimony->rating ?? 5))
-                                    <i class="bi bi-star-fill"></i>
-                                    @else
-                                    <i class="bi bi-star"></i>
-                                    @endif
-                                @endfor
-                            </div>
-                            <p>{!! $testimony->description !!}</p>
-                            <div class="testimonial-author">
-                                <div class="author-img">
-                                    @if($testimony->image)
-                                    <img src="{{ asset('storage/' . $testimony->image) }}" alt="{{ $testimony->name }}">
-                                    @else
-                                    <img src="{{ asset('frontsite-assets/img/home1/testimonial-0' . (($loop->index % 3) + 1) . '.png') }}" alt="{{ $testimony->name }}">
-                                    @endif
-                                </div>
-                                <div class="author-info">
-                                    <h6>{{ $testimony->name }}</h6>
-                                    <span>Satisfied Customer</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endif
+</section>
 
 <!-- CTA Section -->
-<div class="cta-section pt-120 pb-120" style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);">
+<section class="section-modern" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: #fff;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="cta-content text-center">
-                    <h2>Ready to Start Your Indonesian Adventure?</h2>
-                    <p>Let us help you create unforgettable memories in the beautiful archipelago of Indonesia</p>
-                    <div class="cta-buttons">
-                        <a href="{{ route('frontsite.tours.index') }}" class="btn btn-light btn-lg me-3">
-                            <i class="bi bi-compass"></i>
+                <div class="text-center">
+                    <h2 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 20px; color: #fff;">Ready to Start Your Indonesian Adventure?</h2>
+                    <p style="font-size: 1.1rem; margin-bottom: 40px; opacity: 0.95;">Let us help you create unforgettable memories in the beautiful archipelago of Indonesia</p>
+                    <div class="d-flex gap-3 justify-content-center flex-wrap">
+                        <a href="{{ route('frontsite.tours.index') }}" class="btn-modern" style="background: #fff; color: #667eea !important; padding: 15px 35px; font-weight: 600; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                            <i class="bi bi-compass me-2"></i>
                             Explore Tours
                         </a>
-                        <a href="{{ route('frontsite.contact.index') }}" class="btn btn-outline-light btn-lg">
-                            <i class="bi bi-telephone"></i>
+                        <a href="{{ route('frontsite.contact.index') }}" class="btn-modern" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 2px solid rgba(255,255,255,0.4); color: white !important; padding: 15px 35px; font-weight: 600;">
+                            <i class="bi bi-telephone me-2"></i>
                             Contact Us
                         </a>
                     </div>
@@ -380,448 +344,34 @@
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection
 
 @push('after-style')
 <style>
-/* About Hero Section */
-.about-hero-section {
-    position: relative;
-    overflow: hidden;
-}
-
-.section-subtitle {
-    color: #007bff;
-    font-weight: 600;
-    font-size: 16px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.about-hero-content h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 25px;
-    line-height: 1.2;
-}
-
-.about-text p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: #666;
-    margin-bottom: 20px;
-}
-
-.about-stats {
-    margin-top: 40px;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-}
-
-.stat-item h3 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: #007bff;
-    margin-bottom: 5px;
-}
-
-.stat-item span {
-    color: #666;
-    font-weight: 500;
-}
-
-.about-hero-img {
-    position: relative;
-}
-
-.about-hero-img .main-img {
-    width: 100%;
-    border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-
-.floating-card {
-    position: absolute;
-    bottom: 30px;
-    left: 30px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    z-index: 2;
-}
-
-.floating-card .card-content {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.floating-card .card-icon {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 20px;
-}
-
-.floating-card .card-text h6 {
-    margin: 0;
-    font-weight: 600;
-    color: #333;
-}
-
-.floating-card .card-text span {
-    color: #666;
-    font-size: 14px;
-}
-
-/* Mission Vision Section */
-.mission-card, .vision-card {
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    height: 100%;
-    transition: transform 0.3s ease;
-}
-
-.mission-card:hover, .vision-card:hover {
-    transform: translateY(-10px);
-}
-
-.mission-card .card-header, .vision-card .card-header {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 25px;
-}
-
-.mission-card .card-icon, .vision-card .card-icon {
-    width: 70px;
-    height: 70px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 24px;
-}
-
-.mission-card h4, .vision-card h4 {
-    margin: 0;
-    font-weight: 700;
-    color: #333;
-}
-
-.mission-card .card-content p, .vision-card .card-content p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: #666;
-    margin: 0;
-}
-
-/* Modern Advantage Cards */
-.advantage-card.modern-card {
-    background: #fff;
-    padding: 40px 30px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-    text-align: center;
-    transition: all 0.3s ease;
-    height: 100%;
-    border: 1px solid #f0f0f0;
-}
-
-.advantage-card.modern-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.advantage-card .advantage-icon {
-    margin-bottom: 25px;
-}
-
-.advantage-card .default-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-    font-size: 32px;
-    color: #fff;
-}
-
-.default-icon.security {
-    background: linear-gradient(135deg, #28a745, #20c997);
-}
-
-.default-icon.timing {
-    background: linear-gradient(135deg, #fd7e14, #e63946);
-}
-
-.default-icon.personal {
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-}
-
-.default-icon.guide {
-    background: linear-gradient(135deg, #007bff, #0056b3);
-}
-
-.advantage-card h5 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.advantage-card p {
-    color: #666;
-    line-height: 1.6;
-    margin: 0;
-}
-
-/* Team Section */
-.team-card {
-    background: #fff;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-}
-
-.team-card:hover {
-    transform: translateY(-10px);
-}
-
-.team-img {
-    position: relative;
-    overflow: hidden;
-}
-
-.team-img img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.team-card:hover .team-img img {
+/* Team Card Hover Effects */
+.team-card-modern:hover .team-img-modern img {
     transform: scale(1.1);
 }
 
-.team-social {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
+.team-card-modern:hover .team-social-modern {
+    opacity: 1 !important;
 }
 
-.team-card:hover .team-social {
-    opacity: 1;
-}
-
-.team-social a {
-    width: 40px;
-    height: 40px;
-    background: rgba(255,255,255,0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #007bff;
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.team-social a:hover {
-    background: #007bff;
-    color: #fff;
-}
-
-.team-content {
-    padding: 30px;
-    text-align: center;
-}
-
-.team-content h5 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.team-content span {
-    color: #007bff;
-    font-weight: 600;
-    margin-bottom: 15px;
-    display: block;
-}
-
-.team-content p {
-    color: #666;
-    line-height: 1.6;
-    margin: 0;
-}
-
-/* Modern Testimonial */
-.testimonial-card.modern-testimonial {
-    background: #fff;
-    padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin: 0 15px;
-    position: relative;
-}
-
-.quote-icon {
-    position: absolute;
-    top: -20px;
-    left: 40px;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #007bff, #0056b3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 24px;
-}
-
-.testimonial-rating {
-    margin: 20px 0;
-}
-
-.testimonial-rating i {
-    color: #ffc107;
-    font-size: 18px;
-    margin-right: 2px;
-}
-
-.modern-testimonial p {
-    font-size: 16px;
-    line-height: 1.7;
-    color: #555;
-    font-style: italic;
-    margin-bottom: 30px;
-}
-
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.testimonial-author .author-img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.testimonial-author .author-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.testimonial-author .author-info h6 {
-    margin: 0;
-    font-weight: 700;
-    color: #333;
-}
-
-.testimonial-author .author-info span {
-    color: #666;
-    font-size: 14px;
-}
-
-/* CTA Section */
-.cta-section {
-    color: #fff;
-}
-
-.cta-content h2 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
-
-.cta-content p {
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    opacity: 0.9;
-}
-
-.cta-buttons .btn {
-    padding: 15px 30px;
-    font-weight: 600;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-}
-
-.cta-buttons .btn i {
-    margin-right: 8px;
-}
-
-.btn-light:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-.btn-outline-light:hover {
-    background: #fff;
-    color: #007bff;
-    transform: translateY(-2px);
+.team-social-modern a:hover {
+    background: #667eea !important;
+    color: #fff !important;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .about-hero-content h2 {
-        font-size: 2rem;
-    }
-    
     .floating-card {
-        position: static;
+        position: static !important;
         margin-top: 30px;
     }
     
-    .mission-card, .vision-card {
-        padding: 30px 20px;
-    }
-    
-    .advantage-card.modern-card {
-        padding: 30px 20px;
-    }
-    
-    .cta-content h2 {
-        font-size: 2rem;
-    }
-    
-    .cta-buttons .btn {
-        display: block;
-        margin: 10px 0;
+    h2 {
+        font-size: 2rem !important;
     }
 }
 </style>
@@ -829,28 +379,7 @@
 
 @push('after-script')
 <script>
-$(document).ready(function() {
-    // Initialize testimonial slider
-    $('.testimonial-slider.modern-slider').slick({
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        autoplay: true,
-        autoplaySpeed: 6000,
-        arrows: false,
-        responsive: [
-            {
-                breakpoint: 992,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    });
-    
+$(document).ready(function() {    
     // Add AOS animation if available
     if (typeof AOS !== 'undefined') {
         AOS.init({

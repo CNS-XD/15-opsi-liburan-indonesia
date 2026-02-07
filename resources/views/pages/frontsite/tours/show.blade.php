@@ -1077,7 +1077,7 @@
 
     /* Sidebar */
     .sidebar-sticky {
-        position: sticky;
+        /* position: sticky; */
         top: 100px;
     }
 

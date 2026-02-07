@@ -27,9 +27,9 @@
     margin-left: 15px;
 }
 .guide-book .body .items .item .title {
-    font-size: 60px;
+    font-size: 40px;
     position: absolute;
-    top: -20px;
+    top: -40px;
     font-weight: bold;
     background-color: #fff;
     left: 0px;
@@ -87,10 +87,6 @@
 @media (min-width: 767px) {
     .guide-book .body .items {
         padding-top: 100px;
-    }
-    .guide-book .body .items .item .title {
-        font-size: 44px;
-        top: -20px;
     }
     .guide-book .body .items .item .guide-image .guide-border {
         width: 150px;

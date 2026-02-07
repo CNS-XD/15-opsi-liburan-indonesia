@@ -4,23 +4,31 @@
 @section('activeMenuTours', 'active')
 
 @section('content')
-<!-- Start Breadcrumb section -->
-<div class="breadcrumb-section" style="height: 30px; background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/frontsite-assets/img/innerpages/breadcrumb-bg1.jpg);">  
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 45vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container">
-        <div class="banner-content" style="margin-top: -60px;">
-            <h1 class="text-white">Search Tours</h1>
-            <h3 class="text-white">Find your perfect travel experience</h3>
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate-fade-in-up">
+                    <div style="margin-bottom: 1.5rem;">
+                        <i class="bi bi-search" style="font-size: 4rem; color: rgba(255, 255, 255, 0.9);"></i>
+                    </div>
+                    <h1 style="color: white; margin-bottom: 1rem; font-weight: 700;">Search Tours</h1>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.2rem;">
+                        <center>Find your perfect travel experience from our curated collection</center>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<!-- End Breadcrumb section -->
+</section>
 
 <!-- Search Filter Section Start -->
-<div class="search-filter-section">
+<div class="search-filter-section" style="background: white; padding: 40px 0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); position: relative; z-index: 10;">
     <div class="container">
         <div class="search-filter-wrapper">
             <form method="GET" action="{{ route('frontsite.search') }}" class="search-filter-form">
-                <div class="row">
+                <div class="row g-3">
                     <div class="col-lg-3 col-md-6">
                         <div class="filter-group">
                             <label>Destination</label>
@@ -90,42 +98,57 @@
 <!-- Search Filter Section End -->
 
 <!-- Search Results Section Start -->
-<div class="search-results-section">
+<div class="search-results-section" style="padding: 80px 0; background: #f8fafc;">
     <div class="container">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-lg-12">
-                <div class="search-results-header">
-                    <h3>Search Results</h3>
-                    <p>Found {{ $tours->total() ?? 0 }} tours</p>
+                <div class="search-results-header" style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div>
+                            <h3 style="color: #1e293b; font-weight: 700; margin-bottom: 0.5rem;">Search Results</h3>
+                            <p style="color: #64748b; margin-bottom: 0;">Found <strong>{{ $tours->total() ?? 0 }}</strong> tours matching your criteria</p>
+                        </div>
+                        @if($tours->total() > 0)
+                        <div class="mt-3 mt-md-0">
+                            <span style="color: #64748b; font-size: 0.9rem;">
+                                Showing {{ $tours->firstItem() }}-{{ $tours->lastItem() }} of {{ $tours->total() }}
+                            </span>
+                        </div>
+                        @endif
+                    </div>
                     
                     @if(request()->hasAny(['destination', 'day', 'type', 'keyword']))
-                    <div class="active-filters">
-                        <span>Active Filters:</span>
-                        @if(request('destination'))
-                            <span class="filter-tag">
-                                Destination: {{ request('destination') }}
-                                <a href="{{ request()->fullUrlWithQuery(['destination' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        @if(request('day'))
-                            <span class="filter-tag">
-                                Duration: {{ request('day') }} Day{{ request('day') > 1 ? 's' : '' }}
-                                <a href="{{ request()->fullUrlWithQuery(['day' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        @if(request('type'))
-                            <span class="filter-tag">
-                                Type: {{ ucfirst(request('type')) }} Tour
-                                <a href="{{ request()->fullUrlWithQuery(['type' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        @if(request('keyword'))
-                            <span class="filter-tag">
-                                Keyword: {{ request('keyword') }}
-                                <a href="{{ request()->fullUrlWithQuery(['keyword' => null]) }}">&times;</a>
-                            </span>
-                        @endif
-                        <a href="{{ route('frontsite.search') }}" class="clear-all-filters">Clear All</a>
+                    <div class="active-filters" style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e2e8f0;">
+                        <div class="d-flex align-items-center flex-wrap gap-2">
+                            <span style="color: #64748b; font-weight: 600; margin-right: 0.5rem;">Active Filters:</span>
+                            @if(request('destination'))
+                                <span class="filter-tag">
+                                    <i class="bi bi-geo-alt"></i> {{ request('destination') }}
+                                    <a href="{{ request()->fullUrlWithQuery(['destination' => null]) }}">&times;</a>
+                                </span>
+                            @endif
+                            @if(request('day'))
+                                <span class="filter-tag">
+                                    <i class="bi bi-calendar"></i> {{ request('day') }} Day{{ request('day') > 1 ? 's' : '' }}
+                                    <a href="{{ request()->fullUrlWithQuery(['day' => null]) }}">&times;</a>
+                                </span>
+                            @endif
+                            @if(request('type'))
+                                <span class="filter-tag">
+                                    <i class="bi bi-tag"></i> {{ ucfirst(request('type')) }} Tour
+                                    <a href="{{ request()->fullUrlWithQuery(['type' => null]) }}">&times;</a>
+                                </span>
+                            @endif
+                            @if(request('keyword'))
+                                <span class="filter-tag">
+                                    <i class="bi bi-search"></i> "{{ request('keyword') }}"
+                                    <a href="{{ request()->fullUrlWithQuery(['keyword' => null]) }}">&times;</a>
+                                </span>
+                            @endif
+                            <a href="{{ route('frontsite.search') }}" class="clear-all-filters">
+                                <i class="bi bi-x-circle"></i> Clear All
+                            </a>
+                        </div>
                     </div>
                     @endif
                 </div>
@@ -234,12 +257,23 @@
             </div>
             @empty
             <div class="col-lg-12">
-                <div class="no-results">
+                <div class="no-results" style="background: white; padding: 4rem 2rem; border-radius: 1rem; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); text-align: center;">
                     <div class="no-results-content">
-                        <i class="bi bi-search"></i>
-                        <h4>No tours found</h4>
-                        <p>Try adjusting your search criteria or browse all tours.</p>
-                        <a href="{{ route('frontsite.search') }}" class="btn btn-primary">View All Tours</a>
+                        <div style="width: 120px; height: 120px; margin: 0 auto 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <i class="bi bi-search" style="font-size: 3rem; color: white;"></i>
+                        </div>
+                        <h4 style="color: #1e293b; font-weight: 700; margin-bottom: 1rem;">No tours found</h4>
+                        <p style="color: #64748b; margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                            We couldn't find any tours matching your search criteria. Try adjusting your filters or browse all available tours.
+                        </p>
+                        <div class="d-flex gap-3 justify-content-center flex-wrap">
+                            <a href="{{ route('frontsite.search') }}" class="btn-modern btn-modern-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 2rem; text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 50px; font-weight: 600;">
+                                <i class="bi bi-grid"></i> View All Tours
+                            </a>
+                            <a href="{{ route('frontsite.custom-itinerary.index') }}" class="btn-modern btn-modern-secondary" style="display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 2rem; text-decoration: none; background: white; color: #667eea; border: 2px solid #667eea; border-radius: 50px; font-weight: 600;">
+                                <i class="bi bi-pencil-square"></i> Custom Itinerary
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,100 +298,211 @@
 
 @push('after-style')
 <style>
+/* Hero Section Animation */
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Search Filter Section */
 .search-filter-section {
-    background: #f8f9fa;
-    padding: 30px 0;
-    border-bottom: 1px solid #dee2e6;
+    margin-top: -30px;
+}
+
+.search-filter-wrapper {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
 }
 
 .filter-group {
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
 .filter-group label {
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
     font-weight: 600;
-    color: #333;
+    color: #1e293b;
+    font-size: 0.9rem;
 }
 
 .form-select, .form-control {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 8px 12px;
-    font-size: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
 }
 
+.form-select:focus, .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Search Results */
 .search-results-section {
-    padding: 40px 0;
+    min-height: 400px;
 }
 
-.search-results-header {
-    margin-bottom: 30px;
-}
-
-.active-filters {
-    margin-top: 15px;
-}
-
+/* Active Filters */
 .filter-tag {
-    display: inline-block;
-    background: #e9ecef;
-    padding: 5px 10px;
-    border-radius: 15px;
-    margin-right: 10px;
-    margin-bottom: 5px;
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1e293b;
+    border: 1px solid #e2e8f0;
+}
+
+.filter-tag i {
+    font-size: 0.875rem;
+    color: #667eea;
 }
 
 .filter-tag a {
-    margin-left: 5px;
-    color: #dc3545;
+    margin-left: 0.5rem;
+    color: #ef4444;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: all 0.2s ease;
+}
+
+.filter-tag a:hover {
+    color: #dc2626;
+    transform: scale(1.2);
 }
 
 .clear-all-filters {
-    color: #dc3545;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: #ef4444;
     text-decoration: none;
-    font-size: 12px;
-    margin-left: 10px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    border: 1px solid #ef4444;
+    transition: all 0.3s ease;
 }
 
+.clear-all-filters:hover {
+    background: #ef4444;
+    color: white;
+}
+
+/* No Results */
 .no-results {
-    text-align: center;
-    padding: 60px 20px;
+    animation: fadeIn 0.5s ease-out;
 }
 
-.no-results i {
-    font-size: 64px;
-    color: #dee2e6;
-    margin-bottom: 20px;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-.no-results h4 {
-    color: #333;
-    margin-bottom: 10px;
+/* Button Hover Effects */
+.btn-modern {
+    transition: all 0.3s ease;
 }
 
-.no-results p {
-    color: #666;
-    margin-bottom: 20px;
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
 }
 
+.btn-modern-secondary:hover {
+    background: #667eea !important;
+    color: white !important;
+}
+
+/* Package Cards Enhancement */
+.package-card {
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.package-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Pagination */
 .pagination-wrapper {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 3rem;
 }
 
-/* Loading indicator */
+.pagination-wrapper .pagination {
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.pagination-wrapper .page-link {
+    border-radius: 0.5rem;
+    border: 2px solid #e2e8f0;
+    color: #667eea;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.pagination-wrapper .page-link:hover {
+    background: #667eea;
+    color: white;
+    border-color: #667eea;
+}
+
+.pagination-wrapper .page-item.active .page-link {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+}
+
+/* Loading Overlay */
 .loading-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.95);
     display: none;
     justify-content: center;
     align-items: center;
@@ -365,10 +510,10 @@
 }
 
 .loading-spinner {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #007bff;
+    border-top: 4px solid #667eea;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -376,6 +521,29 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 35vh !important;
+    }
+    
+    .search-filter-wrapper {
+        padding: 1.5rem;
+    }
+    
+    .filter-group {
+        margin-bottom: 1rem;
+    }
+    
+    .search-results-header {
+        padding: 1.5rem !important;
+    }
+    
+    .no-results {
+        padding: 3rem 1.5rem !important;
+    }
 }
 </style>
 @endpush

@@ -1,28 +1,36 @@
 @extends('layouts.frontsite')
 
-@section('title', 'Custom Itinerary Request #' . str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) . ' - Opsi Liburan Indonesia')
+@section('title', 'Custom Itinerary Request ' . $customItinerary->request_code . ' - Opsi Liburan Indonesia')
 
 @section('content')
-<!-- Breadcrumb Section Start -->
-<div class="breadcrumb-section" style="height: 30px; background-image:linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(/frontsite-assets/img/innerpages/breadcrumb-bg1.jpg);">  
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 40vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container">
-        <div class="banner-content" style="margin-top: -60px;">
-            <h1 class="text-white">Custom Itinerary Request</h1>
-            <h3 class="text-white">Request #{{ str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) }}</h3>
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate-fade-in-up">
+                    <div style="margin-bottom: 1.5rem;">
+                        <i class="bi bi-file-text" style="font-size: 4rem; color: rgba(255, 255, 255, 0.9);"></i>
+                    </div>
+                    <h1 style="color: white; margin-bottom: 1rem; font-weight: 700;">Custom Itinerary Request</h1>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.2rem;">
+                        <center>Request {{ $customItinerary->request_code }}</center>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
-</div>
-<!-- Breadcrumb Section End -->
+</section>
 
 <!-- Request Details Section Start -->
-<div class="request-details-section">
+<div class="request-details-section" style="padding: 80px 0; background: #f8fafc;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
                 <div class="request-card">
                     <div class="request-header">
                         <div class="request-info">
-                            <h2>Request #{{ str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) }}</h2>
+                            <h2>Request {{ $customItinerary->request_code }}</h2>
                             <p class="request-date">Submitted on {{ $customItinerary->created_at->format('M d, Y \a\t H:i') }}</p>
                         </div>
                         <div class="request-status">
@@ -155,6 +163,9 @@
                                     @case('pending')
                                         <p>Your request is being reviewed by our travel experts. We'll contact you within 24 hours with a personalized quote.</p>
                                         @break
+                                    @case('review')
+                                        <p>Our travel experts are currently reviewing your requirements and creating a personalized itinerary for you.</p>
+                                        @break
                                     @case('quoted')
                                         <p>We've prepared a custom quote for your trip. Please check your email for details.</p>
                                         @break
@@ -195,13 +206,93 @@
                     <div class="actions-card">
                         <h4>Actions</h4>
                         <div class="action-buttons">
-                            <a href="{{ route('frontsite.home.index') }}" class="btn btn-primary">
-                                <i class="bi bi-house"></i> Back to Home
+                            <a href="{{ route('frontsite.home.index') }}" class="btn-modern btn-modern-primary">
+                                <i class="bi bi-house me-2"></i> Back to Home
                             </a>
-                            <a href="{{ route('frontsite.custom-itinerary.index') }}" class="btn btn-outline-primary">
-                                <i class="bi bi-plus-circle"></i> New Request
+                            <a href="{{ route('frontsite.custom-itinerary.index') }}" class="btn-modern btn-modern-secondary">
+                                <i class="bi bi-plus-circle me-2"></i> New Request
                             </a>
                         </div>
+                    </div>
+                    
+                    <!-- What Happens Next -->
+                    <div class="next-steps-card">
+                        <h4><i class="bi bi-list-check"></i> What Happens Next?</h4>
+                        
+                        @if($customItinerary->status == 'cancelled')
+                            <!-- Cancelled Status Message -->
+                            <div class="alert alert-danger" style="border-radius: 10px; padding: 20px; margin-bottom: 20px;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <i class="bi bi-x-circle-fill" style="font-size: 2rem; color: #dc2626;"></i>
+                                    <div>
+                                        <h5 style="margin: 0 0 5px 0; color: #dc2626; font-weight: 700;">Request Cancelled</h5>
+                                        <p style="margin: 0; color: #991b1b;">This custom itinerary request has been cancelled. If you have any questions, please contact our support team.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Show only first step as completed for cancelled -->
+                            <div class="steps-timeline">
+                                <div class="timeline-step completed">
+                                    <div class="step-icon">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h5>Request Received</h5>
+                                        <p>Your custom itinerary request was received and logged in our system.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step cancelled">
+                                    <div class="step-icon">
+                                        <i class="bi bi-x-circle"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h5>Request Cancelled</h5>
+                                        <p>This request has been cancelled and will not proceed further.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @else
+                            <!-- Normal Timeline -->
+                            <div class="steps-timeline">
+                                <div class="timeline-step {{ in_array($customItinerary->status, ['pending', 'review', 'quoted', 'confirmed']) ? 'completed' : '' }}">
+                                    <div class="step-icon">
+                                        <i class="bi bi-check-circle-fill"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h5>Request Received</h5>
+                                        <p>Your custom itinerary request has been received and logged in our system.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step {{ in_array($customItinerary->status, ['review', 'quoted', 'confirmed']) ? 'completed' : '' }}">
+                                    <div class="step-icon">
+                                        <i class="bi bi-search"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h5>Expert Review</h5>
+                                        <p>Our travel experts will review your requirements and create a personalized itinerary.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step {{ in_array($customItinerary->status, ['quoted', 'confirmed']) ? 'completed' : '' }}">
+                                    <div class="step-icon">
+                                        <i class="bi bi-file-earmark-text"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h5>Quote Preparation</h5>
+                                        <p>We'll prepare a detailed quote with pricing and send it to your email.</p>
+                                    </div>
+                                </div>
+                                <div class="timeline-step {{ $customItinerary->status == 'confirmed' ? 'completed' : '' }}">
+                                    <div class="step-icon">
+                                        <i class="bi bi-check2-square"></i>
+                                    </div>
+                                    <div class="step-content">
+                                        <h5>Confirmation</h5>
+                                        <p>Once you approve the quote, we'll confirm your booking and start planning your dream trip.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -213,61 +304,69 @@
 <style>
 .request-details-section {
     padding: 80px 0;
-    background-color: #f8f9fa;
+    background-color: #f8fafc;
 }
 
 .request-card {
     background: white;
-    border-radius: 15px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
+    border-radius: 1.5rem;
+    padding: 3rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
 }
 
 .request-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 3rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 3px solid #e2e8f0;
 }
 
 .request-info h2 {
-    color: #2c3e50;
-    margin-bottom: 5px;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
 }
 
 .request-date {
-    color: #6c757d;
+    color: #64748b;
     margin-bottom: 0;
+    font-size: 0.95rem;
 }
 
 .status-badge {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 700;
     text-transform: uppercase;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .status-pending {
-    background-color: #ffc107;
-    color: #212529;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: white;
+}
+
+.status-review {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
 }
 
 .status-quoted {
-    background-color: #17a2b8;
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
     color: white;
 }
 
 .status-confirmed {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
 }
 
 .status-cancelled {
-    background-color: #dc3545;
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
     color: white;
 }
 
@@ -485,6 +584,114 @@
 .btn-outline-primary:hover {
     background-color: #007bff;
     color: white;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.next-steps-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.next-steps-card h4 {
+    color: #2c3e50;
+    margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.next-steps-card h4 i {
+    color: #007bff;
+}
+
+.steps-timeline {
+    position: relative;
+}
+
+.steps-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(180deg, #10b981 0%, #e9ecef 100%);
+}
+
+.timeline-step {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.timeline-step:last-child {
+    margin-bottom: 0;
+}
+
+.step-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e9ecef;
+    color: #adb5bd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-right: 15px;
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+    border: 3px solid white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.timeline-step.completed .step-icon {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+}
+
+.step-content h5 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.step-content p {
+    color: #6c757d;
+    margin-bottom: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.timeline-step.completed .step-content h5 {
+    color: #10b981;
+    font-weight: 700;
+}
+
+.timeline-step.cancelled .step-icon {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+.timeline-step.cancelled .step-content h5 {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.timeline-step.cancelled .step-content p {
+    color: #991b1b;
 }
 
 @media (max-width: 768px) {

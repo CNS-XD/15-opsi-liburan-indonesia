@@ -4329,22 +4329,7 @@ header.style-2 {
   z-index: 999;
   transition: all 0.8s ease-out 0s;
   background-color: transparent;
-  padding: 0 70px;
-}
-@media (min-width: 1400px) and (max-width: 1599px) {
-  header.style-2 {
-    padding: 0 30px;
-  }
-}
-@media (max-width: 1399px) {
-  header.style-2 {
-    padding: 0 10px;
-  }
-}
-@media (max-width: 1199px) {
-  header.style-2 {
-    padding: 18px 0;
-  }
+  padding: 10px 50px;
 }
 header.style-2.sticky {
   position: fixed;
@@ -4766,7 +4751,7 @@ header.style-2 .main-menu > ul > li.position-inherit {
     padding-left: 0;
   }
   header.style-2 .main-menu > ul > li:first-child > a {
-    padding-left: 0;
+    /* padding-left: 0; */
   }
   header.style-2 .main-menu > ul > li:last-child {
     padding-right: 0;

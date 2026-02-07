@@ -40,8 +40,8 @@ Route::name('frontsite.')->middleware('pbh')->group(function () {
     // Custom Itinerary
     Route::get('custom-itinerary', [CustomItineraryController::class, 'index'])->name('custom-itinerary.index');
     Route::post('custom-itinerary', [CustomItineraryController::class, 'store'])->name('custom-itinerary.store');
-    Route::get('custom-itinerary/success/{id}', [CustomItineraryController::class, 'success'])->name('custom-itinerary.success');
-    Route::get('custom-itinerary/{id}', [CustomItineraryController::class, 'show'])->name('custom-itinerary.show');
+    Route::get('custom-itinerary/success/{customItinerary}', [CustomItineraryController::class, 'success'])->name('custom-itinerary.success');
+    Route::get('custom-itinerary/{customItinerary}', [CustomItineraryController::class, 'show'])->name('custom-itinerary.show');
     
     // Tours
     Route::get('tours', [TourController::class, 'index'])->name('tours.index');
@@ -80,7 +80,7 @@ Route::name('frontsite.')->middleware('pbh')->group(function () {
     
     // News/Blog
     Route::get('news', [NewsController::class, 'index'])->name('news.index');
-    Route::get('news/{id}', [NewsController::class, 'show'])->name('news.show');
+    Route::get('news/{slug}', [NewsController::class, 'show'])->name('news.show');
     
     // Destinations
     Route::get('destinations', [DestinationController::class, 'index'])->name('destinations.index');

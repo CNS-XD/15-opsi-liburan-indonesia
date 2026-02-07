@@ -1,6 +1,6 @@
 @extends('layouts.backsite')
 
-@section('title', 'Custom Itinerary Request #' . str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT))
+@section('title', 'Custom Itinerary Request ' . $customItinerary->request_code)
 @section('activeMenuCustomItinerary', 'active')
 
 @section('content-body1')
@@ -9,12 +9,12 @@
         <div class="content-header-left col-md-9 col-12 mb-2">
             <div class="row breadcrumbs-top">
                 <div class="col-12">
-                    <h2 class="content-header-title float-left mb-0">Custom Itinerary Request #{{ str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) }}</h2>
+                    <h2 class="content-header-title float-left mb-0">Custom Itinerary Request {{ $customItinerary->request_code }}</h2>
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{ route('backsite.dashboard.index') }}">Dashboard</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('backsite.custom-itinerary.index') }}">Custom Itinerary Requests</a></li>
-                            <li class="breadcrumb-item active">Request #{{ str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) }}</li>
+                            <li class="breadcrumb-item active">Request {{ $customItinerary->request_code }}</li>
                         </ol>
                     </div>
                 </div>
@@ -30,6 +30,46 @@
     </div>
 
     <div class="content-body">
+        <!-- Alert Messages -->
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <div class="alert-body">
+                    <i class="feather icon-check-circle"></i> {{ session('success') }}
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert-body">
+                    <i class="feather icon-x-circle"></i> {{ session('error') }}
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <div class="alert-body">
+                    <i class="feather icon-alert-triangle"></i> 
+                    <strong>Validation Error:</strong>
+                    <ul class="mb-0 mt-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
         <div class="row">
             <!-- Request Details -->
             <div class="col-lg-8">
@@ -40,6 +80,9 @@
                             @switch($customItinerary->status)
                                 @case('pending')
                                     <span class="badge badge-warning badge-pill">{{ $customItinerary->status_label }}</span>
+                                    @break
+                                @case('review')
+                                    <span class="badge badge-primary badge-pill">{{ $customItinerary->status_label }}</span>
                                     @break
                                 @case('quoted')
                                     <span class="badge badge-info badge-pill">{{ $customItinerary->status_label }}</span>
@@ -222,8 +265,9 @@
                                 <div class="form-group">
                                     <label for="status">Status</label>
                                     <select name="status" id="status" class="form-control" required>
-                                        <option value="pending" {{ $customItinerary->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="quoted" {{ $customItinerary->status == 'quoted' ? 'selected' : '' }}>Quoted</option>
+                                        <option value="pending" {{ $customItinerary->status == 'pending' ? 'selected' : '' }}>Request Received</option>
+                                        <option value="review" {{ $customItinerary->status == 'review' ? 'selected' : '' }}>Expert Review</option>
+                                        <option value="quoted" {{ $customItinerary->status == 'quoted' ? 'selected' : '' }}>Quote Preparation</option>
                                         <option value="confirmed" {{ $customItinerary->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
                                         <option value="cancelled" {{ $customItinerary->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                                     </select>
@@ -266,7 +310,7 @@
                                 <table class="table table-borderless">
                                     <tr>
                                         <td><strong>Request ID:</strong></td>
-                                        <td>#{{ str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) }}</td>
+                                        <td>{{ $customItinerary->request_code }}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Submitted:</strong></td>
@@ -290,7 +334,7 @@
                     <div class="card-content">
                         <div class="card-body">
                             <div class="d-grid gap-2">
-                                <a href="mailto:{{ $customItinerary->email }}?subject=Custom Itinerary Request #{{ str_pad($customItinerary->id, 6, '0', STR_PAD_LEFT) }}" 
+                                <a href="mailto:{{ $customItinerary->email }}?subject=Custom Itinerary Request {{ $customItinerary->request_code }}" 
                                    class="btn btn-outline-primary btn-block mb-1">
                                     <i class="feather icon-mail"></i> Send Email
                                 </a>
@@ -345,5 +389,23 @@ function confirmDelete(id) {
     $('#deleteForm').attr('action', '{{ route("backsite.custom-itinerary.destroy", ":id") }}'.replace(':id', id));
     $('#deleteModal').modal('show');
 }
+
+// Auto-hide alerts after 5 seconds
+$(document).ready(function() {
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');
+    }, 5000);
+
+    // Add confirmation before status update
+    $('form[action*="update-status"]').on('submit', function(e) {
+        const status = $('#status').val();
+        const statusText = $('#status option:selected').text();
+        
+        if (!confirm('Are you sure you want to change the status to "' + statusText + '"?')) {
+            e.preventDefault();
+            return false;
+        }
+    });
+});
 </script>
 @endpush

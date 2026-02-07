@@ -7,231 +7,150 @@
 @section('meta_description', 'Explore amazing destinations in Indonesia. Find the perfect place for your next adventure.')
 
 @section('content')
-<!-- Breadcrumb Section -->
-<div class="breadcrumb-section" style="background-image: linear-gradient(270deg, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0.3) 101.02%), url('{{ asset('frontsite-assets/img/innerpages/destination-card4-img4.jpg') }}');">
+<!-- Hero Section -->
+<section class="hero-section" style="min-height: 50vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12 d-flex justify-content-center">
-                <div class="banner-content">
-                    <h1>Destinations</h1>
-                    <ul class="breadcrumb-list">
-                        <li><a href="{{ route('frontsite.home.index') }}">Home</a></li>
-                        <li>Destinations</li>
-                    </ul>
+        <div class="row align-items-center justify-content-center text-center">
+            <div class="col-lg-8">
+                <div class="hero-content animate-fade-in-up">
+                    <h1 style="color: white; margin-bottom: 1rem;">Explore Destinations</h1>
+                    <p style="color: rgba(255, 255, 255, 0.95); font-size: 1.2rem;">
+                        <center>Discover amazing places around Indonesia and find your perfect adventure</center>
+                    </p>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
 
-<!-- Destinations Section -->
-<div class="destination-section pt-120 pb-120">
+<!-- Destinations Grid Section -->
+<section class="section-modern bg-white">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="section-head">
-                    <h2>Popular Destinations</h2>
-                    <p>Discover amazing places around Indonesia</p>
-                </div>
-            </div>
-        </div>
         <div class="row g-4">
             @forelse($destinations as $destination)
-            <div class="col-xl-3 col-lg-4 col-md-6">
-                <div class="destination-card destination-card-custom">
-                    <div class="destination-img">
-                        @if($destination->image)
-                        <img src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}">
+            <div class="col-lg-4 col-md-6">
+                <div class="card-modern">
+                    <div class="card-modern-image">
+                        @if($destination->image && file_exists(public_path('storage/' . $destination->image)))
+                            <img src="{{ asset('storage/' . $destination->image) }}" alt="{{ $destination->title }}">
                         @else
-                        <img src="{{ asset('frontsite-assets/img/packages/' . (($loop->index % 13) + 1) . '.jpg') }}" alt="{{ $destination->title }}">
+                            <img src="{{ asset('frontsite-assets/img/packages/' . (($loop->index % 13) + 1) . '.jpg') }}" alt="{{ $destination->title }}">
                         @endif
-                        <div class="destination-overlay">
-                            <a href="{{ route('frontsite.destinations.show', $destination->id) }}" class="destination-btn">
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
+                        
+                        <!-- Destination Badge -->
+                        <div style="position: absolute; top: 1rem; left: 1rem;">
+                            <div style="background: rgba(255, 255, 255, 0.95); padding: 0.5rem 1rem; border-radius: var(--radius-lg); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 0.5rem;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="#ec4899" stroke-width="2"/>
+                                    <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="#ec4899" stroke-width="2"/>
+                                </svg>
+                                <span style="font-weight: 600; color: #ec4899; font-size: 0.875rem;">Destination</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="destination-content">
-                        <h5><a href="{{ route('frontsite.destinations.show', $destination->id) }}">{{ $destination->title }}</a></h5>
-                        <p>{{ Str::limit($destination->description, 80) }}</p>
-                        <div class="destination-info">
-                            <span class="tour-count">{{ $destination->tours_count }} Tours</span>
-                        </div>
+
+                    <div class="card-modern-content">
+                        <h3 class="card-modern-title">
+                            <a href="{{ route('frontsite.destinations.show', $destination->id) }}">{{ $destination->title }}</a>
+                        </h3>
+                        <p class="card-modern-text">{{ Str::limit(strip_tags($destination->description ?? 'Explore this beautiful destination'), 100) }}</p>
+                    </div>
+                    
+                    <div class="card-modern-footer">
+                        <span class="badge-modern badge-modern-accent">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: middle; margin-right: 0.25rem;">
+                                <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            {{ $destination->tours_count ?? 0 }} Tours
+                        </span>
+                        <a href="{{ route('frontsite.destinations.show', $destination->id) }}" class="btn-modern btn-modern-primary">
+                            View Tours
+                        </a>
                     </div>
                 </div>
             </div>
             @empty
-            <div class="col-12">
-                <div class="text-center py-5">
-                    <h4>No destinations found</h4>
-                    <p>Please check back later for more destinations.</p>
+            <div class="col-12 text-center py-5">
+                <div style="max-width: 400px; margin: 0 auto;">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3; margin-bottom: 1.5rem;">
+                        <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 7.61305 3.94821 5.32387 5.63604 3.63604C7.32387 1.94821 9.61305 1 12 1C14.3869 1 16.6761 1.94821 18.364 3.63604C20.0518 5.32387 21 7.61305 21 10Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <h4 style="color: var(--neutral-700); margin-bottom: 0.5rem;">No Destinations Found</h4>
+                    <p style="color: var(--neutral-500);">Please check back later for more destinations.</p>
                 </div>
             </div>
             @endforelse
         </div>
         
         @if($destinations->hasPages())
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="pagination-area">
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="pagination-modern">
                     {{ $destinations->links() }}
                 </div>
             </div>
         </div>
         @endif
     </div>
-</div>
+</section>
+
 @endsection
 
 @push('after-style')
 <style>
-.destination-card-custom {
-    height: 100%;
+/* Pagination Modern */
+.pagination-modern {
     display: flex;
-    flex-direction: column;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    background: white;
-    margin-bottom: 30px;
+    justify-content: center;
 }
 
-.destination-card-custom:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-}
-
-.destination-card-custom .destination-img {
-    height: 280px;
-    overflow: hidden;
-    border-radius: 10px 10px 0 0;
-    position: relative;
-}
-
-.destination-card-custom .destination-img img {
-    width: 100%;
-    height: 280px;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.destination-card-custom:hover .destination-img img {
-    transform: scale(1.05);
-}
-
-.destination-card-custom .destination-content {
-    padding: 20px;
-    flex-grow: 1;
+.pagination-modern .pagination {
     display: flex;
-    flex-direction: column;
-    background: white;
-    border-radius: 0 0 10px 10px;
+    gap: 0.5rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.destination-card-custom .destination-content h5 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-}
-
-.destination-card-custom .destination-content h5 a {
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.destination-card-custom .destination-content h5 a:hover {
-    color: #007bff;
-}
-
-.destination-card-custom .destination-content p {
-    flex-grow: 1;
-    margin-bottom: 15px;
-    color: #666;
-    line-height: 1.5;
-    font-size: 14px;
-}
-
-.destination-card-custom .destination-info {
-    margin-top: auto;
-}
-
-.destination-card-custom .tour-count {
-    background: linear-gradient(45deg, #007bff, #0056b3);
-    color: white;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
+.pagination-modern .page-item {
     display: inline-block;
 }
 
-.destination-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.6);
+.pagination-modern .page-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.destination-card-custom:hover .destination-overlay {
-    opacity: 1;
-}
-
-.destination-btn {
-    background: #007bff;
-    color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-width: 45px;
+    height: 45px;
+    padding: 0.5rem 1rem;
+    background: white;
+    border: 2px solid var(--neutral-200);
+    border-radius: var(--radius-lg);
+    color: var(--neutral-700);
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 18px;
+    font-weight: 600;
+    transition: all var(--transition-base);
 }
 
-.destination-btn:hover {
-    background: #0056b3;
-    transform: scale(1.1);
+.pagination-modern .page-link:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.pagination-modern .page-item.active .page-link {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: #667eea;
     color: white;
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-    .destination-card-custom .destination-img {
-        height: 250px;
-    }
-    
-    .destination-card-custom .destination-img img {
-        height: 250px;
-    }
-}
-
-@media (max-width: 768px) {
-    .destination-card-custom .destination-img {
-        height: 220px;
-    }
-    
-    .destination-card-custom .destination-img img {
-        height: 220px;
-    }
-    
-    .destination-card-custom .destination-content {
-        padding: 15px;
-    }
-    
-    .destination-card-custom .destination-content h5 {
-        font-size: 16px;
-    }
+.pagination-modern .page-item.disabled .page-link {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
 </style>
 @endpush

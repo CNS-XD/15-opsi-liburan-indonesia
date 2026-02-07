@@ -114,7 +114,7 @@
                                     <table class="table zero-configuration">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
+                                                <th>Request Code</th>
                                                 <th>Customer</th>
                                                 <th>Contact</th>
                                                 <th>Trip Details</th>
@@ -128,7 +128,7 @@
                                             @forelse($customItineraries as $itinerary)
                                                 <tr>
                                                     <td>
-                                                        <strong>#{{ str_pad($itinerary->id, 6, '0', STR_PAD_LEFT) }}</strong>
+                                                        <strong>{{ $itinerary->request_code }}</strong>
                                                     </td>
                                                     <td>
                                                         <div>
@@ -162,6 +162,9 @@
                                                         @switch($itinerary->status)
                                                             @case('pending')
                                                                 <span class="badge badge-warning">{{ $itinerary->status_label }}</span>
+                                                                @break
+                                                            @case('review')
+                                                                <span class="badge badge-primary">{{ $itinerary->status_label }}</span>
                                                                 @break
                                                             @case('quoted')
                                                                 <span class="badge badge-info">{{ $itinerary->status_label }}</span>
@@ -260,10 +263,19 @@ function confirmDelete(id) {
 }
 
 $(document).ready(function() {
+    // Check if DataTable is already initialized and destroy it
+    if ($.fn.DataTable.isDataTable('.zero-configuration')) {
+        $('.zero-configuration').DataTable().destroy();
+    }
+    
+    // Initialize DataTable
     $('.zero-configuration').DataTable({
         "order": [[ 6, "desc" ]], // Sort by created date
         "pageLength": 25,
-        "responsive": true
+        "responsive": true,
+        "language": {
+            "emptyTable": "No custom itinerary requests found"
+        }
     });
 });
 </script>

@@ -23,12 +23,71 @@ class CustomItinerary extends Model
         'final_price' => 'decimal:2',
     ];
 
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName()
+    {
+        return 'request_code';
+    }
+
+    /**
+     * Boot method to generate request code automatically
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($model) {
+            if (empty($model->request_code)) {
+                $model->request_code = self::generateRequestCode();
+            }
+        });
+    }
+
+    /**
+     * Generate unique request code
+     * Format: CI-YYYYMMDD-XXXX (CI = Custom Itinerary)
+     */
+    public static function generateRequestCode()
+    {
+        $date = date('Ymd');
+        $prefix = 'CI-' . $date . '-';
+        
+        // Get last request code for today
+        $lastRequest = self::where('request_code', 'like', $prefix . '%')
+            ->orderBy('request_code', 'desc')
+            ->first();
+        
+        if ($lastRequest) {
+            // Extract number from last code and increment
+            $lastNumber = (int) substr($lastRequest->request_code, -4);
+            $newNumber = $lastNumber + 1;
+        } else {
+            // First request of the day
+            $newNumber = 1;
+        }
+        
+        // Format: CI-20260207-0001
+        return $prefix . str_pad($newNumber, 4, '0', STR_PAD_LEFT);
+    }
+
     // Status constants
     const STATUS = [
         'pending' => 'pending',
+        'review' => 'review',
         'quoted' => 'quoted',
         'confirmed' => 'confirmed',
         'cancelled' => 'cancelled'
+    ];
+
+    // Status labels
+    const STATUS_LABELS = [
+        'pending' => 'Request Received',
+        'review' => 'Expert Review',
+        'quoted' => 'Quote Preparation',
+        'confirmed' => 'Confirmed',
+        'cancelled' => 'Cancelled'
     ];
 
     // Tour type constants
@@ -74,7 +133,7 @@ class CustomItinerary extends Model
      */
     public function getStatusLabelAttribute()
     {
-        return ucfirst($this->status);
+        return self::STATUS_LABELS[$this->status] ?? ucfirst($this->status);
     }
 
     /**

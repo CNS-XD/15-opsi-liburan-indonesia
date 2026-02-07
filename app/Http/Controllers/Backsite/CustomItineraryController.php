@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Backsite;
 use App\Http\Controllers\Controller;
 use App\Models\CustomItinerary;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
 class CustomItineraryController extends Controller
@@ -29,34 +28,38 @@ class CustomItineraryController extends Controller
 
     public function updateStatus(Request $request, $id)
     {
-        $request->validate([
-            'status' => 'required|in:pending,quoted,confirmed,cancelled',
-            'admin_notes' => 'nullable|string',
-            'estimated_price' => 'nullable|numeric|min:0',
-            'final_price' => 'nullable|numeric|min:0'
-        ]);
-
-        $customItinerary = CustomItinerary::findOrFail($id);
-        
-        $customItinerary->update([
-            'status' => $request->status,
-            'admin_notes' => $request->admin_notes,
-            'estimated_price' => $request->estimated_price,
-            'final_price' => $request->final_price
-        ]);
-
-        // Send email notification to customer (optional)
         try {
-            // You can implement email notification here
+            $request->validate([
+                'status' => 'required|in:pending,review,quoted,confirmed,cancelled',
+                'admin_notes' => 'nullable|string',
+                'estimated_price' => 'nullable|numeric|min:0',
+                'final_price' => 'nullable|numeric|min:0'
+            ]);
+
+            $customItinerary = CustomItinerary::findOrFail($id);
+            
+            $customItinerary->update([
+                'status' => $request->status,
+                'admin_notes' => $request->admin_notes,
+                'estimated_price' => $request->estimated_price,
+                'final_price' => $request->final_price
+            ]);
+
+            // Send email notification to customer (optional)
             Log::info('Custom itinerary status updated', [
                 'id' => $customItinerary->id,
-                'status' => $request->status
+                'status' => $request->status,
+                'old_status' => $customItinerary->getOriginal('status')
             ]);
-        } catch (\Exception $e) {
-            Log::error('Failed to send status update notification: ' . $e->getMessage());
-        }
 
-        return redirect()->back()->with('success', 'Custom itinerary status updated successfully!');
+            return redirect()->back()->with('success', 'Custom itinerary status updated successfully!');
+            
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            Log::error('Failed to update custom itinerary status: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to update status: ' . $e->getMessage());
+        }
     }
 
     public function destroy($id)
