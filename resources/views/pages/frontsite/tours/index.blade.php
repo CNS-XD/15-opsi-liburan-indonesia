@@ -70,10 +70,10 @@
                             </label>
                             <select class="form-select" id="priceFilter" style="border: 2px solid #e2e8f0; border-radius: 10px; padding: 0.75rem 1rem; font-size: 14px; transition: all 0.3s;">
                                 <option value="">Any Price</option>
-                                <option value="0-500000">Under $50</option>
-                                <option value="500000-1000000">$50 - $100</option>
-                                <option value="1000000-2000000">$100 - $200</option>
-                                <option value="2000000+">Above $200</option>
+                                <option value="0-50">Under $50</option>
+                                <option value="50-100">$50 - $100</option>
+                                <option value="100-200">$100 - $200</option>
+                                <option value="200+">Above $200</option>
                             </select>
                         </div>
                         <div class="col-lg-auto col-md-6">

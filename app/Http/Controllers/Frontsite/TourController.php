@@ -44,8 +44,8 @@ class TourController extends Controller
 
         if ($request->filled('price')) {
             $priceRange = $request->price;
-            if ($priceRange == '2000000+') {
-                $query->where('price', '>=', 2000000);
+            if ($priceRange == '200+') {
+                $query->where('price', '>=', 200);
             } else {
                 $prices = explode('-', $priceRange);
                 if (count($prices) == 2) {
